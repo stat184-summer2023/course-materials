@@ -1,0 +1,228 @@
+---
+title: "L08 - Wrangling and (more) Data Verbs"
+subtitle: "Data Computing Chapter 10"
+author: |
+        | Presenter: Olivia Beck
+        | Content credit: Matthew Beckman
+date: "May 31, 2023"
+output: 
+  slidy_presentation: default
+  html_notebook: default
+---
+
+```{r include=FALSE}
+# Frontmatter
+rm(list = ls())
+
+# packages
+library(mosaicData)
+library(knitr)
+library(tidyverse)
+library(dcData)
+
+```
+
+
+# Agenda
+
+- Basic Info about the Midterm and Final Project
+- Discussion of common issues/questions 
+- Review of data verbs & summary functions with your small group
+- Discussion of new functions and key concepts
+- Guided example highlighting several new data verbs
+- RStudio Concept Maps: <https://github.com/rstudio/concept-maps>
+
+
+# Midterm and Final Project
+
+## Midterm 
+
+- June 9 (Friday) during class 
+- On paper 
+- Anything we have done in class before then is fair game for questions
+- This is not going to be a difficult exam. It will cover material from `tidyverse` functions and GitHub workflows. 
+
+
+To practice: 
+- Look through textbook and read through some of the problems not assigned 
+- Make sure you understand everything from the activities, homeworks, and reading quizzes
+- If you have questions, ask! Post general content question on Canvas Discussion board so your peers can learn too
+- I will provide some practice questions soon 
+
+
+
+## Final Project 
+
+- Multiple due dates (on canvas)
+- Goal is to do a "professional" data analysis that is REPRODUCIBLE 
+  - Research question
+  - Data Exploration
+  - Answer your question with wrangled data and graphs 
+    - NO STATISTICAL ANALYSIS
+- You need to find your own data sets (minimum of 2)
+
+
+# RMarkdown  Review Stuff
+
+## R Markdown - Text versus R chunk
+
+When we want to write plain text, we just write as normal. 
+
+When we want to use a header we use # before our text 
+
+When we want to write R code, we use an R chuck:
+
+```{r}
+x <- 1:10
+sum(x)
+```
+
+```{r}
+
+```
+
+
+
+## Discussion/Review Task: 
+
+- Explain a few bullet points from each list:
+    - **List 1: data verbs:**
+        - `mutate()`
+        - `filter()`
+        - `select()`
+        - `arrange()`
+    - **List 2: more data verbs:**
+        - `head()` & `tail()`
+        - `rename()`
+        - `sample_n()`
+        - `summarise()` & `group_by()`
+    - **List 3: summary functions:**
+        - `glimpse()`
+        - `str()`
+        - `summary()`
+        - `nrow()` & `ncol()`
+        - `names()`
+        - `colnames()`
+        - `View()` 
+        
+- Are there functions that no one in the group understood?
+
+
+# Three Important Concepts (Again)
+
+1. Data can be usefully organized into tables with "cases" and "variables."  With "tidy data"
+    - every row corresponds to a distinct case (e.g. a person, a car, a year, a country in a year) 
+    - columns represent variables/features of the cases
+
+2. Data graphics and "glyph-ready" data
+    - each case corresponds to a "glyph" (mark) on the graph
+    - each variable to a graphical attribute of that glyph such as x- or y-position, color, size, length, shape, etc. 
+    - similar story applies for modeling purposes
+
+3. When data are not yet in glyph-ready form, you can transform (i.e. wrangle) them into glyph-ready form.  
+    - Such transformations are accomplished by performing one or more of a small set of basic operations on data tables
+    - This is the work of "data verbs" and other functions
+
+
+
+# Presidential Investigation 
+
+- Let's take some of our new tools for a spin...
+- The `presidents` data are available from the `tidyverse` package (actually `ggplot2` which was loaded by `tidyverse`)
+- we'll add a few other presidents to the data as well
+
+```{r echo=TRUE}
+library(tidyverse)
+library(dcData)
+library(tibble)     # we'll use `tibble::tribble()`  to specify new rows 
+library(lubridate)  # nice functions for handling dates
+
+# data intake
+data("presidential", package = "ggplot2")
+
+## Add some more cases to the data set 
+# you can search the help for the `tribble` function if you want to figure it out what's happening
+AddPres <- 
+    tibble::tribble(~name, ~start, ~end, ~party,
+                     "Roosevelt", ymd("1933-03-04"), ymd("1945-04-12"), "Democratic",
+                    "Truman", ymd("1945-04-12"), ymd("1953-01-20"), "Democratic",
+                    "Trump", ymd("2017-01-20"), ymd("2021-01-20"), "Republican", 
+                    "Biden", ymd("2021-01-20"), ymd(today()), "Democratic")
+
+# append the rows of our two "data frames"
+Presidents <- bind_rows(presidential, AddPres)
+
+head(Presidents)
+```
+
+
+## Guided practice 
+
+1. various summary/exploration functions to meet the Presidents
+2. calculate `duration` of presidency 
+3. show all records for presidents named "Bush"
+4. subset the data to include only `name`, `party`, `duration`
+5. which 3 presidents served shortest?
+6. which 3 presidents served longest?
+7. which presidents served more than 4 years, but less than 8 years?
+8. investigating the power balance
+   - which party has most presidents?
+   - which party spent most days in power?
+9. add Harry Truman & Franklin D. Roosevelt, then repeat 6-9
+
+
+# Answers 
+
+```{r}
+# 1. summary functions
+glimpse(Presidents)  # what's the benefit?
+str(Presidents)      # ?
+summary(Presidents)  # not so useful?!
+#View(Presidents)     # console please!
+
+
+# some wrangling 
+Presidents_wrangled <- 
+    Presidents %>%
+    mutate(duration = end - start,                                     # 2
+           name = if_else(name == "Bush" & start < ymd("2000-01-01"),  # 3
+                          true = "Bush (Sr)", 
+                          false = name)) %>%
+    select(name, party, duration)                                      # 4
+    
+
+### some results
+# 3 check the bushes
+tail(Presidents_wrangled) 
+
+# 6 shortest
+Presidents_wrangled %>%
+    arrange(duration) %>%
+    head()
+
+# 7. longest  
+Presidents_wrangled %>%
+    arrange(duration) %>%
+    tail()
+
+Presidents_wrangled %>%
+    arrange(desc(duration)) %>%
+    head()
+
+# 8. more than 4 years, but less than 8 years
+
+Presidents_wrangled %>%
+    filter(duration > 1461, duration < 2922)
+
+
+# 9. party balance
+
+Presidents_wrangled %>%
+    group_by(party) %>%
+    summarise(total = n(), 
+              in_power = sum(duration))
+
+# repeat!
+
+```
+

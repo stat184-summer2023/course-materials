@@ -646,6 +646,197 @@ package, which is also technically in the tidyverse, but lives in the
 lives in the tidyverse is beyond this class. If you’re interested in
 learning more, let me know!</p>
 </div>
+<div id="thematic-statement" class="slide section level2">
+<h1>Thematic Statement</h1>
+<blockquote>
+<p>Almost everyone who writes computer commands starts by copying and
+modifying existing commands.</p>
+</blockquote>
+<blockquote>
+<p>To do this, you need to be able to <strong>read</strong> command
+expressions.</p>
+</blockquote>
+<blockquote>
+<p>Once you can read, you will know enough to identify the patterns you
+need for any given task and consider what needs to be modified to suit
+your particular purpose.</p>
+</blockquote>
+</div>
+<div id="r-command-patterns-command-chains" class="slide section level2">
+<h1>R Command Patterns: Command Chains</h1>
+<ul>
+<li><p>Each link in the chain will be a data verb and its arguments.</p>
+<ul>
+<li>The very first link is usually a data table.</li>
+<li>Put each link on its own line in general</li>
+</ul></li>
+<li><p>Links are connected by the pipe: <code>%&gt;%</code></p></li>
+<li><p>Often, but not always, you will save the output of the chain in a
+named object.</p>
+<ul>
+<li>This is done with the <em>assignment operator</em>,
+<code>&lt;-</code></li>
+</ul></li>
+<li><p>Note that <code>%&gt;%</code> is at the end of each line.</p>
+<ul>
+<li>Except … <code>Princes &lt;-</code> is assignment</li>
+<li>Except … The last line has no <code>%&gt;%</code>.</li>
+</ul></li>
+</ul>
+<p><strong>We’ll be using the chain syntax for most things in STAT
+184</strong>. You should know that anything written with chain syntax
+can be written without, and lots of things written without can be
+converted to chain syntax. Chain syntax is not a requirement in R code,
+it is just the easiest, most concise place to start.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#remember we already loaded in tidyverse library</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>dat.football <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>( <span class="st">&quot;https://raw.githubusercontent.com/ada-lovecraft/ProcessingSketches/master/Bits%20and%20Pieces/Football_Stuff/data/nfl-salaries.tsv&quot;</span>)</span></code></pre></div>
+<pre><code>## Rows: 1501 Columns: 6
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;\t&quot;
+## chr (3): PlayerName, Position, Team
+## dbl (3): Salary, NextSalary, SalaryCap
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat.football)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 6
+##   PlayerName              Position  Salary NextSalary SalaryCap Team          
+##   &lt;chr&gt;                   &lt;chr&gt;      &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;         
+## 1 Tony Romo               QB       9000000   11500000  18905000 Dallas Cowboys
+## 2 Anthony Spencer         LB       8800000          0   8800000 Dallas Cowboys
+## 3 Jay Ratliff             DE       4875000          0   6475000 Dallas Cowboys
+## 4 Terence Newman (buyout) CB       4800000          0   4800000 Dallas Cowboys
+## 5 Orlando Scandrick       CB       4700000          0   7700000 Dallas Cowboys
+## 6 DeMarcus Ware           LB       4500000    5500000  10303000 Dallas Cowboys</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># What is the total salary by team?</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>dat.football <span class="sc">%&gt;%</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Team)<span class="sc">%&gt;%</span> </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">PaidRoster =</span> <span class="fu">sum</span>(Salary)) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(PaidRoster))</span></code></pre></div>
+<pre><code>## # A tibble: 31 × 2
+##    Team                 PaidRoster
+##    &lt;chr&gt;                     &lt;dbl&gt;
+##  1 Tampa Bay Buccaneers  106247707
+##  2 Denver Broncos         97662563
+##  3 Philadelphia Eagles    90201805
+##  4 Kansas City Chiefs     86696923
+##  5 Atlanta Falcons        85935125
+##  6 Chicago Bears          84384270
+##  7 Jacksonville Jaguars   81944629
+##  8 Indianapolis Colts     81410822
+##  9 New York Jets          80242500
+## 10 Buffalo Bills          78911125
+## # ℹ 21 more rows</code></pre>
+</div>
+<div id="parts-of-speech-in-r" class="slide section level2">
+<h1>Parts of Speech in R</h1>
+<ol style="list-style-type: decimal">
+<li>Data frames
+<ul>
+<li>tidy data for one or more variables</li>
+<li>Data frames often appear at the start of a command chain.</li>
+<li>If assignment is used to save the result, the object created is
+usually a data frame.</li>
+<li>Convention: data table names should start with a CAPITAL LETTER,
+e.g., <code>RegisteredVoters</code></li>
+</ul></li>
+<li>Functions
+<ul>
+<li>Functions are objects (i.e. <em>data verbs</em>) that transform an
+input into an output.</li>
+<li>Functions are <strong>always</strong> followed by parentheses, that
+is, an opening <code>(</code> and, eventually, a closing
+<code>)</code>.</li>
+<li>Each link in a command chain starts with a function.</li>
+</ul></li>
+<li>Arguments
+<ul>
+<li>Arguments describe the details of what a function is to do.</li>
+<li>They go <strong>inside</strong> a function’s parentheses
+e.g. <code>function_name(arguments)</code>.<br />
+</li>
+<li>Multiple arguments are <strong>always</strong> separated by commas
+e.g. <code>function_name(argument1, argument2, argument3)</code>.</li>
+<li>Many functions take <em>named arguments</em> which look like a name
+followed by an <code>=</code> sign,
+e.g. <code>rnorm(n = 5, mean = 0, sd = 3)</code></li>
+<li>Technical note: the data frame passed by <code>%&gt;%</code> is by
+default used as the first argument to the function that immediately
+follows. e.g. <code>5 %&gt;% rnorm(mean = 0, sd =3)</code> is equivalent
+to the previous example.</li>
+</ul></li>
+<li>Variables
+<ul>
+<li>Variables are the components (columns) of tidy data tables.</li>
+<li>When they are used, they usually appear in function arguments, that
+is, between the function’s parentheses.</li>
+<li>Variables will <strong>never</strong> be followed by
+<code>(</code>.</li>
+<li>Convention: Variables should have names that start with a lower-case
+letter, they should <strong>never</strong> have spaces or “-”, they
+should never start with a number (<em>not</em> universally
+followed).</li>
+</ul></li>
+<li>Constants
+<ul>
+<li>Constants are single values, most commonly a number or a character
+string.</li>
+<li>Character strings will always be in quotation marks,<br />
+<code>&quot;like this.&quot;</code><br />
+</li>
+<li>Numerals are the written form of numbers, for instance.<br />
+<code>-42</code><br />
+<code>1984</code><br />
+<code>3.14159</code></li>
+</ul></li>
+</ol>
+<h3 id="additional-remarks">Additional Remarks</h3>
+<ol start="6" style="list-style-type: decimal">
+<li>Assignment
+<ul>
+<li>stores the output of the command (chain) in a named object.</li>
+<li>Use the <em>assignment operator</em>, <code>&lt;-</code> (it looks
+like an arrow pointing to the object)</li>
+</ul></li>
+<li>Formulas
+<ul>
+<li>common argument to many functions</li>
+<li><code>regressionModel &lt;- lm(Y ~ X, data = ProjectData)</code>
+<ul>
+<li>The <code>Y ~ X</code> part is a formula</li>
+<li>What other parts do you see?</li>
+</ul></li>
+<li>mostly left to other statistics classes</li>
+</ul></li>
+</ol>
+</div>
+<div id="discussion-problem" class="slide section level2">
+<h1>Discussion Problem</h1>
+<p>Consider this command chain:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>Princes <span class="ot">&lt;-</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  BabyNames <span class="sc">%&gt;%</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">&quot;Prince&quot;</span>, name)) <span class="sc">%&gt;%</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year) <span class="sc">%&gt;%</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">total =</span> <span class="fu">sum</span>(count))</span></code></pre></div>
+<p>Just from the syntax, you should be able to discern the role of each
+of these things:</p>
+<ul>
+<li><code>Princes</code></li>
+<li><code>BabyNames</code></li>
+<li><code>filter</code></li>
+<li><code>grepl</code></li>
+<li><code>&quot;Prince&quot;</code></li>
+<li><code>name</code></li>
+<li><code>group_by</code></li>
+<li><code>year</code></li>
+<li><code>summarise</code></li>
+<li><code>total</code></li>
+<li><code>sum</code></li>
+<li><code>count</code></li>
+</ul>
+<p>Options: Data Frame, function, argument, variable, constant,
+assignment operator, formula</p>
+</div>
 <div id="references" class="slide section level2">
 <h1>References</h1>
 <ul>

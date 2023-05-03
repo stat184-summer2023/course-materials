@@ -1,15 +1,12 @@
 ---
-title: 'L04 - Graphics, Glyphs, Frames, and Scales'
+title: 'L04 -  Graphics, Glyphs, Frames, and Scales'
 author:
 - Presenter- Olivia Beck
 - Content Credit- Dr. Matthew Beckman
-date: ''
+date: 'May 22, 2023'
 output:
-  html_document:
-    df_print: paged
   slidy_presentation: default
   html_notebook: default
-subtitle: Data Computing Chapters 5 & 6
 ---
 
 ```{r include=FALSE}
@@ -17,8 +14,6 @@ library(mosaic)
 library(tidyverse)
 library(COUNT)
 ```
-
-
 
 
 ## Grammar of Graphics
@@ -32,7 +27,7 @@ library(COUNT)
     2. **Discover features that influence may modeling decisions:** investigate potential outliers, consideration for recoding variables (e.g., numeric data that's functionally dichotomous), evaluate correlation structure (e.g., autocorrelation, hierarchy, spatial/temporal proximity)
     3. **Address research questions:** build intuition and note preliminary observations/conclusions related to each research question.  Also, note observations that prompt you to refine your research questions or add new questions to investigate
 
-![](images/grammarGraphics.png)
+![](grammarGraphics.png)
 
 
 ## Glyphs and Data
@@ -118,13 +113,31 @@ mtcars %>%
 
 ```
 
+## An Example 
+
+```{r, warning = F}
+library(dcData)
+library(tidyverse)
+dat <- NCHS %>%
+  dplyr::select(sex, age, smoker, bpd, weight) %>%
+  na.omit()
+
+head(dat)
+
+dat %>%
+  ggplot(aes(x = bpd, y = weight, color = smoker, shape = sex)) +
+  geom_point(alpha = 0.5) +
+  facet_wrap( ~ sex)
+```
+
+
 
 ## Scales
 
 #### The relationship between the variable value and the value of the aesthetic the variable is mapped to.
 
-* Systolic Blood Pressure (SBP) has units of mmHg (millimeters of mercury)
-* Position on the x-axis measured in distance, e.g. inches.
+* Diastolic Blood Pressure (bpd) has units of mmHg (millimeters of mercury)
+* Weight is measured in kg
 
 The conversion from SBP to position is a *scale*.
 
@@ -133,12 +146,6 @@ The conversion from SBP to position is a *scale*.
 
 The conversion from Smoker to color is a *scale*.
 
-
-```{r}
-head()
-
-
-```
 
 
 ## Guides
@@ -172,7 +179,7 @@ data("ChickWeight")
 
 ChickWeight %>%
   ggplot(aes(x = Time, y = weight)) +
-  geom_point()+
+  geom_point()+ 
   facet_grid( ~ Diet)
 
 ```
@@ -252,8 +259,8 @@ head(iris)
 **Mapping of data to aesthetics**
 
 ```
-   Sepal.Length -> x position      
-   Petal.Length -> y position    
+Sepal.Length -> x position      
+Petal.Length -> y position    
 Species -> color
 ```
 

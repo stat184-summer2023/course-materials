@@ -1,9 +1,9 @@
 ---
 title: "L03- Tidyverse"
-author: 
-- "Presenter: Olivia Beck" 
+author: |
+        | Presenter: Olivia Beck
+        | Partial content credit: Matthew Beckman
 date: "May 18, 2023"
-
 output: 
   slidy_presentation: default
   html_notebook: default
@@ -87,7 +87,133 @@ help(`%>%`)
 Note the \` symbol around the `%>%`. It is the accent symbol (located on the key left of the 1 key). It is not a quotation mark. This is a quotation mark: \'. 
 
 
-Aside: `    %>%` actually lives in the `magittr` package, which is also technically in the tidyverse, but lives in the "back-end" technical stuff. Learning exactly where `%>%` lives in the tidyverse is beyond this class. If you're interested in learning more, let me know!
+Aside: `%>%` actually lives in the `magittr` package, which is also technically in the tidyverse, but lives in the "back-end" technical stuff. Learning exactly where `%>%` lives in the tidyverse is beyond this class. If you're interested in learning more, let me know!
+
+
+
+## Thematic Statement 
+
+
+> Almost everyone who writes computer commands starts by copying and modifying existing commands. 
+
+> To do this, you need to be able to **read** command expressions.  
+
+> Once you can read, you will know enough to identify the patterns you need for any given task and consider what needs to be modified to suit your particular purpose.
+
+
+
+
+## R Command Patterns in the Tidyverse: Command Chains
+
+
+- Each link in the chain will be a data verb and its arguments.
+    - The very first link is usually a data table.
+    - Put each link on its own line in general
+    
+- Links are connected by the pipe: `%>%` 
+
+- Often, but not always, you will save the output of the chain in a named object.
+    - This is done with the *assignment operator*, `<-`
+
+- Note that `%>%` is at the end of each line.
+    - Except ... `Princes <-` is assignment
+    - Except ... The last line has no `%>%`.
+    
+
+**We'll be using the chain syntax for most things in STAT 184**.  You should know that anything written with chain syntax can be written without, and lots of things written without can be converted to chain syntax. Chain syntax is not a requirement in R code, it is just the easiest, most concise place to start.       
+
+
+```{r}
+#remember we already loaded in tidyverse library
+dat.football <- read_tsv( "https://raw.githubusercontent.com/ada-lovecraft/ProcessingSketches/master/Bits%20and%20Pieces/Football_Stuff/data/nfl-salaries.tsv")
+
+head(dat.football)
+
+# What is the total salary by team?
+dat.football %>%
+  group_by(Team)%>% 
+  summarize(PaidRoster = sum(Salary)) %>% 
+  arrange(desc(PaidRoster))
+```
+
+
+## Parts of Speech in R
+
+1. Data frames
+    - tidy data for one or more variables 
+    - Data frames often appear at the start of a command chain.
+    - If assignment is used to save the result, the object created is usually a data frame. 
+    - Convention: data table names should start with a CAPITAL LETTER, e.g., `RegisteredVoters` 
+
+2. Functions
+    - Functions are objects (i.e. *data verbs*) that transform an input into an output.
+    - Functions are **always** followed by parentheses, that is, an opening  `(` and, eventually, a closing `)`.
+    - Each link in a command chain starts with a function.
+
+3. Arguments
+    - Arguments describe the details of what a function is to do. 
+    - They go **inside** a function's parentheses e.g. `function_name(arguments)`.  
+    - Multiple arguments are **always** separated by commas e.g. `function_name(argument1, argument2, argument3)`.
+    - Many functions take *named arguments* which look like a name followed by an `=` sign, e.g. `rnorm(n = 5, mean = 0, sd = 3)`
+    - Technical note: the data frame passed by `%>%` is by default used as the first argument to the function that immediately follows. e.g. `5 %>% rnorm(mean = 0, sd =3)` is equivalent to the previous example.
+
+
+4. Variables
+    - Variables are the components (columns) of tidy data tables.
+    - When they are used, they usually appear in function arguments, that is, between the function's parentheses.
+    - Variables will **never** be followed by `(`.
+    - Convention: Variables should have names that start with a lower-case letter, they should **never** have spaces or "-", they should never start with a number (*not* universally followed).
+
+5. Constants
+    - Constants are single values, most commonly a number or a character string. 
+    - Character strings will always be in quotation marks,     
+       `"like this."`  
+    - Numerals are the written form of numbers, for instance.    
+        `-42`  
+        `1984`  
+        `3.14159`  
+
+### Additional Remarks
+
+6. Assignment
+    - stores the output of the command (chain) in a named object.
+    - Use the *assignment operator*, `<-` (it looks like an arrow pointing to the object) 
+
+7. Formulas
+    - common argument to many functions
+    - `regressionModel <- lm(Y ~ X, data = ProjectData)`
+        - The `Y ~ X` part is a formula
+        - What other parts do you see?
+    - mostly left to other statistics classes  
+
+
+## Discussion Problem
+
+Consider this command chain:
+```{r eval=FALSE}
+Princes <- 
+  BabyNames %>%
+  filter(grepl("Prince", name)) %>%
+  group_by(year) %>%
+  summarise(total = sum(count))
+```
+
+Just from the syntax, you should be able to discern the role of each of these things: 
+
+- `Princes` 
+- `BabyNames` 
+- `filter` 
+- `grepl` 
+- `"Prince"` 
+- `name` 
+- `group_by` 
+- `year` 
+- `summarise` 
+- `total` 
+- `sum` 
+- `count`
+
+Options: Data Frame, function, argument, variable, constant, assignment operator, formula
 
 
 ## References 

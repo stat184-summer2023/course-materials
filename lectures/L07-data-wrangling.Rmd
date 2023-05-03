@@ -1,0 +1,397 @@
+---
+title: "L07 - Wrangling and Data Verbs"
+subtitle: "Data Computing Chapter 7"
+author: 
+  - Presenter- Olivia Beck 
+  - Content Credit- Dr. Matthew Beckman
+date: "May 29, 2023"
+output: 
+    slidy_presentation: default
+    html_notebook: default
+---
+
+```{r include=FALSE}
+rm(list = ls())
+
+# Frontmatter
+library(tidyverse)
+library(mosaicData)
+
+```
+
+
+
+## Agenda
+
+- Introduce some software and commands that ...
+    - make it easy to access data tables and see how they are structured
+        - For example: `data()`, `View()`, `help()`, 
+        - (more coming in Chapter 10)
+    - learn about data verbs 
+    - implement two important data verbs: `group_by()` and `summarise()`
+
+
+## Three Important Concepts 
+
+1. Data can be usefully organized into tables with "cases" and "variables."  
+    - In "tidy data" every case is the same sort of thing (e.g. a person, a car, a year, a country in a year) 
+    - We sometimes even modify data in order to change what the cases represent in order to better represent a point.
+
+2. Data graphics and "glyph-ready" data
+    - each case corresponds to a "glyph" (mark) on the graph
+    - each variable to a graphical attribute of that glyph such as x- or y-position, color, size, length, shape, etc. 
+    - same is true for more technical tools (e.g., models, predictions, etc.) 
+
+3. When data are not yet in glyph-ready form, you can transform (i.e. wrangle) them into glyph-ready form.  
+    - Such transformations are accomplished by performing one or more of a small set of basic operations on data tables
+    - This is the work of data "verbs" 
+
+
+
+
+## Learning about the raw data
+
+There are lots of ways to load data into your environment
+
+- Most real data sources will require you to 
+    - read a file (e.g., CSV) 
+    - query a database (e.g., SQL)
+    - configure an API
+    - scrape from the web
+- For convenience, many STAT 184 data sets are accessed from R packages or CSV files
+- When acquiring data, it's very important to pause and think about data provenance/origins
+    - What might be useful to learn?
+    - How is this accomplished?
+    - Why does it matter?
+
+
+
+## Recall: Key goals of a careful Exploratory Data Analysis?
+
+1. **Examine the data source:** variable types, coding, missingness, summary statistics/plots, who/what/when/where/why/how data were collected
+2. **Discover features that influence may modeling decisions:** investigate potential outliers, consideration for recoding variables (e.g., numeric data that's functionally dichotomous), evaluate correlation structure (e.g., autocorrelation, hierarchy, spatial/temporal proximity)
+3. **Address research questions:** build intuition and note preliminary observations/conclusions related to each research question.  Also, note observations that prompt you to refine your research questions or add new questions to investigate
+
+
+#### A few simple commands to help us "Examine the data source":
+
+- *Note:* often you need to examine information sources outside R to do a thorough examination.  
+- `help()` or `?`: if your data are part of an R package, this opens a help window with details about the data 
+- `data()`: if your data are part of an R package, this function loads the data set into your R environment and binds an object name
+- `head(Dat)`: inspect the first few rows of `Dat`
+- `View(Dat)`: opens a spreadsheet tab in RStudio showing `Dat` in it's entirety
+    - You can also click on the table name in the "Enviornment" Pane
+    - Bad form to call `View()` in the Rmd, use the console for this one.
+    - `head()` is best in the Rmd
+
+
+
+## Guided practice 
+
+- `Minneapolis2013` data set in the `dcData` package
+  - To do this, we need to download the package from GitHub
+  
+
+
+```{r}
+
+# Install the package from GitHub
+# The very first time you run this, uncomment the 3 lines below
+
+# install.packages("devtools")
+# library(devtools)
+# install_github("mdbeckman/dcData")
+library(dcData)
+data("Minneapolis2013", package = "dcData")
+
+
+```
+
+### Discussion questions: 
+
+1. What is the setting for the data?  
+    - What are they about?
+    - Who collected them?
+    - Why were they collected?
+    - etc
+2. How many cases are there?
+3. In your own words, what kind of thing do the cases represent? 
+4. How many variables are there?  What are their names?
+5. Pick out three of the variables and say whether
+    - the variable is quantitative or categorical
+    - if categorical (R calls this a "factor"), what are some levels of the variable
+    - if quantitative, what are the units of measurement of the variable.
+
+
+Click [here](https://en.wikipedia.org/wiki/Instant-runoff_voting) to learn about rank choice voting (also called instant run off voting). 
+
+## Why we wrangle
+
+Consider the Minneapolis 2013 election data.  
+
+```{r}
+Minneapolis2013 %>%
+  head()
+
+```
+
+
+Here's a bar chart that might be used to show the election results:
+
+```{r }
+VoteResults <- 
+  Minneapolis2013 %>%
+  group_by( First ) %>% 
+  summarise( votes = n() )
+
+head(VoteResults)
+
+# sorted bar chart
+ggplot(data = VoteResults,
+       aes(x = reorder(First, desc(votes)), y = votes )) +
+       geom_bar(stat = 'identity') +
+       theme(axis.text.x = element_text(angle = 60, hjust = 1)) +
+       ylab("Votes") +
+       xlab("Candidate")
+```
+
+
+This graph reflects the following data table (only part of which is shown):  
+
+```{r}
+# we'll get to know these functions better soon
+VoteResults %>% 
+  arrange( desc(votes) ) %>%
+  head()   
+```
+
+Compare the `Minneapolis2013` data table and the wrangled data table printed above.
+
+1. Do they have the same number of cases?
+2. Do the cases in the two tables represent the same sort of thing?
+3. Do the two tables have any variable(s) in common?
+4. How are the two tables are related to one another?
+
+
+## Why we wrangle
+
+Data wrangling **prepares** the data for analysis. 
+
+- convert to tidy form for computing
+- prepare glyph-ready data for visualization
+- prepare data for modeling (e.g., exploratory, inferential, predictive)
+
+
+## Different types of functions
+
+- Useful to have consistent language for data wrangling, just as we've done for visualization  
+
+- Some common function types: 
+    - **Reduction functions**
+    - **Transformation functions**
+    - **Data verbs**
+
+**For each type of function, what type of object is required as an input and what type of object is produced as a result?**
+
+- Relevant objects here include
+    - scalars
+    - variables
+    - data frames
+
+
+## Different types of functions
+
+
+- **Reduction functions**
+    - inputs are **variables** 
+    - results are **scalar**
+    - examples: `sum()`, `mean()`, `n()`
+- **Transformation functions**
+    - inputs are **variables**; 
+    - results are **variable**
+    - examples: `weight / height`, `log10(population)`, `round(age)`
+- **Data verbs**
+    - inputs are **data frames**
+    - results are **data frames**
+    - examples: `summarise()`, `group_by()`
+
+
+#### Any surprises above?
+
+- `summarise()` as a data verb?  Why not a reduction function??
+
+
+## Let's use some other reduction functions, transformation functions, and data verbs with the some NFL data
+
+
+```{r}
+dat.football <- read_tsv(file = "https://raw.githubusercontent.com/ada-lovecraft/ProcessingSketches/master/Bits%20and%20Pieces/Football_Stuff/data/nfl-salaries.tsv")
+
+head(dat.football) #default is first 6 rows and all the columns
+head(dat.football, n =10)
+dat.football %>%
+  slice(1:10)
+
+## Get the dimensions of the data
+dim(dat.football)
+
+## Get the column names of the data 
+colnames(dat.football)
+
+## Get the row names of the data 
+rownames(dat.football) #meaningless! (most times they will be)
+
+## Get a summary of the data 
+## sumamry is not summarize! 
+summary(dat.football) # gives summary info by column
+
+
+```
+
+Now lets look at some `tidyverse` functions. 
+
+```{r}
+#Filter 
+dat.football %>%
+  filter(Team == "Denver Broncos")
+  
+#Arrange 
+dat.football %>%
+  arrange(Salary) #lowest to highest
+
+dat.football %>%
+  arrange(desc(Salary)) #highest to lowest
+
+#Select
+dat.football %>%
+  select(PlayerName, Position)
+
+#Rename 
+dat.football %>%
+  rename(TeamName = Team)
+
+#Mutate
+dat.football %>%
+  mutate(PercentOfCap = Salary / SalaryCap * 100)
+
+#Group 
+dat.football %>%
+  group_by(Team) #doesn't look like it did anything??? 
+
+#Summarise 
+?summarise
+
+dat.football %>%
+  summarise(MeanSalary = mean(Salary))
+
+dat.football %>%
+  summarize(SdSalary = sd(Salary))
+
+dat.football %>%
+  group_by(Team) %>%
+  summarise(MeanSalary = mean(Salary), .groups = "keep" )
+
+
+```
+
+
+## Exploratory Analysis - Combining it all together 
+
+ What is the highest salary? 
+
+```{r}
+max(dat.football$Salary)
+```
+
+Which player has this salary? 
+
+```{r}
+# Method 1 (no tidyverse functions)
+max.salary <- max(dat.football$Salary) #get the max salary
+row.max.salary <- dat.football$Salary == max.salary
+answer.1 <- dat.football$PlayerName[row.max.salary]
+
+#c(1, 2, 3, 4)[c(FALSE, FALSE, TRUE, FALSE)]
+
+# Method 2 (tidyverse functions)
+answer.2 <- dat.football %>%
+  filter(Salary == max(Salary) ) %>%
+  select(PlayerName)
+
+# Method 3 (tidyverse functions)
+answer.3 <- dat.football %>%
+  arrange(desc(Salary)) %>%
+  slice(1) %>%
+  select(PlayerName)
+
+## Whats the benefit of using tidyverse functions? 
+library(utils)
+object.size(c(max.salary, row.max.salary, answer.1))
+object.size(answer.2)
+object.size(answer.3)
+
+944/12304 # used only 7% of the storage space by using tidyverse!
+
+```
+
+
+What is the team with the highest paid roster, and what was their total pay? 
+What is the team with the lowest paid roster, and what was their total pay?
+
+
+```{r}
+Paid <- dat.football %>%
+  group_by(Team)%>% 
+  summarize(PaidRoster = sum(Salary)) %>% 
+  arrange(desc(PaidRoster))
+
+Paid[1, ] #highest paid 
+# how many teams are in our data set> 
+
+dim(Paid)
+length(unique(dat.football$Team))
+Paid[31, ] 
+
+#Bonus Question, if I said this data was from 2016 what team is missing from our data?
+sort(unique(dat.football$Team)) 
+```
+
+
+## Pivot wider and Pivot Longer 
+
+`pivot_wider()` and `pivot_longer()` are two VERY useful functions in the `tidyverse`. We do not need them this week, but I wanted to introduce them if you want to get ahead. 
+
+```{r}
+## Pivot Wider 
+?pivot_wider
+
+# names_from = new column names 
+# value_from = values to fill in in the table
+us_rent_income
+us_rent_income %>%
+  pivot_wider(
+    names_from = variable,
+    values_from = c(estimate, moe)
+  )
+# is the above table tidy? What is each case?
+
+## Pivot Longer 
+?pivot_longer
+#name_to = new column name that will contain the old column names
+#values_to = new column name that will contain the data from the original table
+relig_income
+relig_income %>%
+  pivot_longer(!religion,  # every column but religion 
+               names_to = "income", 
+               values_to = "count")
+# Is the above table Tidy? What is a case?
+
+world_bank_pop
+world_bank_pop %>%
+  pivot_longer(!c(country, indicator),
+               names_to = "year",
+               values_to = "count")
+# is the above table tidy? What is a case?
+
+```
+
