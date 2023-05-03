@@ -1,0 +1,402 @@
+---
+title: 'L04 - Graphics, Glyphs, Frames, and Scales'
+author:
+- Presenter- Olivia Beck
+- Content Credit- Dr. Matthew Beckman
+date: ''
+output:
+  html_document:
+    df_print: paged
+  slidy_presentation: default
+  html_notebook: default
+subtitle: Data Computing Chapters 5 & 6
+---
+
+```{r include=FALSE}
+library(mosaic)
+library(tidyverse)
+library(COUNT)
+```
+
+
+
+
+## Grammar of Graphics
+
+- Wilkinson's 2005 book *The Grammer of Graphics (2nd Ed.)* provides the principles and philosophy 
+    - the `ggplot2` R package implements this framework
+    - **Goal**: flexible tools for building rich, intuitive graphics
+
+- Data Visualization is critical to our goals for high quality Exploratory Data Analysis (EDA)
+    1. **Examine the data source:** variable types, coding, missingness, summary statistics/plots, who/what/when/where/why/how data were collected
+    2. **Discover features that influence may modeling decisions:** investigate potential outliers, consideration for recoding variables (e.g., numeric data that's functionally dichotomous), evaluate correlation structure (e.g., autocorrelation, hierarchy, spatial/temporal proximity)
+    3. **Address research questions:** build intuition and note preliminary observations/conclusions related to each research question.  Also, note observations that prompt you to refine your research questions or add new questions to investigate
+
+![](images/grammarGraphics.png)
+
+
+## Glyphs and Data
+
+In archaeology, a GLYPH is a symbol or "mark" used to impart meaning:
+
+HeiroGLYPH | Mayan GLYPH
+---------------|----------------:
+![Heiroglyph](images/hand.jpg) | ![Mayan glyph](images/mayan-glyph.png) 
+
+## Data Glyph
+
+
+### A data glyph is also a "mark" on a graph, e.g. 
+
+![](images/geom_rect.png) ![](images/geom_segment.png) ![](images/geom_text.png) ![](images/geom_crossbar.png) ![](images/geom_path.png) ![](images/geom_line.png) ![](images/geom_pointrange.png) ![](images/geom_ribbon.png) ![](images/geom_point.png) ![](images/geom_polygon.png) ![](images/geom_histogram.png) ![](images/geom_dotplot.png) ![](images/geom_freqpoly.png) ![](images/geom_density.png) ![](images/geom_violin.png) 
+
+The features of a data glyph encodes the value of variables. 
+
+- Some are very simple, e.g. a dot: ![](images/geom_point.png)
+- Some combine different elements, e.g. a pointrange: ![](images/geom_pointrange.png)
+- Some are complicated, e.g. a dotplot: ![](images/geom_dotplot.png)
+
+See: *<https://ggplot2.tidyverse.org/reference/>*
+
+
+## Some Graphics Components
+
+#### **glyph**
+
+- The basic graphical unit often corresponding to one case.
+- Other terms used include *mark* and *symbol*. 
+
+#### **aesthetic**
+
+- a visual property of a glyph such as position, size, shape, color, etc.  
+- may be **mapped** based on data values: `sex -> color` 
+- may be **set** to particular non-data related values: `color is black`
+
+#### **scale**
+
+* A mapping that translates data values into aesthetics.  For example,
+* A scatter plot of health risks may identify cigarette smoking:  
+    - <font color="blue">blue</font> represents "No"
+    - <font color="red">red</font> represents "Yes"
+- A printed map of campus uses a scaled representation of distance
+    - a centimeter on the printed map represents 100 meters of distance on campus
+
+#### **frame**
+
+- The position scale describing how data are mapped to the coordinate system in use
+- Quite often, the frame defines the x-axis and y-axis of a 2-dimensional cartesian plane
+
+
+#### **guide**
+
+* An indication for the human viewer of the scale.  This allows the viewer to translate aesthetics back into data values.
+* For example, 
+    - a legend makes explicit the meaning of Red & Blue points on the chart
+    - a 1 cm length printed on a map to inform the reader that it corresponds to 100 meters on campus
+
+
+Can you determine all the components on the following graph?
+
+```{r}
+#?mtcars
+data("mtcars")
+
+mtcars %>%
+  ggplot() + 
+  geom_point(aes(x = hp, 
+                 y = mpg, 
+                 color = as.factor(carb), 
+                 shape = as.factor(gear))) +
+  facet_grid(~vs, 
+             labeller = labeller(vs = c("0" = "V-Shaped", 
+                                        "1" = "Straight"))) +
+  ggtitle("Example Plot from `mtcars` Data") + 
+  xlab("Gross Horsepower") + 
+  ylab("Miles per Gallon") +
+  scale_shape_discrete(name = "Number of Forward Gears") +
+  scale_color_discrete(name = "Number of Carburetors")
+
+```
+
+
+## Scales
+
+#### The relationship between the variable value and the value of the aesthetic the variable is mapped to.
+
+* Systolic Blood Pressure (SBP) has units of mmHg (millimeters of mercury)
+* Position on the x-axis measured in distance, e.g. inches.
+
+The conversion from SBP to position is a *scale*.
+
+* Smoker is "never", "former", "current"
+* Color is red, green, blue, ...
+
+The conversion from Smoker to color is a *scale*.
+
+
+```{r}
+head()
+
+
+```
+
+
+## Guides
+
+#### Guide: an indication to a human viewer of what the scale is.
+
+* Axis ticks and numbers
+
+![](images/x-axis-scale.png)
+
+* Legends
+
+![](images/color-scale.png) 
+![](images/shape-scale.png) 
+
+
+* Labels on faceted graphics
+
+![](images/facet-scale.png)
+
+## Facets 
+
+ * (x,y) is determined by `Time` and `weight`
+ * basically a separate frame for each `Diet`
+ * uses same x and y on each facet 
+ 
+
+```{r}
+#?ChickWeight
+data("ChickWeight")
+
+ChickWeight %>%
+  ggplot(aes(x = Time, y = weight)) +
+  geom_point()+
+  facet_grid( ~ Diet)
+
+```
+
+
+
+## Designing Graphics
+
+Graphics are designed by the human expert (you!) in order to reveal information that's present in the data.
+
+#### Design choices
+
+
+* What kind of glyph, e.g. scatter, density, bar, ... many others
+* What variables constitute the frame. And some details:
+    - axis limits
+    - logarithmic axes, etc.
+* What variables should be mapped to other aesthetics of the glyph.
+* Whether to facet and with what variable.
+
+More details, ..., e.g. setting of aesthetics to constants
+
+
+## Good and Bad Graphics
+
+Remember ... 
+
+> Graphics are designed by the human expert (you!) in order to reveal information that's present in the data.
+
+- choices depend on what information you want to convey.
+- practice reading graphics and critique which ways of arranging thing are better or worse.
+- A basic principle is that a graphic is about *comparison*.  Good graphics: 
+    - make it easy for people to perceive things that are similar and things that are different.  
+    - put the things to be compared in proximity to one another (e.g., "side-by-side") 
+
+
+
+
+## Perception and Comparison
+
+In roughly descending order of human ability to compare nearby objects:
+
+1. Position
+2. Length
+3. Area
+4. Angle
+5. Shape (but only a very few different shapes)
+6. Color
+
+Color is the most difficult...    
+
+  - color gradients --- we're better at
+  - discrete colors --- must be carefully selected.
+  - lots of people are color blind ([1 in 12 men; 1 in 200 women](http://www.colourblindawareness.org/))
+  
+For more, see:
+
+Cleveland W. (1985). *The elements of graphing data*. Bell Telephone Laboratories: Murray Hill, NJ.
+
+
+## Glyph-Ready Data
+
+Glyph-ready data has this form:
+
+  * There is one row for each glyph to be drawn. 
+  * The variables in that row are mapped to aesthetics of the glyph (including position)
+  * Glyph-ready data is often, but not not always, tidy data. But `tidyverse` makes it is very easy to go between the two!
+
+
+<div class="columns-2">
+**Glyph-ready data**
+```{r echo=FALSE}
+data("iris")
+head(iris)
+```
+
+**Mapping of data to aesthetics**
+
+```
+   Sepal.Length -> x position      
+   Petal.Length -> y position    
+Species -> color
+```
+
+Scales determine details of translation from
+
+`variable -> aesthetic` 
+
+```{r include=FALSE}
+iris.glyphready <- iris %>%
+  rename(x = Sepal.Length, y = Petal.Length, color = Species)
+head(iris.glyphready)
+```
+</div>
+
+<!--
+It's as if the variables were given the name of the aesthetic.
+-->
+
+
+
+## Layers -- building up complex plots 
+
+Each layer may have its own data, glyphs, aesthetic mapping, etc.
+
+```{r}
+ggplot(data = iris , aes(x = Sepal.Length, y = Petal.Length, colour = as.factor(Species))) +
+  geom_point() +
+  geom_smooth(se = FALSE)
+```
+
+ * one layer has points
+ * another layer has the curves
+
+## Stats: Data Transformations
+
+```{r}
+ggplot(data = iris , aes(x = Petal.Width)) +
+  geom_histogram(bins = 15) 
+```
+
+  * What are the glyphs, aesthetics, guides, etc. for this plot?
+  * How is the data for this plot related to the "raw" data?
+  
+
+
+## Path to success
+
+ 1. **Eye-training** 
+ 
+    - recognize and describe glyphs, aesthetics, scales, etc.
+    - identify data required for a plot
+    
+ 2. **Data wrangling** 
+ 
+    - get data into glyph-ready format (`dplyr`, `tidyr`, `tidyverse`)
+    - (we'll start doing this next week!)
+    
+ 3. **Graphics construction** 
+    
+    - Newbies: match variables to aesthetics **interactively**: 
+        - `esquisse` package using `esquisser( )`  
+        - `mosaic` package using `mplot( )` 
+        - BOTH generate `ggplot2` syntax 
+    - Pros: learn to write `ggplot2` code directly
+
+
+<!--  - `DataComputing` package using `scatterGraphHelper( )`, `barGraphHelper( )`, `densityGraphHelper( )` -->
+
+
+## The Big Mac Index
+
+<https://github.com/rfordatascience/tidytuesday/tree/master/data/2020/2020-12-22>
+
+```{r message=FALSE}
+# These data are available from the `tidytuesdayR` package 
+# Install package from CRAN via: install.packages("tidytuesdayR")
+
+library(tidytuesdayR)
+
+TidyTuesData <- tidytuesdayR::tt_load(2020, week = 52)
+BigMac <- TidyTuesData[["big-mac"]]
+
+```
+
+
+## Big Mac Price vs GPD per Capita?
+
+Let's use the `esquisse` package to explore the data!
+
+In the console: 
+
+`esquisser(BigMac)`
+
+Or you can use the `mplot(BigMac)` function from the `mosaic` package. 
+
+
+```{r}
+library(esquisse)
+
+# use `esquisser( )` to draft a plot and then generate R code to put here!
+
+```
+
+
+### Here's an example:
+
+```{r}
+ggplot(BigMac) +
+ aes(x = gdp_dollar, y = dollar_price) +
+ geom_point(size = 1L, colour = "#0c4c8a") +
+ labs(title = "Big Mac Price Around the World vs GDP per Capita") +
+ theme_minimal()
+```
+
+- Using the graph, what can you say about the following?
+  - Frame  
+  - Glyph
+  - Aesthetic
+  - Scale
+  - Guide
+  - Facet
+
+
+## Value of Big Mac around the world
+
+```{r}
+# using `mWorldMap( )` from `mosaic` package
+library(mosaic)
+
+# `key` argument takes the ID variable; `fill` takes the measured variable 
+mWorldMap(BigMac, key = "iso_a3", fill = "dollar_price")
+```
+
+- Using the graph, what can you say about the following?
+  - Frame  
+  - Glyph
+  - Aesthetic
+  - Scale
+  - Guide
+  - Facet
+
+
+
+
+
+
