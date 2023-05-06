@@ -1,0 +1,261 @@
+---
+title: "L14 - Webscrapping"
+author: |
+        | Presenter: Olivia Beck
+        | Content credit: Matthew Beckman
+output: 
+    slidy_presentation: default
+    html_notebook: default
+---
+
+```{r include=FALSE}
+library(tidyverse)
+library(rvest)
+
+
+knitr::opts_chunk$set(tidy=FALSE, message=FALSE, warning=FALSE)
+options(width = 80)
+```
+
+
+
+## Chapter 16 (Data Scraping & Cleaning--Data Intake)
+
+- There are a ton of ways to get data into R (often with dedicated packages)
+    - CSV (comma-separated-values) is a really common format
+        - Lots of software export to CSV
+        - many functions to read CSV's into R (e.g., we've seen `read_csv( )` from `readr` package)
+        - `file.choose()`  is handy to get file paths
+    - R can handle lots of proprietary formats too (e.g., `foreign` package)
+    - R can query relational databases like MS Access, Oracle, SAP, mySQL, etc (e.g, `rodbc` package)
+    - Scraping web data
+
+
+
+## Scraping Pole Vault Records from Wikipedia
+
+Let's say we want to scrape pole vault World Records from Wikipedia...
+
+<https://en.wikipedia.org/wiki/Men%27s_pole_vault_world_record_progression>
+
+
+
+## What's a pole vault?
+
+It's an event in track and field competitions in which the athlete attempts the following (crudely speaking):   
+
+- Run as fast as possible while carrying a very long pole 
+- Jam the pole into a box in the ground  
+- Use the momentum to launch yourself as high as possible into the air  
+- Land safely on a huge cushion 
+
+Athletes repeat this as many times as they can while moving the crossbar up higher and higher.
+
+
+#### It looks like this when it goes (extremely) well...
+
+<!-- <iframe width="560" height="315" src="https://youtu.be/K9YoR_z-POc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+
+<https://www.youtube.com/watch?v=OAVNb2N7ntM>
+
+
+
+#### ...but sometimes turns out like this
+
+<!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/iN-rWSM0ZzM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+
+<https://www.youtube.com/watch?v=iN-rWSM0ZzM>
+
+
+
+
+## Scraping Pole Vault Records from Wikipedia
+
+Let's say we want to "scrape" pole vault world records from Wikipedia...
+
+Here's the webpage:
+<https://en.wikipedia.org/wiki/Men%27s_pole_vault_world_record_progression>
+
+
+
+## Steps to scrape HTML data
+
+1. Locate webpage
+
+2. Identify data table(s) to scrape
+
+3. Edit the R code chunk shown to paste `webpage` URL with quotes around it as shown.
+
+4. Execute the code chunk to scrape all HTML tables found on the page into a "list" object in the R environment called `table_list` here
+
+
+```
+library("rvest")
+
+webpage <- "page_url"
+
+table_list <- webpage %>%
+  read_html(header = TRUE) %>%
+  html_nodes(css = "table") %>%
+  html_table(fill = TRUE)
+
+str(table_list)
+
+```
+
+
+
+
+
+## Scraping Pole Vault Records from Wikipedia
+
+Using our handy template, we replace the `page_url`
+
+
+```{r}
+webpage <- "https://en.wikipedia.org/wiki/Men%27s_pole_vault_world_record_progression"
+
+table_list <- 
+  webpage %>%
+  read_html() %>%
+  html_nodes(css = "table") %>%
+  html_table(fill = TRUE)
+
+str(table_list)  # This looks like a mess. We can look at this in our environment pannel
+
+```
+
+
+## Scraping Pole Vault Records from Wikipedia
+
+Now we can use the data to answer lots of interesting questions
+
+- RQ: Which nation has broken the record most frequently?
+- RQ: Which athlete has broken the record most frequently?
+- RQ: Which venue has seen the most record-breaking performances?
+
+We'll learn additional tools (e.g., Regular Expressions) in coming weeks that will allow us to parse the text strings like `Record` or `Date` for further analysis
+
+```{r}
+# Look at the structure (look for how many tables are in the list; verify they are "data.frame" format)
+str(table_list)
+
+# Inspect the second table in the list (IAAF Men from the Wikipedia Page)
+PVrecords <- table_list[[2]]
+head(PVrecords) 
+```
+
+
+
+## Pole Vault Records from Wikipedia
+
+Maybe we plot the density of records?
+
+- what would low density mean?
+- what would high density mean?
+
+
+```{r}
+PVRecordsData <- 
+  PVrecords %>%
+  mutate(Record_m = parse_number(Mark)) %>% 
+  select(Mark, Record_m)
+
+head(PVRecordsData)
+
+PVRecordsData %>%
+  ggplot(aes(x = Record_m)) +
+  geom_density() 
+
+round(PVRecordsData$Record_m) %>%
+  table()
+
+```
+
+
+
+## Penn State Football Receiving Statistics
+
+1. Google Penn State Football Statistics
+
+2. Edit the R code chunk shown to paste `webpage` URL with quotes around it as shown.
+
+3. Execute the code chunk to scrape all HTML tables found on the page into a "list" object in the R environment called `Tables` here
+
+4. Identify a data table from the source (for example, "receiving statistics") and find it in the list object in your R environment
+
+
+```
+library("rvest")
+page <- "http://www.espn.com/college-football/team/stats/_/id/213/penn-state-nittany-lions"
+
+Tables <- page %>%
+  read_html(header = TRUE) %>%
+  html_nodes(css = "table") %>%
+  html_table(fill = TRUE)
+```
+
+```
+Tables[[1]]
+```
+
+
+## Penn State Football Receiving Statistics
+
+
+```{r}
+url <- "http://www.espn.com/college-football/team/stats/_/id/213/penn-state-nittany-lions"
+
+PlayerStats <- url %>%
+  read_html() %>%
+  html_nodes(css = "table") %>%
+  html_table(fill = TRUE)
+```
+
+
+```{r}
+# R stores the result as a "list" object, so the double square brackets select an 
+#    element of the list, and we store it at as a data frame
+
+ReceivingRaw <- PlayerStats[[6]]
+
+# Inspect the Data Table
+ReceivingRaw
+
+# Add player names and remove totals 
+ReceivingStats <- 
+  bind_cols(PlayerStats[[5]], PlayerStats[[6]]) %>%
+  filter(Name != "Total")   
+  
+# Inspect FootballStatsClean
+ReceivingStats
+```
+
+
+
+## Aside: XPath selector
+
+- so far, we have been scraping every table in sight and then hunting through the results for the ones we want.
+- you can scrape one specific table with an XPath selector
+- some example code is below... basically you only need to change one line
+    - use `html_node()` (singular) rather than `html_nodes()` (plural)
+    - specify the XPath selector
+    - see the help documentation for `html_nodes()` to learn more about the syntax
+    - helpful instructions for getting the XPath to an element on a web page using Google Chrome browser: <http://www.r-bloggers.com/using-rvest-to-scrape-an-html-table/>
+- CSS selectors for single table also available through the `selectr` package, which is a port of the python `cssselect` library (see help documentation for `html_nodes()`)
+
+
+```
+library("rvest")
+
+page_url <- "https://en.wikipedia.org/wiki/Mile_run_world_record_progression"
+XPATH <- '//*[@id="mw-content-text"]/div/table'
+
+table_list <- 
+  page_url %>%
+  read_html() %>%
+  html_node(xpath = XPATH) %>%
+  html_table(fill = TRUE)
+
+```
+

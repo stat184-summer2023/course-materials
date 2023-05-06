@@ -1,0 +1,392 @@
+---
+title: "L13 - Lists"
+author: |
+        | Presenter: Olivia Beck
+        | Content credit: Matthew Beckman
+output: 
+    slidy_presentation: default
+    html_notebook: default
+---
+
+```{r include=FALSE}
+library(tidyverse)
+library(rvest)
+
+
+knitr::opts_chunk$set(tidy=FALSE, message=FALSE, warning=FALSE)
+options(width = 80)
+```
+
+
+## Agenda 
+
+- Data Types
+- Lists
+- Webscraping 
+- Midterm Overlook 
+
+## A word about data structures... 
+
+- R accommodates many different sorts of data structures
+- One natural way to differentiate many of them is to consider
+    - **dimensionality** (e.g. 1d, 2d, ... N-d)
+    - **heterogeneity** (e.g., can elements have different types within the object?)
+- R doesn't have any 0d types... scalar numbers or strings are treated as vectors with length 1.
+- `str()` function is great to learn about the structure of an object in R
+- The 5 following data structures are among the most common (but there are others):
+
+
+|               | Homogeneous       | Heterogeneous  | 
+|--------------:|:-----------------:|:--------------:|
+| 1-dimensional | **Atomic vector** | *List*         |
+| 2-dimensional | Matrix            | **Data Frame** |
+| N-dimensional | Array             |                |
+
+
+
+
+
+- variables (vectors) can be classified with different types as well
+    - factors
+    - character vectors
+    - numeric
+    - character
+    - POSIXct (use `lubridate` package)
+- mixed variables are automatically coerced to the most flexible type:
+    - logical (e.g. `TRUE`; `FASLE`) is **least** flexible
+    - integer (e.g., `-20`, `0`, `406`)
+    - double (e.g. `3.14159`, `-2.17`, `1`, `0`)
+    - character (e.g. `as;lkne`, `3.14159`, `TRUE`) is the **most** flexible type
+- a "factor" is an important type of vector that may contain only predefined values, and is used to store categorical data
+  - very useful in plotting and modeling! 
+
+
+
+## Lists 
+
+Lists are the R objects which contain elements of different types like − numbers, strings, vectors and another list inside it. A list can also contain a matrix or a function as its elements. List is created using list() function.
+
+<https://www.tutorialspoint.com/r/r_lists.htm> 
+
+
+- A list can have any number of elements 
+  - each element in the list can have any number of (inner) elements in it 
+  - use double square elements to access the elements 
+  - use the appropriate mechanisms to access the inner elements 
+- element do not have to be of the same type or the same length 
+- Compare and contrast lists and data frames 
+  - data frames are essentially columns of vectors of the same length 
+  - each element can only have one thing (character or number) in it
+    - we won't cover it in this class, but it is technically possible for a cell of data frame to contain another data frame (using `nest`). 
+
+```{r}
+temp_list <- list(numbers = 1:10, 
+                  letters = c("A", "B", "C"), 
+                  words = c("These", "are", "words", "."), 
+                  innerlist = list( inner.numbers = 100:200,
+                                    states = state.abb),
+                  innerframe = data.frame(inner.numbers = 1:26, 
+                                          inner.letters = letters),
+                  innermatrix = matrix(1:20, nrow = 10, ncol = 2)
+                  )
+
+temp_list
+```
+
+Access the first element in the list 
+
+1. use double square brackets
+2. if we know what it is called, we can use $
+
+```{r}
+temp_list[[1]]
+temp_list$numbers
+```
+
+Access the 3rd element of the 2nd element 
+
+```{r}
+temp_list[[2]][3]
+temp_list$letters[3]
+```
+
+Access the list of states 
+
+```{r}
+temp_list[[4]][[2]]
+temp_list$innerlist$states
+```
+
+Access the 24th state 
+
+```{r}
+temp_list[[4]][[2]][24]
+temp_list$innerlist$states[24]
+```
+
+Access the inner letters 
+
+```{r}
+temp_list$innerframe$inner.letters
+temp_list[[5]][ , 2]
+```
+
+Access the 8th inner letter 
+
+```{r}
+temp_list$innerframe$inner.letters[8]
+temp_list[[5]][ , 2][8]
+```
+
+When you try to access things that aren't there you WILL NOT get an error. You will get an NULL or NA (depending on what level of the structure you are on )
+
+```{r}
+temp_list$not_here      #Null
+temp_list$numbers[56]   #NA
+```
+
+ 
+
+
+
+
+## Chapter 16 (Data Scraping & Cleaning--Data Intake)
+
+- There are a ton of ways to get data into R (often with dedicated packages)
+    - CSV (comma-separated-values) is a really common format
+        - Lots of software export to CSV
+        - many functions to read CSV's into R (e.g., we've seen `read_csv( )` from `readr` package)
+        - `file.choose()`  is handy to get file paths
+    - R can handle lots of proprietary formats too (e.g., `foreign` package)
+    - R can query relational databases like MS Access, Oracle, SAP, mySQL, etc (e.g, `rodbc` package)
+    - Scraping web data
+
+
+
+## Scraping Pole Vault Records from Wikipedia
+
+Let's say we want to scrape pole vault World Records from Wikipedia...
+
+<https://en.wikipedia.org/wiki/Men%27s_pole_vault_world_record_progression>
+
+
+
+## What's a pole vault?
+
+It's an event in track and field competitions in which the athlete attempts the following (crudely speaking):   
+
+- Run as fast as possible while carrying a very long pole 
+- Jam the pole into a box in the ground  
+- Use the momentum to launch yourself as high as possible into the air  
+- Land safely on a huge cushion 
+
+Athletes repeat this as many times as they can while moving the crossbar up higher and higher.
+
+
+#### It looks like this when it goes (extremely) well...
+
+<!-- <iframe width="560" height="315" src="https://youtu.be/K9YoR_z-POc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+
+<https://www.youtube.com/watch?v=OAVNb2N7ntM>
+
+
+
+#### ...but sometimes turns out like this
+
+<!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/iN-rWSM0ZzM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+
+<https://www.youtube.com/watch?v=iN-rWSM0ZzM>
+
+
+
+
+## Scraping Pole Vault Records from Wikipedia
+
+Let's say we want to "scrape" pole vault world records from Wikipedia...
+
+Here's the webpage:
+<https://en.wikipedia.org/wiki/Men%27s_pole_vault_world_record_progression>
+
+
+
+## Steps to scrape HTML data
+
+1. Locate webpage
+
+2. Identify data table(s) to scrape
+
+3. Edit the R code chunk shown to paste `webpage` URL with quotes around it as shown.
+
+4. Execute the code chunk to scrape all HTML tables found on the page into a "list" object in the R environment called `table_list` here
+
+
+```
+library("rvest")
+
+webpage <- "page_url"
+
+table_list <- webpage %>%
+  read_html(header = TRUE) %>%
+  html_nodes(css = "table") %>%
+  html_table(fill = TRUE)
+
+str(table_list)
+
+```
+
+
+
+
+
+## Scraping Pole Vault Records from Wikipedia
+
+Using our handy template, we replace the `page_url`
+
+
+```{r}
+webpage <- "https://en.wikipedia.org/wiki/Men%27s_pole_vault_world_record_progression"
+
+table_list <- 
+  webpage %>%
+  read_html() %>%
+  html_nodes(css = "table") %>%
+  html_table(fill = TRUE)
+
+str(table_list)  # looks like a bit of a mess if you are new to this
+
+```
+
+
+## Scraping Pole Vault Records from Wikipedia
+
+Now we can use the data to answer lots of interesting questions
+
+- RQ: Which nation has broken the record most frequently?
+- RQ: Which athlete has broken the record most frequently?
+- RQ: Which venue has seen the most record-breaking performances?
+
+We'll learn additional tools (e.g., Regular Expressions) in coming weeks that will allow us to parse the text strings like `Record` or `Date` for further analysis
+
+```{r}
+# Look at the structure (look for how many tables are in the list; verify they are "data.frame" format)
+str(table_list)
+
+# Inspect the first table in the list (IAAF Men from the Wikipedia Page)
+PVrecords <- table_list[[2]]
+head(PVrecords) 
+```
+
+
+
+## Pole Vault Records from Wikipedia
+
+Maybe we plot the density of records?
+
+- what would low density mean?
+- what would high density mean?
+
+
+```{r}
+PVRecordsData <- 
+  PVrecords %>%
+  mutate(Record_m = parse_number(Mark)) %>% 
+  select(Mark, Record_m)
+
+head(PVRecordsData)
+
+PVRecordsData %>%
+  ggplot(aes(x = Record_m)) +
+  geom_density() 
+
+round(PVRecordsData$Record_m) %>%
+  table()
+
+```
+
+
+
+## Penn State Football Receiving Statistics
+
+1. Google Penn State Football Statistics
+
+2. Edit the R code chunk shown to paste `webpage` URL with quotes around it as shown.
+
+3. Execute the code chunk to scrape all HTML tables found on the page into a "list" object in the R environment called `Tables` here
+
+4. Identify a data table from the source (for example, "receiving statistics") and find it in the list object in your R environment
+
+
+```
+library("rvest")
+page <- "http://www.espn.com/college-football/team/stats/_/id/213/penn-state-nittany-lions"
+
+Tables <- page %>%
+  read_html(header = TRUE) %>%
+  html_nodes(css = "table") %>%
+  html_table(fill = TRUE)
+```
+
+```
+Tables[[1]]
+```
+
+
+## Penn State Football Receiving Statistics
+
+
+```{r}
+url <- "http://www.espn.com/college-football/team/stats/_/id/213/penn-state-nittany-lions"
+
+PlayerStats <- url %>%
+  read_html() %>%
+  html_nodes(css = "table") %>%
+  html_table(fill = TRUE)
+```
+
+
+```{r}
+# R stores the result as a "list" object, so the double square brackets select an 
+#    element of the list, and we store it at as a data frame
+
+ReceivingRaw <- PlayerStats[[6]]
+
+# Inspect the Data Table
+ReceivingRaw
+
+# Add player names and remove totals 
+ReceivingStats <- 
+  bind_cols(PlayerStats[[5]], PlayerStats[[6]]) %>%
+  filter(Name != "Total")   
+  
+# Inspect FootballStatsClean
+ReceivingStats
+```
+
+
+
+## Aside: XPath selector
+
+- so far, we have been scraping every table in sight and then hunting through the results for the ones we want.
+- you can scrape one specific table with an XPath selector
+- some example code is below... basically you only need to change one line
+    - use `html_node()` (singular) rather than `html_nodes()` (plural)
+    - specify the XPath selector
+    - see the help documentation for `html_nodes()` to learn more about the syntax
+    - helpful instructions for getting the XPath to an element on a web page using Google Chrome browser: <http://www.r-bloggers.com/using-rvest-to-scrape-an-html-table/>
+- CSS selectors for single table also available through the `selectr` package, which is a port of the python `cssselect` library (see help documentation for `html_nodes()`)
+
+
+```
+library("rvest")
+
+page_url <- "https://en.wikipedia.org/wiki/Mile_run_world_record_progression"
+XPATH <- '//*[@id="mw-content-text"]/div/table'
+
+table_list <- 
+  page_url %>%
+  read_html() %>%
+  html_node(xpath = XPATH) %>%
+  html_table(fill = TRUE)
+
+```
+

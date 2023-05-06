@@ -1,0 +1,146 @@
+---
+title: "Regular Expressions (RegEx)"
+subtitle: "Data Computing Ch 17"
+author: |
+        | Presenter: Olivia Beck
+        | Content credit: Matthew Beckman
+output: 
+    slidy_presentation: default
+    html_notebook: default
+---
+
+
+
+
+```{r include=FALSE}
+require(lubridate)
+require(tidyverse)
+require(rvest)
+knitr::opts_chunk$set(message = FALSE)
+```
+
+
+## Chapter 17: Key Ideas
+
+* Regular expressions allow us to match meaningful **patterns** in character strings
+* Some popular uses:
+    * detect whether a **pattern** is contained in a string (use `filter()` & `grepl()`)
+    * substitute the elements of that **pattern** with something else (use `mutate()` & `gsub()`)
+    * extract a component that matches the **pattern** (use `tidyr::extract()`)
+
+
+## Some Exploits in the Land of RegEx 
+
+* Medtronic, Inc - quality monitoring for medical technology
+    * Match key word or phrase in offline complaint data (uncommon)
+    * Subset of complaint data and evaluate rate of some outcome over time
+
+* PSU Men's Volleyball
+    * Teams now have access to complete data for play in every match
+    * Using RegEx to help parse the data to gain competitive advantage for PSU
+    * (Sort of like Moneyball for Volleyball...)
+
+* Scraping HTML data
+    * We scraped the [Men's Pole Vault World Records from Wikipedia](https://en.wikipedia.org/wiki/Men%27s_pole_vault_world_record_progression)
+    * We had been stuck because of footnotes in the `Date` column previously
+    * We can use RegEx to clean up (We'll try it together in a few moments)
+
+
+## How to Survive in the Land of Regex
+
+* Step 1: Memorize the following special characters and their use: \\d, \\w, \\S, [0-9], [^0-9], [[:lower:]], [[:alnum:]], \\W, \n, ?, ., $, %, |, \\<, ^, \\, {3}, *, +, \\s, \\B, \\>, \\x
+
+## How to Survive in the Land of Regex
+
+* **NO!!!** absolutely no need to memorize all of it
+* Use the RStudio Cheat Sheet: <https://www.rstudio.com/resources/cheatsheets/>
+* Use Google
+* Just like everything else in (R) Programming:
+    * Don't start from scratch
+    * Find working code that does something similar
+    * Make many iterations of small changes checking at each change that it didn't break
+    * Keep going until the original code evolves into the thing you want!
+
+
+
+## Pole Vault Demo
+
+- live demo to clean up Pole Vault Records progression seen in web scraping 
+
+<https://www.youtube.com/watch?v=OAVNb2N7ntM>
+
+![](DuplantisWR.png)
+
+
+```{r include=FALSE}
+require(mosaic)
+require(lubridate)
+require(tidyverse)
+require(rvest)
+knitr::opts_chunk$set(message = FALSE)
+```
+
+
+## Pole Vault Records Clean Up 
+
+```{r echo=TRUE}
+webpage <- "https://en.wikipedia.org/wiki/Men%27s_pole_vault_world_record_progression"
+
+table_list <- 
+  webpage %>%
+  read_html(header=TRUE) %>%
+  html_nodes(css = "table") %>%
+  html_table(fill = TRUE)
+
+PVRecords <- table_list[[2]]  # convert list to data frame
+head(PVRecords, 3) # inspect the data
+
+```
+
+
+#### Tasks to clean up: 
+
+1. we should fix the variable name representing the number of world records achieved by each athlete
+2. locate and replace all footnotes in the `Date` variable using `gsub()`
+3. convert `Date` to a date class variable in R using a `lubridate` function
+4. use `tidyr::extract()` to store the metric heights from the `Record` variable (make sure there are no spaces )
+
+
+## Solutions
+
+```{r}
+
+# locate and replace all footnotes in the `Date` column
+PVMen <- 
+  PVRecords %>%
+  rename(recordsBroken = `#[4]`) %>%
+  mutate(Date = gsub(pattern = "\\[.\\]", replacement = "", x = Date)) %>%
+  mutate(Date = lubridate::mdy(Date)) %>% #convert to date
+  tidyr::extract(col = Mark, into = "Meters", regex = "(^\\d\\.\\d)") %>%
+  mutate(Meters = parse_number(Meters)) #convert to numeric(drops non-numeric characters)
+  
+PVMen %>% 
+  head()
+```
+
+
+
+
+## Cool Graphs 
+
+```{r}
+PVMen %>%
+  ggplot(aes(x = Date, y = Meters)) + 
+  geom_step() + 
+  geom_point(alpha = 0.5, aes(color = Nation))+
+  scale_color_brewer(palette = "Spectral")
+
+```
+
+## What happened?
+
+
+Here's a video explanation if you want to watch the evolution: 
+
+<https://youtu.be/QGTdEhUW0nE>
+
