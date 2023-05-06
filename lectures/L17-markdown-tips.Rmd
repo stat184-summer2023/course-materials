@@ -1,0 +1,168 @@
+---
+title: "R Markdown and GitHub Tips"
+author: |
+        | Olivia Beck
+output: 
+    slidy_presentation: default
+    html_notebook: default
+---
+
+```{r, include=F}
+library(tidyverse)
+
+
+```
+
+## Reminders 
+
+- Final Project: Monday, DATE at 11:59 p.m.
+  - Final Report
+  - Final Checklist
+  - Remember to push to GitHub! 
+  
+- All late work due Friday, June 23rd at 11:59 p.m.
+  - I am grading all late work this weekend. Email me on Monday if there is still something wrong with your grade. 
+
+-STRE's available
+  
+  
+## Overview 
+
+- Absolute vs. relative file paths 
+- Outputting data tables in RMarkdown
+- Interactive functions in R: when to use them and when to not
+
+
+
+## Absolute vs. Realative File Paths 
+
+The goal of a GitHub repo is to be entirely self contained. 
+  - **self contained**: everything needed for someone else to reproduce every single thing in your GitHub repo is inside your repo. Nothing in the repo references anything outside of the repo
+  - We need to ensure all data is loaded in referencing only the file structure inside the repo, and nothing outside of it (i.e. do no reference where the repo is located on your computer)
+
+When we open an RProject, R automatically sets our current working directory. We can see our current working directory with the `getwd()` function. 
+
+```{r}
+getwd()
+```
+
+
+When we want to load a file into our R environment there are two ways to do it
+
+1. Absolute paths - reference the exact file location on your computer
+2. Relative paths - reference the file location with respect to your current working directory. 
+
+If I want to load in the Harry Potter Characters list (located in the week-15 folder) I can .... 
+
+
+1. Reference the exact location on my computer 
+
+```{r, eval = F}
+path.absolute <- "/Users/oliviabeck/Dropbox/Olivia/Conflict/school/STAT184/course-materials/lectures/data/Characters.csv"
+harry.potter <- read_delim(path.absolute, 
+    delim = ";", escape_double = FALSE, trim_ws = TRUE)
+```
+
+2. Reference the file location with respect to my current working directory
+
+```{r, eval = F, message=F}
+path.relative <- "lectures/data/Characters.csv"
+harry.potter <- read_delim(path.relative, 
+    delim = ";", escape_double = FALSE, trim_ws = TRUE)
+```
+
+
+- When you use absolute file paths, you will always reference the exact file you want, BUT when you push to GitHub, no else will be able to reference this path. 
+
+- When you use relative file paths, you need to ensure your working directory is correct, but when you push to GitHub, everyone will be able to reference the file path. 
+
+- Read more about file paths in R here: https://ytakemon.github.io/2019-10-22-R-BCCRC/02-filedir/
+
+## Outputting data in RMarkdown
+
+When we output data in RMarkdown, we want to output tables that the user can acutally read 
+
+Let's look at the Harry Potter Data set.
+
+```{r, message=F, include = T}
+harry.potter <- read_delim( "lectures/data/Characters.csv", 
+    delim = ";", escape_double = FALSE, trim_ws = TRUE)
+
+harry.potter <- as.data.frame(harry.potter)
+
+harry.potter
+```
+
+This is A LOT of data. You can technically read all every entry in this table. But no one is going to do that! 
+
+When introducing the reader to the data structure, we only want to show them enough for them to get an idea of what the data looks like. We don't need to show them the entire thing. Use `head`, `tail`, `sample_n`, etc. 
+
+```{r, include=T}
+
+harry.potter %>%
+  sample_n(8)
+```
+
+This still isn't very readable. Let's only select a few interesting columns. 
+
+```{r, include = T}
+harry.potter %>%
+  sample_n(8) %>%
+  select(Name, Job, House )
+```
+
+This is a significant improvement! But we can still make it look nice, and not just code output using the `knir` and `kableExtra` pacakges. We can transform our tables into `kables`.
+
+```{r}
+library(knitr)
+library(kableExtra)
+#?kable
+harry.potter %>%
+  dplyr::sample_n(8) %>%
+  dplyr::select(Name, Job, House ) %>%
+  knitr::kable(caption = "Some Characters in Harry Potter") %>%
+  kableExtra::kable_styling()
+```
+
+
+Much nicer! We can use function in the package `kableExtra` to make fancy tables. This is a great resource: https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html  
+
+(You are not required to use `kable` for your final project.)
+
+## Using interactive funtions 
+
+Functions like `View` and `?` don't actually run anything, but instead open a new window in RStudio. 
+
+
+- The point of an RMarkdown document is to make a report that someone can read without looking at your code in RStudio. 
+  - Everything included in the RMarkdown document needs to be rendered in the .html file. 
+  - **DO NOT USE `View` AND `?` in MARKDOWN DOCUMENTS**
+    - These functions can not be seed in html files as they are only do things **inside** of Rstudio
+    - Instead of `View` you can use `head`, `tail`, `str`, etc.
+    - You should almost never be using `?` or `help` in a report. Help functions help you learn to code. They are not useful for your reader.  
+
+
+```{r}
+#?rnorm
+
+```
+
+
+
+
+## Some reminders for the Final project 
+
+- Read the Rubric! 
+- Fill out the project checklist 
+  - This helps me make sure you have done everything on the rubric
+- State your research question! 
+- Use headings (##) correctly
+  - there needs to be a blank line before and after each heading 
+  - reference RMarkdown cheat sheets 
+- Act as if I have never seen your report before. 
+- EDA versus The final report 
+  - We do EDA to generate lots of graphs to understand the structure of our data 
+  - Not everything from the EDA makes it to the final report. 
+  - In your final report, only include the few graphs that help you answer your research question
+- Look at your HTML doucment before you turn it in!
+- Remember to push to GitHub! 
