@@ -1,0 +1,383 @@
+---
+title: "Redefining rows: Wide vs narrow data organization"
+subtitle: "Data Computing Chapter 12"
+author: |
+        | Presenter: Olivia Beck
+        | Content credit: Matthew Beckman
+output: 
+  slidy_presentation: default
+  html_notebook: default
+---
+
+```{r include=FALSE}
+library(tidyverse)
+library(printr)
+library(dcData)
+
+#devtools::install_github("dcl-docs/dcldata")
+library(dcldata)
+
+options(width = 80)
+```
+
+## Cases, Variables, and Values
+
+A data table is comprised of *cases* and *variables*.
+
+Each *variable* comprises *values* (or levels).
+
+There is no hard distinction between a variable and a value.  What's a variable in one situation may be a value in another, and vice versa.
+
+Here are 2 tables with the same information. 
+
+Q: What IS different?
+Q: What is NOT different?
+
+Table 1: 
+```{r echo=FALSE}
+example_eagle_nests
+```
+
+
+Table 2: 
+
+```{r echo=FALSE}
+example_eagle_nests_tidy
+```
+
+
+## Cases, Variables, and Values
+
+#### For Table 1 .... 
+
+- Variables: `2007`, `2009`
+    - Values: 
+        - `2007`: count of nests
+        - `2009`: count of nests
+- Cases: Regions {Pacific, Southwest, Rocky Mountains and Plains}
+
+```{r echo=FALSE}
+example_eagle_nests
+```
+
+
+#### For Table 2
+
+- Variables: `year`, `num_nests`
+    - Values: 
+        - `year`: 2007 and 2009
+        - `num_nests`: count of nests
+- Cases: Regions and Year
+
+```{r echo=FALSE}
+example_eagle_nests_tidy
+```
+
+Neither of the tables are wrong, but sometimes one form is more helpful than the other. 
+
+
+## Two formats
+
+- Data in Key/Value format are **narrow**
+    - possible to get *too* narrow if the meaning of case becomes awkward
+    
+| ID      | Key | Value |
+| ----------- | ----------- | ----------- |
+| ID1      | Key1       | value(1,1)      |
+| ID1      | Key2       | value(1,2)      |
+| ... | ... | ... | 
+| ID2      | Key1       | value(2,1)      |
+| ID2      | Key2       | value(2,2)     |
+| ... | ... | ... | 
+
+- The corresponding **wide** format has 
+    - separate variables for each level in `key`
+    - sets the values for those variables from the info in `value`
+    
+    
+| ID      | Key1 | Key2 | ....|
+| ----------- | ----------- | ----------- | ---|
+| ID1      | value(1,1)      | value(1,2)       |....|
+| ID2      | value(2,1)      | value(2,2)       |....|
+| ... | ... | ... | 
+
+
+### Narrow
+
+
+Let's remember our original table: 
+
+```{r}
+example_eagle_nests
+```
+
+
+Let's make it narrow
+
+```{r}
+narrow_table <- 
+  example_eagle_nests %>% 
+  pivot_longer(
+    cols = c(`2007`, `2009`),  #names of columns we want to become a new variable 
+    names_to = "year",         #what you want to call the new column of the data in the line above
+    values_to = "num_nests"    #what you want to call the variable that stores the values
+  )
+
+narrow_table
+```
+
+
+This is a good narrow table (and a tidy table!). Each case (region, year, quarter combination) has a row and each variable has a column. 
+
+Be careful you don't make your tables too narrow where we loose the definition of a case (example on next slide). 
+
+
+### Wide
+
+
+Let's remember our narrow table. 
+
+```{r}
+narrow_table
+
+```
+
+
+Now we can make our narrow table wide again. 
+
+```{r}
+wide_table <- 
+  narrow_table %>%
+  pivot_wider(
+    names_from = year,       # the column in the narrow table with the column names for the wide table 
+    values_from = num_nests  # the column in the narrow table with the values in the narrow wide
+  )
+
+wide_table
+```
+
+We can compare this to the original table to make sure its the same thing. Yep! 
+
+```{r}
+example_eagle_nests
+```
+
+
+
+## (Too) Narrow
+ 
+
+```{r echo=FALSE, warning=FALSE, echo = F}
+###### Data set up, you don't need to know this 
+quarters <- rpois(4, 2)+1
+quarters <- quarters/sum(quarters)
+
+class_example_Table <- 
+  example_eagle_nests %>% 
+  pivot_longer(
+    cols = c(`2007`, `2009`),
+    names_to = "year",         
+    values_to = "num_nests"    
+  ) %>%
+  slice(rep(1:n(), each = 4))%>%
+  mutate(quarter = rep(quarters, 6)) %>%
+  mutate(ByQuarter = round(num_nests * quarter)) %>%
+  mutate(Quarter = rep(c("Q1", "Q2", "Q3", "Q4"), 6)) %>%
+  select(region, year, Quarter, ByQuarter) %>%
+  pivot_wider(names_from = c(year, Quarter), values_from = ByQuarter )
+```
+
+
+Say this is the data set we have: 
+
+```{r}
+class_example_Table
+
+```
+
+We can make it (appropriately) narrow like this: 
+
+```{r}
+class_example_Table %>%
+  pivot_longer(!region,                         #everything but region
+               names_to = c("Year", "Quarter"), 
+               names_sep = "_",                  #how year and quarter are seperated 
+               values_to = "NestCount")
+
+```
+
+
+But we could have made it too narrow. None of the data has been lost here, but it's not a helpful form since there isn't a useful definition of "case". 
+
+```{r}
+names <- colnames(class_example_Table)
+
+class_example_Table %>%
+  mutate_all(as.character) %>%
+  pivot_longer(cols = names,   
+               names_to = "key", 
+               values_to = "value") 
+
+```
+
+
+
+
+## So what?
+
+- This allows us to easily redefine how rows are presented in the data
+    - Possibly motivated by the research question
+    - Possibly motivated by desire to join two data tables with different case definitions
+    - Possibly motivated by a data visualization
+- Also, some operations are easy in wide format, but hard in narrow and *vice versa*
+- We need tools that make it easy to switch back and forth
+
+
+## Example from `BabyNames`
+
+```{r echo=FALSE}
+data("BabyNames", package = "dcData")
+
+ShortBabyNames <- 
+  BabyNames %>%
+  filter( name %in% c("Olivia", "Zoe", "Quentin"), 
+          year %in% 2012:2013 ) %>% 
+  arrange(name, year)
+```
+
+```{r echo=FALSE}
+ShortBabyNames
+```
+
+### Questions:
+
+RQ 1. How many babies of each name and sex?
+RQ 2. For each name, is it primarily given to girls or boys?  Which names are gender neutral?
+
+
+
+## In narrow format
+
+```{r}
+data("BabyNames", package = "dcData")
+
+BabyNames <- 
+  BabyNames %>%
+  filter( name %in% c("Leslie", "Morgan", "Blake", "Taylor")) 
+```
+
+RQ 1. How many babies of each name and sex?
+
+```{r}
+BabyTotals <-
+  BabyNames %>%
+  group_by(name, sex) %>%
+  summarise(total = sum(count))
+```
+
+```{r echo=FALSE}
+BabyTotals
+```
+
+Easy!
+
+
+
+## In Wide format
+
+RQ 2. Which names are most gender neutral?
+
+
+```
+WideOutput <- 
+  NarrowInput %>% 
+  pivot_wider(names_from = var1, values_from = var2, values_fill = 0)
+```
+
+- we want a new column for each category of `sex`, so `names_from = sex` 
+    - we will "unstack" each available category as a new variable (a.k.a. cast, spread, unfold)
+    - categories of `sex` were "F" and "M" in this example
+- the values/entries for our new variables are coming from `total`, so `values_from = total`
+    - `values_fill = 0` specifies a default value to fill when missing
+
+
+```{r}
+BabyTotalsWide <- 
+  BabyTotals %>% 
+  pivot_wider(names_from = sex, values_from = total, values_fill = 0)
+
+BabyTotalsWide
+```
+
+## With sexes side by side... 
+
+We can easily calculate balance associated with names
+
+
+```{r}
+BabyTotalsWide <- 
+  BabyTotalsWide %>% 
+  rename(fem = F, male = M) %>%         # `F` is a terrible variable name (why?)
+  mutate(prop_fem  = fem  / (male + fem), 
+         prop_male = male / (male + fem),
+         name_specificity = pmax(prop_fem, prop_male))    # what does `pmax()` do?
+
+BabyTotalsWide
+```
+
+## `pivot_longer( )`---when you have "Wide" and want "Narrow"
+
+Syntax:
+
+```
+NarrowOutput <- 
+  WideInput %>% 
+  pivot_longer(cols = c(wide_var1, wide_var2, ...), names_to = "long_var1", values_to "long_var2")
+```
+
+- The `cols` are the variables we want to combine (a.k.a. melt, stack, fold, gather)
+- e.g. `prop_fem` and `prop_male` in this case
+
+```{r echo=TRUE}
+BabyTotalsNarrow <- 
+  BabyTotalsWide %>% 
+  select(prop_fem, prop_male) %>%
+  pivot_longer(cols = c(prop_fem, prop_male), names_to = "sex", values_to = "proportion") 
+
+BabyTotalsNarrow
+```
+
+## With sexes stacked again...
+
+We can make an intuitive bar chart (though some clean up is needed...)
+
+```{r}
+BabyTotalsNarrow %>%
+  ggplot() + 
+  geom_bar(aes(x = name, fill = sex, weight = proportion)) 
+  
+```
+
+#### With some improvements 
+
+- clean up labels of sexes
+- add title, source, & better axis labels (y-axis label had been flat wrong)
+
+```{r}
+# first, clean up the labels in `sex` for plotting
+BabyTotalsNarrow %>%
+  mutate(sex = if_else(sex == "prop_fem", 
+                       true = "female", 
+                       false = if_else(sex == "prop_male", 
+                                       true = "male", 
+                                       false = "unk")  # end of "inner" if_else()
+                       )                               # ends the "outer" if_else()
+         ) %>%                                         # ends the mutate() 
+  ggplot() + 
+  geom_bar(aes(x = name, fill = sex, weight = proportion)) + 
+  ggtitle("Gender Balance among Names of Beckman Kids", 
+          subtitle = "source: U.S. Social Security Administration") + 
+  xlab("Name") + 
+  ylab("Proportion")
+  
+```

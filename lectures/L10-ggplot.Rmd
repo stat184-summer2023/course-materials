@@ -13,8 +13,6 @@ output:
 ```{r include=FALSE}
 library(tidyverse)
 library(dcData)
-library(mosaic)
-library(esquisse)
 knitr::opts_chunk$set(tidy=FALSE, message=FALSE)
 options(width = 80)
 ```
@@ -43,10 +41,13 @@ options(width = 80)
 
 ## PackageName::FunctionName
 
+![](images/package-conflicts.png)
+
 - We can use the `::` function to reference functions inside packages. 
   - This helps us be extra sure that we are using the exact function we want to be
   - Helps avoid conflict (i.e. when 2 packages that have a function with the same name that do different things)
     - `select` is a very common function name. Usually we need to use `dplyr::select`
+
 
 
 
