@@ -1,0 +1,37 @@
+---
+title: "Final Project Basic Outline"
+author: "Names of all group members"
+output: html_notebook
+---
+
+This is an outline for your final project. You can follow this outline, or you can modify it as you see fit. Do what works best for your project. 
+
+## Research Question 
+
+State your general research question and why it is interesting. 
+
+
+
+## Data Processing 
+
+#### Data Intake 
+
+Include R code and written explanation to import your data set.
+
+#### Data Wrangling 
+
+Include R code and written explanation for wangling your data (you can make multiple wrangled data sets). 
+
+
+
+
+## Data Visualization
+
+Include R code and written explanation for your data visualization(s). You must have **at least** one. You may have more than one (I would encourage you to have more than one). 
+
+
+
+
+## Conclusion
+
+Answer your research question using the data sets and visualizations you created. 

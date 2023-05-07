@@ -1,0 +1,41 @@
+---
+title: "Initial EDA Rubric "
+output: html_notebook
+---
+
+This is the rubric for your **Initial EDA Due June 21st @ 9:00 am.**. This is **a** draft of your research project, **not** the final draft of your project. I want you to have chosen a research topic, 2 data sets, and begin to explore how you can use data wrangling and graphical techniques we have learned in class to answer your research question. This does not need to be a final draft of the report, but should be a good start to examining your data. 
+
+Rubric: 
+
+- [5 point] **Guiding Research Question**: Make a clear statement of a single guiding/research question that will drive your analysis. It should be phrased as a question that you will try to investigate (i.e., it should have a question mark)
+
+- [5 points] **Data Intake** Each data source must be included in the provided GitHub Repo & properly accessed in the Rmd (e.g., read_csv() or other means). 
+  - If you are using a .csv file (or something similar), that file should be saved in the repo and should be loaded in the Rmd document appropriately. 
+  - If you are using webscraping, your Rmd file should include the link to the website as well as be able to load in the data from the website (it should be very clear which webpage you are scraping). 
+
+- [10 points] **Examine each data source** 
+  - Write out the origin and purpose (who/what/when/where/why/how data were collected)
+  - Investigate and explain key variables (types, coding, missingness, summary statistics/plots) are clearly presented. 
+  - investigate potential outliers
+  - [optional] consideration for transforming, mutating, or recoding variables (e.g., log transformations, numeric variable that's functionally dichotomous, new variables to be calculated)
+  - [optional] note inherent relationships among rows (e.g., autocorrelation, hierarchy, spatial/temporal proximity)
+  - note: You're just required to look for these sort of things and determine if further action is needed. If you look and decide no action is needed, just explain your process. 
+
+- [10 points]  **Graphics**
+  - Create **TWO** graphics from your data sources using `ggplot`. 
+  - These graphs can either be a part of the examining data sources process (to help you visualize relationships between variables), or part of addressing your research question.
+  - Graphs must have titles and proper axis labels. 
+  - For this assignment, there is no minimum requirement for the number of variables on these plots, but I encourage you to have at least 3. 
+
+- [10 points] **Address research question** based on observations from your data sources
+  - from this initial EDA, how do you think you will answer your research question. (This does not need to be an in depth answer, just some initial reactions to your EDA). 
+  - build intuition for your research question(s) as initially stated
+  - note observations or patterns that prompt you to refine your research questions or add new questions to investigate
+  
+- [5 points] **Pushed** changes to GitHub with at least 3 commits 
+
+- [5 points] **General Flow and Style** Is your EDA one coherent report? (i.e. the order of presentation makes sense, you have explanations to all code chunks and graphics)
+  - Minimal spelling/grammar errors
+  - All information included related to the task at hand
+  - Report is professional
+  - For organization, you can follow the Final Project Template, or you can have your own organization. As long as your report has a logical presentation of information, I do not care about the specific ordering. 
