@@ -196,7 +196,7 @@ my.data[ , 1]
 my.data[ , "Age"]
 my.data$Age
 
-## If you have a large ata set, you can use `head()` to look at the first few rows
+## If you have a large data set, you can use `head()` to look at the first few rows
 iris #this is big! too much to look at on one screen
 
 #just look at the top few rows
@@ -283,3 +283,11 @@ c(TRUE, TRUE, FALSE) | c(FALSE, TRUE, FALSE)
 c(TRUE, TRUE, FALSE) & c(FALSE, TRUE, FALSE)
 
 
+## The difference between sssignment and Logicals are one places that spacing
+## is important in R
+
+# consider the difference between the following 
+
+x <- -5
+x < - 5
+x < - - 5
