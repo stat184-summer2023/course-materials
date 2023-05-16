@@ -1,6 +1,6 @@
 ---
 title: 'STAT 184: Introduction to R'
-date: 'Fall 2022'
+date: 'Summer 2023'
 output: pdf_document
 
 
@@ -22,7 +22,7 @@ Olivia Beck
 
 office: 418 Thomas Building   
 email: olb5053 [at] psu [dot] edu  
-office hours: ____ or by appointment 
+office hours: Thomas 418 10:45-11:45am M-F,  or by appointment 
 
 **Grader**  
   
@@ -72,15 +72,19 @@ Other readings assigned as needed.
 Get access to R / RStudio right away! We will be walking through this on the first day of class, but it would be helpful to install these early. Get help if needed (Google, Canvas Discussions, friends, office hours). 
 
 - Install BOTH R & RStudio on your computer (requires config). Make sure to download the appropriate version for your operating system (Mac or Windows). 
+
   - R software (free): <http://cran.rstudio.com/>
+  
   - RStudio Desktop (free) <https://rstudio.com/products/rstudio/download/>
   
 Make an account on the following websites: 
+
 - Rstudio Cloud: https://posit.cloud/learn/cheat-sheets (use your student email)
+
 - GitHub: github.com 
   - use your student email
   - use your real name
-  - make sure your user name is appropirate (you will be using it to turn in assignments)
+  - make sure your user name is appropriate (you will be using it to turn in assignments)
 
 ### Communication  
 
