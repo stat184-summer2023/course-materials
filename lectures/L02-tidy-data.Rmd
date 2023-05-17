@@ -83,6 +83,54 @@ Example of Tidy Data
 
 
 
+## Tidy Data Example
+
+From https://r4ds.had.co.nz/tidy-data.html 
+
+
+You can represent the same underlying data in multiple ways. The example below shows the same data organised in four different ways. Each dataset shows the same values of four variables country, year, population, and cases, but each dataset organises the values in a different way.
+
+Which ones of these is tidy? 
+
+#### Option 1
+
+```{r}
+library(tidyverse)
+table1
+```
+
+
+#### Option 2
+
+```{r}
+table2
+```
+
+
+#### Option 3
+
+```{r}
+table3
+```
+
+
+#### Option 4
+
+```{r}
+table4a
+table4b
+```
+
+
+## Example Continuted 
+
+Table 1!
+
+![](images/R4DS-tidy.png)
+
+- Note that all tables contain the same information, just represented differently. Thus, we can transform Tables 2, 3, 4a/4b into Table 1, and vice versa.
+
+
 ## Galton Data
 
 In the 1880s, Francis Galton started to make a mathematical theory of evolution.  
