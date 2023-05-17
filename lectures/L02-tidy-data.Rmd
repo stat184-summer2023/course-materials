@@ -131,6 +131,35 @@ Table 1!
 - Note that all tables contain the same information, just represented differently. Thus, we can transform Tables 2, 3, 4a/4b into Table 1, and vice versa.
 
 
+### Table 2 to Table 1
+
+![](images/table2to1.png)
+
+### Table 3 to Table 1
+
+![](images/table3to1.png)
+
+### Table 4 to Table 1
+
+Make each table tidy individually, then combine the two tables. 
+
+(you don't need to be able to interpret this code right now, just look at the end tables along the way. )
+
+```{r}
+table4a.temp <- 
+  table4a %>% 
+  pivot_longer(!country, names_to = "year", values_to = "cases")
+ 
+table4b.temp <-
+  table4b %>% 
+  pivot_longer(!country, names_to = "year", values_to = "population")
+  
+left_join(table4a.temp, table4b.temp)
+
+```
+
+
+
 ## Galton Data
 
 In the 1880s, Francis Galton started to make a mathematical theory of evolution.  
