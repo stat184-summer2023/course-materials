@@ -5,8 +5,8 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
-  <meta name="date" content="2023-05-24" />
-  <title>Command Patterns, R Markdown, &amp; Git/GitHub</title>
+  <meta name="date" content="2023-05-23" />
+  <title>R Markdown</title>
   <style type="text/css">
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -14,134 +14,6 @@ span.underline{text-decoration: underline;}
 div.column{display: inline-block; vertical-align: top; width: 50%;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-{ counter-reset: source-line 0; }
-pre.numberSource code > span
-{ position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-{ content: counter(source-line);
-position: relative; left: -1em; text-align: right; vertical-align: baseline;
-border: none; display: inline-block;
--webkit-touch-callout: none; -webkit-user-select: none;
--khtml-user-select: none; -moz-user-select: none;
--ms-user-select: none; user-select: none;
-padding: 0 4px; width: 4em;
-color: #aaaaaa;
-}
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
-div.sourceCode
-{ }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } 
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
-code span.at { color: #7d9029; } 
-code span.bn { color: #40a070; } 
-code span.bu { color: #008000; } 
-code span.cf { color: #007020; font-weight: bold; } 
-code span.ch { color: #4070a0; } 
-code span.cn { color: #880000; } 
-code span.co { color: #60a0b0; font-style: italic; } 
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
-code span.do { color: #ba2121; font-style: italic; } 
-code span.dt { color: #902000; } 
-code span.dv { color: #40a070; } 
-code span.er { color: #ff0000; font-weight: bold; } 
-code span.ex { } 
-code span.fl { color: #40a070; } 
-code span.fu { color: #06287e; } 
-code span.im { color: #008000; font-weight: bold; } 
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
-code span.kw { color: #007020; font-weight: bold; } 
-code span.op { color: #666666; } 
-code span.ot { color: #007020; } 
-code span.pp { color: #bc7a00; } 
-code span.sc { color: #4070a0; } 
-code span.ss { color: #bb6688; } 
-code span.st { color: #4070a0; } 
-code span.va { color: #19177c; } 
-code span.vs { color: #4070a0; } 
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
-</style>
-  <style type="text/css">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-{ counter-reset: source-line 0; }
-pre.numberSource code > span
-{ position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-{ content: counter(source-line);
-position: relative; left: -1em; text-align: right; vertical-align: baseline;
-border: none; display: inline-block;
--webkit-touch-callout: none; -webkit-user-select: none;
--khtml-user-select: none; -moz-user-select: none;
--ms-user-select: none; user-select: none;
-padding: 0 4px; width: 4em;
-color: #aaaaaa;
-}
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
-div.sourceCode
-{ }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } 
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
-code span.at { color: #7d9029; } 
-code span.bn { color: #40a070; } 
-code span.bu { color: #008000; } 
-code span.cf { color: #007020; font-weight: bold; } 
-code span.ch { color: #4070a0; } 
-code span.cn { color: #880000; } 
-code span.co { color: #60a0b0; font-style: italic; } 
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
-code span.do { color: #ba2121; font-style: italic; } 
-code span.dt { color: #902000; } 
-code span.dv { color: #40a070; } 
-code span.er { color: #ff0000; font-weight: bold; } 
-code span.ex { } 
-code span.fl { color: #40a070; } 
-code span.fu { color: #06287e; } 
-code span.im { color: #008000; font-weight: bold; } 
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
-code span.kw { color: #007020; font-weight: bold; } 
-code span.op { color: #666666; } 
-code span.ot { color: #007020; } 
-code span.pp { color: #bc7a00; } 
-code span.sc { color: #4070a0; } 
-code span.ss { color: #bb6688; } 
-code span.st { color: #4070a0; } 
-code span.va { color: #19177c; } 
-code span.vs { color: #4070a0; } 
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
 </style>
   <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -521,35 +393,15 @@ list-style-type: none;
 </head>
 <body>
 <div class="slide titlepage">
-  <h1 class="title">Command Patterns, R Markdown, &amp; Git/GitHub</h1>
+  <h1 class="title">R Markdown</h1>
   <p class="author">
 <div class="line-block">Presenter: Olivia Beck<br />
 Content credit: Matthew Beckman</div>
   </p>
-  <p class="date">May 24, 2023</p>
-</div>
-<div id="group-discussion" class="slide section level2">
-<h1>Group Discussion:</h1>
-<ul>
-<li>What was the muddiest point from the lectures so far (R command
-patterns; Files &amp; Documents; Tidyverse Framework)?</li>
-<li>opinions about “function application” syntax and the “chaining
-syntax”?
-<ul>
-<li>function application:
-<code>object.name &lt;- function.name(argument, named.arg = value)</code></li>
-<li>chaining syntax uses <code>%&gt;%</code> (known as a “pipe”) to link
-several steps together</li>
-<li>pros &amp; cons?</li>
-<li>I have examples of piping syntax in
-course-materials/live-demos/03-tidyverse-intro.R</li>
-</ul></li>
-</ul>
+  <p class="date">May 23, 2023</p>
 </div>
 <div id="motivation" class="slide section level2">
 <h1>Motivation</h1>
-<p>–</p>
-<p>–</p>
 <ul>
 <li>having code, output, and discussion on separate documents is
 annoying!
@@ -569,13 +421,21 @@ annoying!
 <ul>
 <li>Human-readable syntax by design</li>
 <li>The same <code>.Rmd</code> can be “rendered” in any of several
-formats (HTML, PDF, MS Word)</li>
-<li>Can produce both slides, documents, webpage, etc as output.</li>
+formats (HTML, PDF, MS Word)
+<ul>
+<li>In R, the process of rendering an R document to a new file type is
+called “knitting”</li>
+</ul></li>
+<li>Can produce both slides, documents, webpage, etc as output.
+<ul>
+<li>all of my lectures are written in <code>.Rmd</code> documents and
+knitted into an RNotebook and a slidy(like powerpoint but for HTML)</li>
+</ul></li>
 <li><strong>Regardless</strong> of intended output, Rmd documents
 generally require two parts
-<ul>
-<li>“yaml” header at the top (designated by <code>---</code>
-before/after) includes some document controls
+<ol style="list-style-type: decimal">
+<li>“yaml” (yaml ain’t markup language): header at the top (designated
+by <code>---</code> before/after) includes some document controls
 <ul>
 <li>title</li>
 <li>author name</li>
@@ -595,25 +455,37 @@ such as:
 <li>Tables</li>
 <li>and more…</li>
 </ul></li>
-</ul></li>
+</ol></li>
 </ul>
 </div>
 <div id="using-r-notebooks-for-stat-184" class="slide section level2">
 <h1>Using R Notebooks for STAT 184:</h1>
 <ul>
-<li>Most homeworks and in-class assignments from here on our will be
+<li>An RNotebook is an <code>.Rmd</code> document that automatically
+renders to an <code>nb.html</code> document.</li>
+<li>You type your code and commentary in the <code>.Rmd</code> document,
+run the code, then R automatically renders (generates) your
+<code>nb.html</code>.
+<ul>
+<li>I will refer to the <code>.Rmd</code> document as the “Rmd document”
+or the “markdown document”</li>
+<li>I will refer to the <code>.nb.html</code> document as the “HTML
+document” or “rendered notebook”</li>
+</ul></li>
+<li>Most homeworks and in-class assignments from here on out will be
 submitted as a markdown document (<code>.Rmd</code>) AND a RNotebook
 (<code>.nb.html</code>)
 <ul>
-<li>I will check both a GitHub Repo and your official canvas
-submission</li>
-<li>I will create an assignment on Canvas and on GitHub Classroom</li>
-<li>Make sure the correct project is open when you are editing documents
-you want to push/pull to/from a GitHub Repo (we will talk about this
-more in a minute)</li>
+<li>I will create an assignment on Canvas (and later on GitHub
+Classroom)</li>
+<li>I will give you an <code>template.Rmd</code> for you to fill in</li>
+<li>Later this week we will also be adding GitHub into the mix</li>
 </ul></li>
-<li>Example header for Rmd file to produce an R Notebook (Note:
-<code>output: html_notebook</code>)</li>
+<li>Example header for Rmd file to produce an R Notebook
+<ul>
+<li>difference between <code>output: html_notebook</code> and
+<code>output: html_document</code></li>
+</ul></li>
 </ul>
 <pre><code>---
 title: &quot;Put Assignment Title Here&quot;
@@ -627,11 +499,11 @@ output: html_notebook
 <li>For all intents &amp; purposes it just makes a fancy HTML
 document</li>
 <li>RStudio automatically uses the extension <code>.nb.html</code> to
-let you know</li>
+let you know that it is an <code>html_notebook</code>.</li>
 <li>Resulting document includes a “Code” button in top right that allows
 readers to download Rmd</li>
-<li>You must run all R code in your Rmd document before it can appear in
-the HTML R Notebook</li>
+<li><strong>You must run all R code in your Rmd document before it can
+appear in the HTML R Notebook</strong></li>
 </ul></li>
 <li>If your R Notebook won’t knit for some reason, you can usually
 submit just the <code>.Rmd</code> file for partial credit</li>
@@ -641,291 +513,8 @@ these tools. <a href="https://www.rstudio.com/resources/cheatsheets/">Here’s a
 several of them</a>, including R Markdown, RStudio, and other topics
 we’ll hit in this course.</p>
 </div>
-<div id="git-github" class="slide section level2">
-<h1>Git / GitHub</h1>
-<ul>
-<li><a href="https://dtkaplan.github.io/DataComputingEbook/chap-version-control.html#chap:version-control">See
-Chapter 9 in Data Computing eBook (link)</a></li>
-<li>“GitHub is a code hosting platform for version control and
-collaboration. It lets you and others work together on projects from
-anywhere.”</li>
-<li><strong>Repositories (“Repos”)</strong> are used to organize each
-project
-<ul>
-<li>These can contain documents, images, folders, code, data, …
-basically everything you need for your project</li>
-<li>“Larger” files (&gt; 100 MB) need some special handling</li>
-<li>We’ll link each <strong>GitHub Repository</strong> to an
-<strong>RStudio Project</strong> (in a normal directory folder on your
-computer)</li>
-<li>Pro Tip: Don’t put repositories <em>inside</em> other
-repositories</li>
-</ul></li>
-<li>As far as your computer is concerned, the repository works just like
-any other directory (i.e. folder)
-<ul>
-<li>You edit files, save changes, etc</li>
-<li>Best practice: when you are editing files inside a R project, make
-sure that .Rproj is open on Rstudio (you can verify using the RProject
-drop down at the top left of RStudio)</li>
-</ul></li>
-</ul>
-<div class="figure">
-<img src="GitHubDirectory.png" alt />
-<p class="caption">Olivia’s Directory to Organize GitHub
-Repositories</p>
-</div>
-</div>
-<div id="git-github-1" class="slide section level2">
-<h1>Git / GitHub</h1>
-<ul>
-<li><p>When you save files like a Google Doc, there is only one step:
-click save. Then your file is saved and another person can access your
-saved changed.</p></li>
-<li><p>When you save things you want on GitHub, there are 3 steps: pull,
-commit, and push.</p></li>
-</ul>
-<p>Every time you want to access/change files on Git Hub you follow
-these basic steps:</p>
-<ol style="list-style-type: decimal">
-<li><p>Pull from Github - update the files on your computer with the
-most up-to-date versions on GitHub</p></li>
-<li><p>Edit the files how ever you want. Save them to your local
-computer by clicking save (the floppy disk icon).</p></li>
-<li><p>Commit - this preps the files to be sent to GitHub. You commit
-each file (can be done for each individual files or a group of files).
-Create a 1-2 sentence commit message.</p></li>
-<li><p>Push your commits to GitHub</p></li>
-<li><p>Repeat!</p></li>
-</ol>
-<div class="figure">
-<img src="GitHub%20Workflow%20Single%20User.png" alt />
-<p class="caption">Example of a minimal workflow using Git/GitHub with
-RStudio</p>
-</div>
-<ul>
-<li><strong>commit</strong> changes
-<ul>
-<li>ideally, each commit should encompass <em>one meaningful
-modification</em></li>
-<li>creates a permanent snapshot of the repository</li>
-<li>you can revisit these snapshots at any time…</li>
-<li>note there is a difference between saving files on your computer
-(save) and saving them to GitHub (committ + push/pull)</li>
-</ul></li>
-<li><strong>push/pull</strong> to remote
-<ul>
-<li>GitHub stores the state of your repository in the cloud</li>
-<li>When you <em>push</em>, you update the remote version</li>
-<li>Anyone with access to your GitHub repository can <em>pull</em> the
-remote version and work with it
-<ul>
-<li>This might be you, using a different computer (like the RStudio
-Server)</li>
-<li>It might be a collaborator like your STAT 184 paired programming
-teammate</li>
-<li>It might be a professor or TA</li>
-<li>If the repo is made public, it might be a complete stranger!</li>
-</ul></li>
-<li>The collaborator can then commit changes and push them to the remote
-as well</li>
-</ul></li>
-</ul>
-<div class="figure">
-<img src="Basic%20GitHub%20RStudio%20Workflow.png" alt />
-<p class="caption">Multiple collaborators using Git/GitHub with
-RStudio</p>
-</div>
-</div>
-<div id="merge-conflicts" class="slide section level2">
-<h1>Merge Conflicts</h1>
-<ul>
-<li>Rare for single-user Repos unless you’re contributing from multiple
-computers</li>
-<li>Git is good about merging changes from different collaborators as
-long as they stay out of each other’s way</li>
-<li>a <strong>merge conflict</strong> occurs when collaborators make
-changes that are in direct conflict with one another (e.g., different
-versions of the same line(s) in the same document)
-<ul>
-<li>this is actually a very good thing because Git doesn’t just
-overwrite changes of one user (that could be really bad)</li>
-<li>Git instead lets a human decide which version of the work should
-ultimately be kept or removed in order to reconcile the apparent
-conflict</li>
-</ul></li>
-</ul>
-<div class="figure">
-<img src="merge.png" alt />
-<p class="caption">Why a merge conflict happens.</p>
-</div>
-<div class="figure">
-<img src="conflict.png" alt />
-<p class="caption">What a merge conflict looks like</p>
-</div>
-</div>
-<div id="git-github-2" class="slide section level2">
-<h1>Git / GitHub</h1>
-<ul>
-<li>Once configured, nearly all of the action can happen in RStudio (or
-RStudio Server)</li>
-<li>A “Git” tab will appear in RStudio</li>
-<li>Diff, Commit, Pull, Push are most common actions</li>
-<li>Note: the project information is stored in the .Rproj file.</li>
-</ul>
-<p><img src="GitHub%20Directory%20RStudio.png" /></p>
-</div>
-<div id="github-rstudio-for-stat-184-assignments" class="slide section level2">
-<h1>GitHub &amp; RStudio (for STAT 184 assignments!)</h1>
-<ul>
-<li>assignments are often deployed to you as Git Repos (hosted on
-GitHub)
-<ul>
-<li>Most will be in GitHub classroom (starting with today’s
-activity)</li>
-</ul></li>
-<li>See DataComputing eBook for screenshots to import them into RStudio
-<ul>
-<li><a href="https://dtkaplan.github.io/DataComputingEbook/appendix-github-rstudio-configuration.html#appendix-github-rstudio-configuration">eBook
-appendix (link)</a></li>
-<li>For assignments, when I’ve given you a template Repo (i.e., a link
-deployed from Canvas)</li>
-<li>You’ll start from section “18.23 In GitHub…” at Step 3 in the Data
-Computing eBook</li>
-</ul></li>
-</ul>
-</div>
-<div id="how-to-configrue-github-and-rstudio-for-the-very-first-time" class="slide section level2">
-<h1>How to configrue GitHub and RStudio for the very first time</h1>
-<p>You only need to do these steps once (today in class).</p>
-<ol style="list-style-type: decimal">
-<li><p>Make an account on github ( You all have already done this!
-)</p></li>
-<li><p>On you personal computer, open RStudio, and follow the
-instructions in Chapter 6 of Happy Git and GitHub for the useR: <a href="https://happygitwithr.com/install-git.html" class="uri">https://happygitwithr.com/install-git.html</a></p></li>
-<li><p>Set up your global git configurations. Do EITHER step 3A or
-3B</p></li>
-</ol>
-<p>3A. In the shell/terminal (different than the console) replace with
-your information:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>git config <span class="sc">--</span>global user.name <span class="st">&#39;Jane Doe&#39;</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>git config <span class="sc">--</span>global user.email <span class="st">&#39;janedoe@email.com&#39;</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>git config <span class="sc">--</span>global <span class="sc">--</span>list</span></code></pre></div>
-<p>3B. In the console replace with your information:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## install.packages(&quot;usethis&quot;)</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(usethis)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">use_git_config</span>(<span class="at">user.name =</span> <span class="st">&quot;Jane Doe&quot;</span>, <span class="at">user.email =</span> <span class="st">&quot;jane@example.org&quot;</span>)</span></code></pre></div>
-<ol start="4" style="list-style-type: decimal">
-<li>Generate a personal access token</li>
-</ol>
-<p>Think of a personal access token as a super secret password that you
-use to push and pull with. Let it be known that the password that you
-use to login to GitHub’s website is NOT an acceptable credential when
-talking to GitHub as a Git server. This was possible in the past (and
-may yet be true for other Git servers), but those days are over at
-GitHub. The following steps can be found <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token">here</a>.</p>
-<p>4A. Go to your personal github page</p>
-<p>4B. Click on your icon in the very upper right-hand corner, then
-click settings.</p>
-<p>4C. Click Developer Settings on the very bottom of the list on the
-left. Click Personal Access Token</p>
-<p>4D. Click Generate New Token. Enter your password. Name your token in
-the “Notes”. Select length of token (this token will expire ). At a
-minimum, select repo, workflow, and user (select any other items you
-want).</p>
-<p>4E. Click Generate Token. COPY DOWN THIS TOKEN. GITHUB WILL NEVER
-GIVE IT TO YOU AGAIN.</p>
-</div>
-<div id="how-to-configure-github-and-rstudio-when-you-want-to-start-a-new-repo" class="slide section level2">
-<h1>How to configure GitHub and RStudio when you want to start a new
-Repo</h1>
-<p>You do these steps every time you want to create a local version of
-repo on your computer.</p>
-<ol style="list-style-type: decimal">
-<li>Find the repo on GitHub by either copying an existing repo (1A) or
-creating a new repo (1B).</li>
-</ol>
-<p>1A. If you want to copy and existing repo, go to that repo’s github
-page, click on the green code drop down button and copy that link. It
-will be in the form of <a href="https://github.com/user-name/repo-name.git" class="uri">https://github.com/user-name/repo-name.git</a></p>
-<p>1B. If you want to create a repo, go to this list of your repo’s on
-github, click the green New button a the top right, name your repo and
-give it a brief description, decide if you want it public or private,
-check the box “Add ReadMe file”, add a .gitignore for R (open the drop
-down box and select R), choose a licence (usually the GNU General Public
-Licence is a good one), and click Create Repository. You will then need
-to open that repo on github, and copy the .git link the same way you
-would in step A.</p>
-<ol start="2" style="list-style-type: decimal">
-<li>Create an Rproject linked to this repo on your computer</li>
-</ol>
-<p>2A. Open Rstudio. Click “Project (None)” on the top right-hand
-corner. Click New Project.</p>
-<p>2B. Click Version Control. Click Git.</p>
-<p>2C. In the repo URL paste the repo link that you got in step 1. The
-project directory name will automatically generate. Select the location
-on your computer where you want to save it.</p>
-<p>2D. Click Create Project.</p>
-<p>2E. Voila! You’ve downloaded a repo on your personal computer!</p>
-</div>
-<div id="how-to-work-with-github-and-rstudio" class="slide section level2">
-<h1>How to work with GitHub and RStudio</h1>
-<p>You do these steps every time.</p>
-<ol style="list-style-type: decimal">
-<li>Open the RProject. Either…</li>
-</ol>
-<p>Option 1A: Open RStudio. Click on the the project button at the very
-upper left-hand corner of RStudio, click open project, find the location
-of the project on your computer, click the .Rproj file and open.</p>
-<p>Option 1B: Find the location of the project in your computer
-directory, click the .Rproj file and open. This should open your project
-in a new session in RStudio.</p>
-<p>If you did step 1 correctly there will be a tab named “Git” in the
-upper right panel (next to where the Environment tab is located) AND the
-project button (at the top left of RStudio) will have the project name
-(i.e. will not say “Project (none)”). If you did this step incorrectly,
-this will not be there and you will not be able to commit, push, or
-pull.</p>
-<ol start="2" style="list-style-type: decimal">
-<li>Pull from GitHub. This will ensure your local version (on your
-computer) is up to date with the master version (on GitHub).</li>
-</ol>
-<p>2A. Open the project on RStudio using the Project &gt; Open on the
-top left hand side.</p>
-<p>2B. Click Pull. If your version is already up to date, it will tell
-you so. If your version is behind what is on GitHub, then Git will try
-update your version (merge conflicts might happen)</p>
-<p>2C. Note, all changes must be committed before you can pull.</p>
-<ol start="3" style="list-style-type: decimal">
-<li><p>Edit/Add/Delete documents as you want. Save them to your
-computer. (Doing this does not save them to GitHub, just your personal
-computer).</p></li>
-<li><p>When your are ready to send your changes to GitHub</p></li>
-</ol>
-<p>4A. Click the “Git” tab on the upper right panel (this will not show
-up if you did step #1 incorrectly). Click Commit. Select the files you
-wish to commit. Type out a brief message of what the changes are that
-you made (1-2 sentences). NEVER LEAVE A COMMITT MESSAGE BLANK. Click
-Commit. You can (and should) have different commit messages for
-different (groups of) files.</p>
-<p>4B. When you have committed all of your changes, click Push. Enter
-your GitHub username. When it prompts you to enter a password, enter the
-personal access token you generated (not your github password).</p>
-<p>4C. If it was successful it will say something along the lines of
-“Merge to master complete”. If it was not successful, it will tell you
-why (usually it’s either merge conflicts, or you are trying to push a
-file that is too large)</p>
-<ol start="5" style="list-style-type: decimal">
-<li>(Optional Step I recommend) When you are done working on your
-current code project,</li>
-</ol>
-<p>5A. close the project by clicking on the the project button at the
-very upper left-hand corner of RStudio, click close project. (This will
-ensure any code you do from here on out does not affect the .Rproj). The
-projects button should now say “Project (none)”.</p>
-<p>5B. When you want to open this project back up, start back at step
-1!</p>
+<div id="in-class-demo" class="slide section level2">
+<h1>In class demo</h1>
 </div>
 
   <!-- dynamically load mathjax for compatibility with self-contained -->

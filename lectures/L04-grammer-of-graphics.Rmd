@@ -3,7 +3,7 @@ title: 'L04 -  Graphics, Glyphs, Frames, and Scales'
 author:
 - Presenter- Olivia Beck
 - Content Credit- Dr. Matthew Beckman
-date: 'May 22, 2023'
+date: 'May 19, 2023'
 output:
   slidy_presentation: default
   html_notebook: default
@@ -18,7 +18,7 @@ library(COUNT)
 
 ## Grammar of Graphics
 
-- Wilkinson's 2005 book *The Grammer of Graphics (2nd Ed.)* provides the principles and philosophy 
+- Wilkinson's 2005 book *The Grammar of Graphics (2nd Ed.)* provides the principles and philosophy 
     - the `ggplot2` R package implements this framework
     - **Goal**: flexible tools for building rich, intuitive graphics
 
@@ -27,7 +27,7 @@ library(COUNT)
     2. **Discover features that influence may modeling decisions:** investigate potential outliers, consideration for recoding variables (e.g., numeric data that's functionally dichotomous), evaluate correlation structure (e.g., autocorrelation, hierarchy, spatial/temporal proximity)
     3. **Address research questions:** build intuition and note preliminary observations/conclusions related to each research question.  Also, note observations that prompt you to refine your research questions or add new questions to investigate
 
-![](grammarGraphics.png)
+![](images/grammarGraphics.png)
 
 
 ## Glyphs and Data
@@ -116,6 +116,8 @@ mtcars %>%
 ## An Example 
 
 ```{r, warning = F}
+#install.packages("devtools")
+#devtools::install_github("mdbeckman/dcData")
 library(dcData)
 library(tidyverse)
 dat <- NCHS %>%
@@ -169,8 +171,8 @@ The conversion from Smoker to color is a *scale*.
 ## Facets 
 
  * (x,y) is determined by `Time` and `weight`
- * basically a separate frame for each `Diet`
- * uses same x and y on each facet 
+ * creates a separate frame for each `Diet`
+ * uses same x and y on each facet (scales can be the same or different)
  
 
 ```{r}

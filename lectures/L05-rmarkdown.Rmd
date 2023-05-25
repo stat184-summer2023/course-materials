@@ -1,13 +1,12 @@
 ---
-title: "Command Patterns, R Markdown, & Git/GitHub"
+title: "R Markdown"
 author: |
         | Presenter: Olivia Beck
         | Content credit: Matthew Beckman
-date: "May 24, 2023"
+date: "May 23, 2023"
 output: 
   slidy_presentation: default
   html_notebook: default
-
 ---
 
 ```{r include=FALSE}
@@ -18,89 +17,68 @@ library(tidyverse)
 
 ```
 
-
-## Group Discussion: 
-
-- What was the muddiest point from the lectures so far (R command patterns; Files & Documents; Tidyverse Framework)?
-- opinions about "function application" syntax and the "chaining syntax"?
-    - function application: `object.name <- function.name(argument, named.arg = value)`
-    - chaining syntax uses `%>%` (known as a "pipe") to link several steps together
-    - pros & cons?
-    - I have examples of piping syntax in course-materials/live-demos/03-tidyverse-intro.R
-
-
 ## Motivation
- 
 
-- having code, output, and discussion on separate documents is annoying! 
-  - it's very bad for reproducible research
-- we need a way to keep everything we do in one document
-  - good for readability
-  - good for reproducibility
-  - easy on you! 
-
+-   having code, output, and discussion on separate documents is annoying!
+    -   it's very bad for reproducible research
+-   we need a way to keep everything we do in one document
+    -   good for readability
+    -   good for reproducibility
+    -   easy on you!
 
 ## Markdown / R Markdown
 
-- Human-readable syntax by design
-- The same `.Rmd` can be "rendered" in any of several formats (HTML, PDF, MS Word)
-  - In R, the process of rendering an R document to a new file type is called "knitting"
-- Can produce both slides, documents, webpage, etc as output.
-    - all of my lectures are written in `.Rmd` documents and knitted into an RNotebook and a slidy(like powerpoint but for HTML) 
-- **Regardless** of intended output, Rmd documents generally require two parts
-    1.  "yaml" header at the top (designated by `---` before/after) includes some document controls
-        - title
-        - author name
-        - date
-        - output type
-        - etc
-    2.  body of the document is made of various combinations of components such as:  
-        - Markdown syntax (like hashtag headers)
-        - Narrative text
-        - Lists (bullets or numbers)
-        - R Code "chunks"
-        - URLs
-        - Images
-        - Tables
-        - and more...
+-   Human-readable syntax by design
+-   The same `.Rmd` can be "rendered" in any of several formats (HTML, PDF, MS Word)
+    -   In R, the process of rendering an R document to a new file type is called "knitting"
+-   Can produce both slides, documents, webpage, etc as output.
+    -   all of my lectures are written in `.Rmd` documents and knitted into an RNotebook and a slidy(like powerpoint but for HTML)
+-   **Regardless** of intended output, Rmd documents generally require two parts
+    1.  "yaml" (yaml ain't markup language): header at the top (designated by `---` before/after) includes some document controls
+        -   title
+        -   author name
+        -   date
+        -   output type
+        -   etc
+    2.  body of the document is made of various combinations of components such as:
+        -   Markdown syntax (like hashtag headers)
+        -   Narrative text
+        -   Lists (bullets or numbers)
+        -   R Code "chunks"
+        -   URLs
+        -   Images
+        -   Tables
+        -   and more...
 
+## Using R Notebooks for STAT 184:
 
-## Using R Notebooks for STAT 184:   
+-   An RNotebook is an `.Rmd` document that automatically renders to an `nb.html` document.
+-   You type your code and commentary in the `.Rmd` document, run the code, then R automatically renders (generates) your `nb.html`.
+    -   I will refer to the `.Rmd` document as the "Rmd document" or the "markdown document"
+    -   I will refer to the `.nb.html` document as the "HTML document" or "rendered notebook"
+-   Most homeworks and in-class assignments from here on out will be submitted as a markdown document (`.Rmd`) AND a RNotebook (`.nb.html`)
+    -   I will create an assignment on Canvas (and later on GitHub Classroom)
+    -   I will give you an `template.Rmd` for you to fill in
+    -   Later this week we will also be adding GitHub into the mix
+-   Example header for Rmd file to produce an R Notebook
+    -   difference between `output: html_notebook` and `output: html_document`
 
-
-- An RNotebook is an `.Rmd` document that automatically renders to an `nb.html` document. 
-- You type your code and commentary in the `.Rmd` document, run the code, then R automatically renders (generates) your `nb.html`. 
-  - I will refer to the `.Rmd` document as the "Rmd document" or the "markdown document"
-  - I will refer to the `.nb.html` document as the "HTML document" or "rendered notebook"
-
-
-- Most homeworks and in-class assignments from here on out will be submitted as a markdown document (`.Rmd`) AND a RNotebook (`.nb.html`)
-  - I will create an assignment on Canvas (and later on GitHub Classroom)
-  - I will give you an `template.Rmd` for you to fill in
-  - Later this week we will also be adding GitHub into the mix
-- Example header for Rmd file to produce an R Notebook 
-  - difference between  `output: html_notebook` and `output: html_document` 
-
-````
+```         
 ---
 title: "Put Assignment Title Here"
 author: "Put Your Name Here"
 date: "Put the Due Date Here"
 output: html_notebook
 ---
-````
+```
 
+-   RStudio \>\> File \>\> New File \>\> R Notebook
+    -   For all intents & purposes it just makes a fancy HTML document
+    -   RStudio automatically uses the extension `.nb.html` to let you know that it is an `html_notebook`.
+    -   Resulting document includes a "Code" button in top right that allows readers to download Rmd
+    -   **You must run all R code in your Rmd document before it can appear in the HTML R Notebook**
+-   If your R Notebook won't knit for some reason, you can usually submit just the `.Rmd` file for partial credit
 
-- RStudio >> File >> New File >> R Notebook
-    - For all intents & purposes it just makes a fancy HTML document 
-    - RStudio automatically uses the extension `.nb.html` to let you know that it is an `html_notebook`. 
-    - Resulting document includes a "Code" button in top right that allows readers to download Rmd
-    - **You must run all R code in your Rmd document before it can appear in the HTML R Notebook**
-- If your R Notebook won't knit for some reason, you can usually submit just the `.Rmd` file for partial credit
+Tip: RStudio "Cheat Sheets" can help you get off and running with these tools. [Here's a link to several of them](https://www.rstudio.com/resources/cheatsheets/), including R Markdown, RStudio, and other topics we'll hit in this course.
 
-Tip: RStudio "Cheat Sheets" can help you get off and running with these tools.  [Here's a link to several of them](https://www.rstudio.com/resources/cheatsheets/), including R Markdown, RStudio, and other topics we'll hit in this course.  
-
-
-
-## In class demo  
-
+## In class demo

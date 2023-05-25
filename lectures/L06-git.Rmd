@@ -3,7 +3,7 @@ title: "RProjects & Git/GitHub"
 author: |
         | Presenter: Olivia Beck
         | Content credit: Matthew Beckman
-date: "May 29, 2023"
+date: "May 25, 2023"
 output: 
   slidy_presentation: default
   html_notebook: default
@@ -34,6 +34,7 @@ library(tidyverse)
   - Loads the project into RStudio and display its name in the Projects toolbar (which is located on the far right side of the main toolbar)
   - Creates a hidden directory (named .Rproj.user) where project-specific temporary files (e.g. auto-saved source documents, window-state, etc.) are stored. This directory is also automatically added to .Rbuildignore, .gitignore, etc. if required. (These things are beyond the scope of this class)
 - You never physically edit the .Rproj file. Everything the .Rproj needs automatically updates in the background. 
+- Allows us to use local file paths
 
 https://support.posit.co/hc/en-us/articles/200526207-Using-RStudio-Projects 
 
