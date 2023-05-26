@@ -205,11 +205,12 @@ Data wrangling **prepares** the data for analysis.
 - **Reduction functions**
     - inputs are **variables** 
     - results are **scalar**
-    - examples: `sum()`, `mean()`, `n()`
+    - examples: `sum()`, `mean()`, `sd()`, `n()`, `n_distinct()`
 - **Transformation functions**
     - inputs are **variables**; 
     - results are **variable**
-    - examples: `weight / height`, `log10(population)`, `round(age)`
+    - examples: `mutate`, `rename`
+      - utilizes functions/operators such as +, -, *, /, ^, logicals, `round()`, `log()` 
 - **Data verbs**
     - inputs are **data frames**
     - results are **data frames**
@@ -219,6 +220,164 @@ Data wrangling **prepares** the data for analysis.
 #### Any surprises above?
 
 - `summarise()` as a data verb?  Why not a reduction function??
+
+
+
+## `summarise` and `group_by`
+
+* `summarise()` — turns multiple cases into a single case using reduction functions. “Aggregate” is synonym for “summarise.”
+
+* `group_by()` — modifies the action of reduction functions so that they give a single value for different groups of cases in a data frame.
+
+
+
+### Summarise 
+
+To illustrate the uses of summarise(), look at the WorldCities data frame (in the dcData package) with information about the most populous cities in each country. 
+
+```{r}
+data(WorldCities)
+```
+
+A simple summary of the data is a count of the number of cities.
+
+```{r}
+WorldCities %>%
+  summarise(count = n())
+
+```
+The reduction function is `n()`. The expression `count = n()` means that the output data frame should have a variable named count containing the results of n().
+
+
+
+Perhaps you want to know the total population in these cities, or the average population per city or the smallest city in the table. 
+
+```{r}
+WorldCities %>%
+  summarise(averPop  = mean(population, na.rm=TRUE),
+            totalPop = sum(population, na.rm=TRUE),
+            smallest = min(population, na.rm=TRUE))
+
+```
+
+The average city on the list has about 110,000 people. The total population of people living in these cities is about 2.6 billion — a bit more than one-third of the world population. The smallest city has … zero people! Evidently, the `WorldCities` data frame has one or more cases that are not really cities.
+
+Some things to notice about the use of `summarise()`:
+
+* The chaining syntax, %>% has been used to pass the first argument to `summarize()`. This will be useful later on, when there is more than one step in a transfiguration. It’s OK to end a line with `%>%`, but never start a line with it.
+* The output of `summarise()` is a data frame. (In this example the output has only one case, but it is still a data frame.)
+*`summarise()` takes named arguments. The name of an argument is taken as the name of the corresponding variable created by `summarise()`.
+
+
+
+
+### group_by example
+
+Number of cities in `WorldCities` broken down by country.
+
+```{r}
+WorldCities %>% 
+  group_by(country) %>%
+  summarise(count = n())
+
+```
+
+
+
+
+## Another Example 
+
+NCHS contains records of body shape, health, and mortality of 31126 people.
+
+
+One of the variables in NCHS is hdl — HDL cholesterol. (HDL is the “good” kind of cholesterol, as opposed to LDL cholesterol, which is reported in the chol variable).
+
+Suppose you want to know a typical HDL level for the people enrolled in NCHS. A typical value will be a fair representative of all the cases. It combines together information found in the individual cases. Since all the cases are being combined, `summarise()` is appropriate.
+
+
+```{r}
+data(NCHS, package = "dcData")
+NCHS %>% 
+  summarise(typical = mean(hdl, na.rm = TRUE))
+```
+
+
+Or, suppose for some reason you want the typical HDL, the tallest height, and the number of cases.
+
+```{r}
+NCHS %>% 
+  summarise(typical = mean(hdl, na.rm = TRUE), 
+            tallest = max(height, na.rm = TRUE)) 
+```
+
+
+`na.rm = TRUE` instructs the reduction function to ignore missing data. The table below shows what happens without `na.rm = TRUE`, the missing data shapes the result and no useful information is produced.
+
+
+```{r}
+NCHS %>% 
+  summarise(typical = mean(hdl), 
+            tallest = max(height))
+
+```
+
+
+A division into groups by sex:
+
+```{r}
+NCHS %>% 
+  group_by(sex) %>%
+  summarise(typical = mean(hdl, na.rm = TRUE), 
+            tallest = max(height, na.rm = TRUE))
+
+```
+
+
+The division is into smokers and non-smokers of each sex.
+
+```{r}
+NCHS %>% 
+  group_by( sex, smoker ) %>%
+  summarise(typical = mean(hdl, na.rm=TRUE), 
+            tallest = min(height, na.rm=TRUE))
+
+```
+
+
+## Baby Name Example
+
+
+The BabyNames data frame contains this information implicitly. Before the information can be graphed, you need to wrangle the existing data frame into glyph-ready form.
+
+
+
+Say we want to create a graph to plot total number of male and female briths each year. We need to wrangle our data into Glyph Ready Form.  
+
+
+
+```{r}
+data("BabyNames")
+YearlyBirths <- 
+  BabyNames %>%
+  group_by(year, sex) %>%
+  summarise(births = sum(count))
+
+head(YearlyBirths)
+```
+
+This is in Glyph ready form! 
+
+We can now create our plot
+
+```{r}
+ggplot(YearlyBirths, aes(x = year , y = births, color = sex)) + 
+  geom_point() +
+  ylab("Births") +
+  xlab("Year") +
+  ggtitle("Number of births per year")
+
+```
+
 
 
 ## Let's use some other reduction functions, transformation functions, and data verbs with the some NFL data
