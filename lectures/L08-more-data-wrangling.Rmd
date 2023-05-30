@@ -23,7 +23,7 @@ library(dcData)
 ```
 
 
-# Agenda
+## Agenda
 
 - Basic Info about the Midterm and Final Project
 - Discussion of common issues/questions 
@@ -33,9 +33,9 @@ library(dcData)
 - RStudio Concept Maps: <https://github.com/rstudio/concept-maps>
 
 
-# Midterm and Final Project
+## Midterm and Final Project
 
-## Midterm 
+### Midterm 
 
 - June 9 (Friday) during class 
 - On paper 
@@ -51,7 +51,7 @@ To practice:
 
 
 
-## Final Project 
+### Final Project 
 
 - Multiple due dates (on canvas)
 - Goal is to do a "professional" data analysis that is REPRODUCIBLE 
@@ -62,53 +62,9 @@ To practice:
 - You need to find your own data sets (minimum of 2)
 
 
-# RMarkdown  Review Stuff
-
-## R Markdown - Text versus R chunk
-
-When we want to write plain text, we just write as normal. 
-
-When we want to use a header we use # before our text 
-
-When we want to write R code, we use an R chuck:
-
-```{r}
-x <- 1:10
-sum(x)
-```
-
-```{r}
-
-```
 
 
-
-## Discussion/Review Task: 
-
-- Explain a few bullet points from each list:
-    - **List 1: data verbs:**
-        - `mutate()`
-        - `filter()`
-        - `select()`
-        - `arrange()`
-    - **List 2: more data verbs:**
-        - `head()` & `tail()`
-        - `rename()`
-        - `sample_n()`
-        - `summarise()` & `group_by()`
-    - **List 3: summary functions:**
-        - `glimpse()`
-        - `str()`
-        - `summary()`
-        - `nrow()` & `ncol()`
-        - `names()`
-        - `colnames()`
-        - `View()` 
-        
-- Are there functions that no one in the group understood?
-
-
-# Three Important Concepts (Again)
+## Three Important Concepts (Again)
 
 1. Data can be usefully organized into tables with "cases" and "variables."  With "tidy data"
     - every row corresponds to a distinct case (e.g. a person, a car, a year, a country in a year) 
@@ -125,7 +81,176 @@ sum(x)
 
 
 
-# Presidential Investigation 
+## `select`
+
+The use of select() is straightforward. It takes a data frame as input along with the names of one or more variables and outputs the data frame with only those variables. 
+
+```{r}
+data(CountryData) #dcData package 
+
+## list all the column names
+names(CountryData)
+
+```
+
+
+
+### Only look at Country, Population, and Area
+
+```{r}
+Tab1 <- CountryData %>% 
+  select(country, pop, area)
+
+head(Tab1)
+
+```
+
+
+## `rename`
+
+`rename` takes in a variable name, and renames that variable. We use `rename(NewName = OldName)`
+
+### rename "area" to "kmSquared"
+
+```{r}
+head(Tab1)
+
+Tab2 <- 
+  Tab1 %>%
+  rename(kmSquared = area)
+
+head(Tab2)
+
+```
+
+## `filter`
+
+To filter means to remove unwanted material. The data verb `filter()` removes unwanted cases, passing through to the result only those cases that are wanted or needed.
+
+
+With filtering, the cases to pass through are specified by one or more criteria or tests. The tests usually involve comparisons between variables or between a variable and a scalar.
+
+
+Filtering and selecting are complementary actions for subsetting a data frame. `select()` passes the specified subset of *variables*; `filter()` passes the specified subset of *cases*.
+
+
+```{r}
+data(BabyNames)
+
+head(BabyNames)
+
+```
+
+### display only female names 
+
+```{r}
+# Method 1
+Method1 <- 
+  BabyNames %>%
+  filter(sex == "F")
+
+head(Method1)
+
+# Method 2
+Method2 <- 
+  BabyNames %>%
+  filter(sex != "M")
+
+head(Method2)
+
+```
+
+
+### Display only babys born after 1990
+
+```{r}
+Baby1990 <-
+  BabyNames %>%
+  filter(year > 1990)
+
+head(BabyNames)
+```
+
+### Display only female babies born after 1990
+
+```{r}
+F1990 <- 
+  BabyNames %>%
+  filter(sex == "F",
+         year > 1990)
+
+head(F1990)
+```
+
+### Display babies that are female OR born after 1990
+
+```{r}
+Baby1990F <-
+  BabyNames %>%
+  filter(sex == "F" | year > 1990)
+
+sample_n(Baby1990F, 10)
+
+
+```
+
+
+## `mutate`
+
+The word “mutate” means to change in form or nature. The data verb `mutate()` is more specific: to change a variable or add new variables based on the existing ones. Mutation leaves the cases exactly as they were; the output of `mutate()` will have exactly as many rows as the input data frame
+
+
+### Calculate the population density 
+
+```{r}
+head(Tab1)
+
+PopDens <- 
+  Tab1 %>%
+  mutate(pop_dens = pop / area)
+
+head(PopDens)
+
+```
+
+### Caution! 
+
+If you use a old vairable name for a new varaible in a `mutate` statement, it will overwrite the old variable.
+
+```{r}
+head(Tab1)
+
+Tab1.Overwrite <-
+  Tab1 %>%
+  mutate(area = 2 * area)
+
+head(Tab1.Overwrite)
+
+
+```
+
+
+
+
+## `arrange`
+
+`arrange` will arrange the rows by the variable you provide. 
+
+```{r}
+head(Tab1)
+
+Tab1 %>%
+  arrange(pop) %>% 
+  head()
+
+Tab1 %>%
+  arrange(desc(pop)) %>%
+  head()
+
+```
+
+
+## Presidential Investigation 
 
 - Let's take some of our new tools for a spin...
 - The `presidents` data are available from the `tidyverse` package (actually `ggplot2` which was loaded by `tidyverse`)
@@ -155,6 +280,21 @@ Presidents <- bind_rows(presidential, AddPres)
 head(Presidents)
 ```
 
+### Display only baby names from 1980, 1990, 2000, or 2010
+
+```{r}
+BabyDecade <- 
+  BabyNames %>% 
+  filter( year %in% c(1980, 1990, 2000, 2010))
+
+BabyDecade %>%
+  sample_n(10)
+
+```
+
+
+
+
 
 ## Guided practice 
 
@@ -171,7 +311,7 @@ head(Presidents)
 9. add Harry Truman & Franklin D. Roosevelt, then repeat 6-9
 
 
-# Answers 
+## Answers 
 
 ```{r}
 # 1. summary functions

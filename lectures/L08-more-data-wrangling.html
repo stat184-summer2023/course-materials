@@ -529,7 +529,7 @@ Content credit: Matthew Beckman</div>
   </p>
   <p class="date">May 31, 2023</p>
 </div>
-<div id="agenda" class="slide section level1">
+<div id="agenda" class="slide section level2">
 <h1>Agenda</h1>
 <ul>
 <li>Basic Info about the Midterm and Final Project</li>
@@ -541,9 +541,9 @@ group</li>
 <li>RStudio Concept Maps: <a href="https://github.com/rstudio/concept-maps" class="uri">https://github.com/rstudio/concept-maps</a></li>
 </ul>
 </div>
-<div id="midterm-and-final-project" class="slide section level1">
+<div id="midterm-and-final-project" class="slide section level2">
 <h1>Midterm and Final Project</h1>
-<h2 id="midterm">Midterm</h2>
+<h3 id="midterm">Midterm</h3>
 <ul>
 <li>June 9 (Friday) during class</li>
 <li>On paper</li>
@@ -557,7 +557,7 @@ problems not assigned - Make sure you understand everything from the
 activities, homeworks, and reading quizzes - If you have questions, ask!
 Post general content question on Canvas Discussion board so your peers
 can learn too - I will provide some practice questions soon</p>
-<h2 id="final-project">Final Project</h2>
+<h3 id="final-project">Final Project</h3>
 <ul>
 <li>Multiple due dates (on canvas)</li>
 <li>Goal is to do a “professional” data analysis that is REPRODUCIBLE
@@ -572,49 +572,7 @@ can learn too - I will provide some practice questions soon</p>
 <li>You need to find your own data sets (minimum of 2)</li>
 </ul>
 </div>
-<div id="rmarkdown-review-stuff" class="slide section level1">
-<h1>RMarkdown Review Stuff</h1>
-<h2 id="r-markdown---text-versus-r-chunk">R Markdown - Text versus R
-chunk</h2>
-<p>When we want to write plain text, we just write as normal.</p>
-<p>When we want to use a header we use # before our text</p>
-<p>When we want to write R code, we use an R chuck:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(x)</span></code></pre></div>
-<pre><code>## [1] 55</code></pre>
-<h2 id="discussionreview-task">Discussion/Review Task:</h2>
-<ul>
-<li>Explain a few bullet points from each list:
-<ul>
-<li><strong>List 1: data verbs:</strong>
-<ul>
-<li><code>mutate()</code></li>
-<li><code>filter()</code></li>
-<li><code>select()</code></li>
-<li><code>arrange()</code></li>
-</ul></li>
-<li><strong>List 2: more data verbs:</strong>
-<ul>
-<li><code>head()</code> &amp; <code>tail()</code></li>
-<li><code>rename()</code></li>
-<li><code>sample_n()</code></li>
-<li><code>summarise()</code> &amp; <code>group_by()</code></li>
-</ul></li>
-<li><strong>List 3: summary functions:</strong>
-<ul>
-<li><code>glimpse()</code></li>
-<li><code>str()</code></li>
-<li><code>summary()</code></li>
-<li><code>nrow()</code> &amp; <code>ncol()</code></li>
-<li><code>names()</code></li>
-<li><code>colnames()</code></li>
-<li><code>View()</code></li>
-</ul></li>
-</ul></li>
-<li>Are there functions that no one in the group understood?</li>
-</ul>
-</div>
-<div id="three-important-concepts-again" class="slide section level1">
+<div id="three-important-concepts-again" class="slide section level2">
 <h1>Three Important Concepts (Again)</h1>
 <ol style="list-style-type: decimal">
 <li>Data can be usefully organized into tables with “cases” and
@@ -640,7 +598,265 @@ small set of basic operations on data tables</li>
 </ul></li>
 </ol>
 </div>
-<div id="presidential-investigation" class="slide section level1">
+<div id="select" class="slide section level2">
+<h1><code>select</code></h1>
+<p>The use of select() is straightforward. It takes a data frame as
+input along with the names of one or more variables and outputs the data
+frame with only those variables.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(CountryData) <span class="co">#dcData package </span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="do">## list all the column names</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(CountryData)</span></code></pre></div>
+<pre><code>##  [1] &quot;country&quot;           &quot;area&quot;              &quot;pop&quot;              
+##  [4] &quot;growth&quot;            &quot;birth&quot;             &quot;death&quot;            
+##  [7] &quot;migr&quot;              &quot;maternal&quot;          &quot;infant&quot;           
+## [10] &quot;life&quot;              &quot;fert&quot;              &quot;health&quot;           
+## [13] &quot;HIVrate&quot;           &quot;HIVpeople&quot;         &quot;HIVdeath&quot;         
+## [16] &quot;obesity&quot;           &quot;underweight&quot;       &quot;educ&quot;             
+## [19] &quot;unemploymentYouth&quot; &quot;GDP&quot;               &quot;GDPgrowth&quot;        
+## [22] &quot;GDPcapita&quot;         &quot;saving&quot;            &quot;indProd&quot;          
+## [25] &quot;labor&quot;             &quot;unemployment&quot;      &quot;family&quot;           
+## [28] &quot;tax&quot;               &quot;budget&quot;            &quot;debt&quot;             
+## [31] &quot;inflation&quot;         &quot;discount&quot;          &quot;lending&quot;          
+## [34] &quot;narrow&quot;            &quot;broad&quot;             &quot;credit&quot;           
+## [37] &quot;shares&quot;            &quot;balance&quot;           &quot;exports&quot;          
+## [40] &quot;imports&quot;           &quot;gold&quot;              &quot;externalDebt&quot;     
+## [43] &quot;homeStock&quot;         &quot;abroadStock&quot;       &quot;elecProd&quot;         
+## [46] &quot;elecCons&quot;          &quot;elecExp&quot;           &quot;elecImp&quot;          
+## [49] &quot;elecCap&quot;           &quot;elecFossil&quot;        &quot;elecNuc&quot;          
+## [52] &quot;elecHydro&quot;         &quot;elecRenew&quot;         &quot;oilProd&quot;          
+## [55] &quot;oilExp&quot;            &quot;oilImp&quot;            &quot;oilRes&quot;           
+## [58] &quot;petroProd&quot;         &quot;petroCons&quot;         &quot;petroExp&quot;         
+## [61] &quot;petroImp&quot;          &quot;gasProd&quot;           &quot;gasCons&quot;          
+## [64] &quot;gasExp&quot;            &quot;gasImp&quot;            &quot;gasRes&quot;           
+## [67] &quot;mainlines&quot;         &quot;cell&quot;              &quot;netHosts&quot;         
+## [70] &quot;netUsers&quot;          &quot;airports&quot;          &quot;railways&quot;         
+## [73] &quot;roadways&quot;          &quot;waterways&quot;         &quot;marine&quot;           
+## [76] &quot;military&quot;</code></pre>
+<h3 id="only-look-at-country-population-and-area">Only look at Country,
+Population, and Area</h3>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Tab1 <span class="ot">&lt;-</span> CountryData <span class="sc">%&gt;%</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country, pop, area)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Tab1)</span></code></pre></div>
+<pre><code>##          country      pop    area
+## 1    Afghanistan 31822848  652230
+## 2       Akrotiri    15700     123
+## 3        Albania  3020209   28748
+## 4        Algeria 38813722 2381741
+## 5 American Samoa    54517     199
+## 6        Andorra    85458     468</code></pre>
+</div>
+<div id="rename" class="slide section level2">
+<h1><code>rename</code></h1>
+<p><code>rename</code> takes in a variable name, and renames that
+variable. We use <code>rename(NewName = OldName)</code></p>
+<h3 id="rename-area-to-kmsquared">rename “area” to “kmSquared”</h3>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Tab1)</span></code></pre></div>
+<pre><code>##          country      pop    area
+## 1    Afghanistan 31822848  652230
+## 2       Akrotiri    15700     123
+## 3        Albania  3020209   28748
+## 4        Algeria 38813722 2381741
+## 5 American Samoa    54517     199
+## 6        Andorra    85458     468</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>Tab2 <span class="ot">&lt;-</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  Tab1 <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">kmSquared =</span> area)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Tab2)</span></code></pre></div>
+<pre><code>##          country      pop kmSquared
+## 1    Afghanistan 31822848    652230
+## 2       Akrotiri    15700       123
+## 3        Albania  3020209     28748
+## 4        Algeria 38813722   2381741
+## 5 American Samoa    54517       199
+## 6        Andorra    85458       468</code></pre>
+</div>
+<div id="filter" class="slide section level2">
+<h1><code>filter</code></h1>
+<p>To filter means to remove unwanted material. The data verb
+<code>filter()</code> removes unwanted cases, passing through to the
+result only those cases that are wanted or needed.</p>
+<p>With filtering, the cases to pass through are specified by one or
+more criteria or tests. The tests usually involve comparisons between
+variables or between a variable and a scalar.</p>
+<p>Filtering and selecting are complementary actions for subsetting a
+data frame. <code>select()</code> passes the specified subset of
+<em>variables</em>; <code>filter()</code> passes the specified subset of
+<em>cases</em>.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(BabyNames)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(BabyNames)</span></code></pre></div>
+<pre><code>##        name sex count year
+## 1      Mary   F  7065 1880
+## 2      Anna   F  2604 1880
+## 3      Emma   F  2003 1880
+## 4 Elizabeth   F  1939 1880
+## 5    Minnie   F  1746 1880
+## 6  Margaret   F  1578 1880</code></pre>
+<h3 id="display-only-female-names">display only female names</h3>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Method 1</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>Method1 <span class="ot">&lt;-</span> </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  BabyNames <span class="sc">%&gt;%</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(sex <span class="sc">==</span> <span class="st">&quot;F&quot;</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Method1)</span></code></pre></div>
+<pre><code>##        name sex count year
+## 1      Mary   F  7065 1880
+## 2      Anna   F  2604 1880
+## 3      Emma   F  2003 1880
+## 4 Elizabeth   F  1939 1880
+## 5    Minnie   F  1746 1880
+## 6  Margaret   F  1578 1880</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Method 2</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>Method2 <span class="ot">&lt;-</span> </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  BabyNames <span class="sc">%&gt;%</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(sex <span class="sc">!=</span> <span class="st">&quot;M&quot;</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Method2)</span></code></pre></div>
+<pre><code>##        name sex count year
+## 1      Mary   F  7065 1880
+## 2      Anna   F  2604 1880
+## 3      Emma   F  2003 1880
+## 4 Elizabeth   F  1939 1880
+## 5    Minnie   F  1746 1880
+## 6  Margaret   F  1578 1880</code></pre>
+<h3 id="display-only-babys-born-after-1990">Display only babys born
+after 1990</h3>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>Baby1990 <span class="ot">&lt;-</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  BabyNames <span class="sc">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">&gt;</span> <span class="dv">1990</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(BabyNames)</span></code></pre></div>
+<pre><code>##        name sex count year
+## 1      Mary   F  7065 1880
+## 2      Anna   F  2604 1880
+## 3      Emma   F  2003 1880
+## 4 Elizabeth   F  1939 1880
+## 5    Minnie   F  1746 1880
+## 6  Margaret   F  1578 1880</code></pre>
+<h3 id="display-only-female-babies-born-after-1990">Display only female
+babies born after 1990</h3>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>F1990 <span class="ot">&lt;-</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  BabyNames <span class="sc">%&gt;%</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(sex <span class="sc">==</span> <span class="st">&quot;F&quot;</span>,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>         year <span class="sc">&gt;</span> <span class="dv">1990</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(F1990)</span></code></pre></div>
+<pre><code>##       name sex count year
+## 1   Ashley   F 43483 1991
+## 2  Jessica   F 43394 1991
+## 3 Brittany   F 29089 1991
+## 4   Amanda   F 28888 1991
+## 5 Samantha   F 25645 1991
+## 6    Sarah   F 25228 1991</code></pre>
+<h3 id="display-babies-that-are-female-or-born-after-1990">Display
+babies that are female OR born after 1990</h3>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>Baby1990F <span class="ot">&lt;-</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  BabyNames <span class="sc">%&gt;%</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(sex <span class="sc">==</span> <span class="st">&quot;F&quot;</span> <span class="sc">|</span> year <span class="sc">&gt;</span> <span class="dv">1990</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">sample_n</span>(Baby1990F, <span class="dv">10</span>)</span></code></pre></div>
+<pre><code>##       name sex count year
+## 1    Ionna   F    12 2002
+## 2     Kori   M    27 2009
+## 3   Travia   F     5 1984
+## 4     Akai   M    19 2006
+## 5  Hayward   M    12 2006
+## 6   Daejah   F    27 2008
+## 7    Jayne   F   107 1928
+## 8   Serena   F    24 1889
+## 9  Luisana   F    18 1990
+## 10  Quiara   F     6 2010</code></pre>
+</div>
+<div id="mutate" class="slide section level2">
+<h1><code>mutate</code></h1>
+<p>The word “mutate” means to change in form or nature. The data verb
+<code>mutate()</code> is more specific: to change a variable or add new
+variables based on the existing ones. Mutation leaves the cases exactly
+as they were; the output of <code>mutate()</code> will have exactly as
+many rows as the input data frame</p>
+<h3 id="calculate-the-population-density">Calculate the population
+density</h3>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Tab1)</span></code></pre></div>
+<pre><code>##          country      pop    area
+## 1    Afghanistan 31822848  652230
+## 2       Akrotiri    15700     123
+## 3        Albania  3020209   28748
+## 4        Algeria 38813722 2381741
+## 5 American Samoa    54517     199
+## 6        Andorra    85458     468</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>PopDens <span class="ot">&lt;-</span> </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  Tab1 <span class="sc">%&gt;%</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pop_dens =</span> pop <span class="sc">/</span> area)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(PopDens)</span></code></pre></div>
+<pre><code>##          country      pop    area  pop_dens
+## 1    Afghanistan 31822848  652230  48.79084
+## 2       Akrotiri    15700     123 127.64228
+## 3        Albania  3020209   28748 105.05806
+## 4        Algeria 38813722 2381741  16.29637
+## 5 American Samoa    54517     199 273.95477
+## 6        Andorra    85458     468 182.60256</code></pre>
+<h3 id="caution">Caution!</h3>
+<p>If you use a old vairable name for a new varaible in a
+<code>mutate</code> statement, it will overwrite the old variable.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Tab1)</span></code></pre></div>
+<pre><code>##          country      pop    area
+## 1    Afghanistan 31822848  652230
+## 2       Akrotiri    15700     123
+## 3        Albania  3020209   28748
+## 4        Algeria 38813722 2381741
+## 5 American Samoa    54517     199
+## 6        Andorra    85458     468</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>Tab1.Overwrite <span class="ot">&lt;-</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  Tab1 <span class="sc">%&gt;%</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">area =</span> <span class="dv">2</span> <span class="sc">*</span> area)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Tab1.Overwrite)</span></code></pre></div>
+<pre><code>##          country      pop    area
+## 1    Afghanistan 31822848 1304460
+## 2       Akrotiri    15700     246
+## 3        Albania  3020209   57496
+## 4        Algeria 38813722 4763482
+## 5 American Samoa    54517     398
+## 6        Andorra    85458     936</code></pre>
+</div>
+<div id="arrange" class="slide section level2">
+<h1><code>arrange</code></h1>
+<p><code>arrange</code> will arrange the rows by the variable you
+provide.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Tab1)</span></code></pre></div>
+<pre><code>##          country      pop    area
+## 1    Afghanistan 31822848  652230
+## 2       Akrotiri    15700     123
+## 3        Albania  3020209   28748
+## 4        Algeria 38813722 2381741
+## 5 American Samoa    54517     199
+## 6        Andorra    85458     468</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>Tab1 <span class="sc">%&gt;%</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(pop) <span class="sc">%&gt;%</span> </span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div>
+<pre><code>##                   country  pop area
+## 1        Pitcairn Islands   48   47
+## 2 Cocos (Keeling) Islands  596   14
+## 3 Holy See (Vatican City)  842    0
+## 4                    Niue 1190  260
+## 5                 Tokelau 1337   12
+## 6        Christmas Island 1530  135</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>Tab1 <span class="sc">%&gt;%</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(pop)) <span class="sc">%&gt;%</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div>
+<pre><code>##          country        pop    area
+## 1          China 1355692576 9596960
+## 2          India 1236344631 3287263
+## 3 European Union  511434812      NA
+## 4  United States  318892103 9826675
+## 5      Indonesia  253609643 1904569
+## 6         Brazil  202656788 8514877</code></pre>
+</div>
+<div id="presidential-investigation" class="slide section level2">
 <h1>Presidential Investigation</h1>
 <ul>
 <li>Let’s take some of our new tools for a spin…</li>
@@ -649,27 +865,27 @@ small set of basic operations on data tables</li>
 loaded by <code>tidyverse</code>)</li>
 <li>we’ll add a few other presidents to the data as well</li>
 </ul>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dcData)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)     <span class="co"># we&#39;ll use `tibble::tribble()`  to specify new rows </span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)  <span class="co"># nice functions for handling dates</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># data intake</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;presidential&quot;</span>, <span class="at">package =</span> <span class="st">&quot;ggplot2&quot;</span>)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="do">## Add some more cases to the data set </span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># you can search the help for the `tribble` function if you want to figure it out what&#39;s happening</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>AddPres <span class="ot">&lt;-</span> </span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    tibble<span class="sc">::</span><span class="fu">tribble</span>(<span class="sc">~</span>name, <span class="sc">~</span>start, <span class="sc">~</span>end, <span class="sc">~</span>party,</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>                     <span class="st">&quot;Roosevelt&quot;</span>, <span class="fu">ymd</span>(<span class="st">&quot;1933-03-04&quot;</span>), <span class="fu">ymd</span>(<span class="st">&quot;1945-04-12&quot;</span>), <span class="st">&quot;Democratic&quot;</span>,</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;Truman&quot;</span>, <span class="fu">ymd</span>(<span class="st">&quot;1945-04-12&quot;</span>), <span class="fu">ymd</span>(<span class="st">&quot;1953-01-20&quot;</span>), <span class="st">&quot;Democratic&quot;</span>,</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;Trump&quot;</span>, <span class="fu">ymd</span>(<span class="st">&quot;2017-01-20&quot;</span>), <span class="fu">ymd</span>(<span class="st">&quot;2021-01-20&quot;</span>), <span class="st">&quot;Republican&quot;</span>, </span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;Biden&quot;</span>, <span class="fu">ymd</span>(<span class="st">&quot;2021-01-20&quot;</span>), <span class="fu">ymd</span>(<span class="fu">today</span>()), <span class="st">&quot;Democratic&quot;</span>)</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co"># append the rows of our two &quot;data frames&quot;</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>Presidents <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(presidential, AddPres)</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Presidents)</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dcData)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)     <span class="co"># we&#39;ll use `tibble::tribble()`  to specify new rows </span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)  <span class="co"># nice functions for handling dates</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="co"># data intake</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;presidential&quot;</span>, <span class="at">package =</span> <span class="st">&quot;ggplot2&quot;</span>)</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a><span class="do">## Add some more cases to the data set </span></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a><span class="co"># you can search the help for the `tribble` function if you want to figure it out what&#39;s happening</span></span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>AddPres <span class="ot">&lt;-</span> </span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>    tibble<span class="sc">::</span><span class="fu">tribble</span>(<span class="sc">~</span>name, <span class="sc">~</span>start, <span class="sc">~</span>end, <span class="sc">~</span>party,</span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>                     <span class="st">&quot;Roosevelt&quot;</span>, <span class="fu">ymd</span>(<span class="st">&quot;1933-03-04&quot;</span>), <span class="fu">ymd</span>(<span class="st">&quot;1945-04-12&quot;</span>), <span class="st">&quot;Democratic&quot;</span>,</span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;Truman&quot;</span>, <span class="fu">ymd</span>(<span class="st">&quot;1945-04-12&quot;</span>), <span class="fu">ymd</span>(<span class="st">&quot;1953-01-20&quot;</span>), <span class="st">&quot;Democratic&quot;</span>,</span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;Trump&quot;</span>, <span class="fu">ymd</span>(<span class="st">&quot;2017-01-20&quot;</span>), <span class="fu">ymd</span>(<span class="st">&quot;2021-01-20&quot;</span>), <span class="st">&quot;Republican&quot;</span>, </span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;Biden&quot;</span>, <span class="fu">ymd</span>(<span class="st">&quot;2021-01-20&quot;</span>), <span class="fu">ymd</span>(<span class="fu">today</span>()), <span class="st">&quot;Democratic&quot;</span>)</span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a><span class="co"># append the rows of our two &quot;data frames&quot;</span></span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a>Presidents <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(presidential, AddPres)</span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Presidents)</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 4
 ##   name       start      end        party     
 ##   &lt;chr&gt;      &lt;date&gt;     &lt;date&gt;     &lt;chr&gt;     
@@ -679,7 +895,28 @@ loaded by <code>tidyverse</code>)</li>
 ## 4 Nixon      1969-01-20 1974-08-09 Republican
 ## 5 Ford       1974-08-09 1977-01-20 Republican
 ## 6 Carter     1977-01-20 1981-01-20 Democratic</code></pre>
-<h2 id="guided-practice">Guided practice</h2>
+<h3 id="display-only-baby-names-from-1980-1990-2000-or-2010">Display
+only baby names from 1980, 1990, 2000, or 2010</h3>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>BabyDecade <span class="ot">&lt;-</span> </span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  BabyNames <span class="sc">%&gt;%</span> </span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1980</span>, <span class="dv">1990</span>, <span class="dv">2000</span>, <span class="dv">2010</span>))</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>BabyDecade <span class="sc">%&gt;%</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(<span class="dv">10</span>)</span></code></pre></div>
+<pre><code>##         name sex count year
+## 1       Ania   F   111 2010
+## 2    Makylie   F    16 2010
+## 3    Narciso   M    16 2000
+## 4     Jethro   M    22 2000
+## 5     Tevita   M    23 2010
+## 6     Quiton   M     5 1990
+## 7     Rufino   M    22 1980
+## 8    Yoselin   F   352 2010
+## 9  Sylvester   M    62 2010
+## 10    Deajah   F    19 2010</code></pre>
+</div>
+<div id="guided-practice" class="slide section level2">
+<h1>Guided practice</h1>
 <ol style="list-style-type: decimal">
 <li>various summary/exploration functions to meet the Presidents</li>
 <li>calculate <code>duration</code> of presidency</li>
@@ -698,30 +935,30 @@ years?</li>
 <li>add Harry Truman &amp; Franklin D. Roosevelt, then repeat 6-9</li>
 </ol>
 </div>
-<div id="answers" class="slide section level1">
+<div id="answers" class="slide section level2">
 <h1>Answers</h1>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. summary functions</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(Presidents)  <span class="co"># what&#39;s the benefit?</span></span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. summary functions</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(Presidents)  <span class="co"># what&#39;s the benefit?</span></span></code></pre></div>
 <pre><code>## Rows: 16
 ## Columns: 4
 ## $ name  &lt;chr&gt; &quot;Eisenhower&quot;, &quot;Kennedy&quot;, &quot;Johnson&quot;, &quot;Nixon&quot;, &quot;Ford&quot;, &quot;Carter&quot;, &quot;…
 ## $ start &lt;date&gt; 1953-01-20, 1961-01-20, 1963-11-22, 1969-01-20, 1974-08-09, 197…
 ## $ end   &lt;date&gt; 1961-01-20, 1963-11-22, 1969-01-20, 1974-08-09, 1977-01-20, 198…
 ## $ party &lt;chr&gt; &quot;Republican&quot;, &quot;Democratic&quot;, &quot;Democratic&quot;, &quot;Republican&quot;, &quot;Republi…</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(Presidents)      <span class="co"># ?</span></span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(Presidents)      <span class="co"># ?</span></span></code></pre></div>
 <pre><code>## tibble [16 × 4] (S3: tbl_df/tbl/data.frame)
 ##  $ name : chr [1:16] &quot;Eisenhower&quot; &quot;Kennedy&quot; &quot;Johnson&quot; &quot;Nixon&quot; ...
 ##  $ start: Date[1:16], format: &quot;1953-01-20&quot; &quot;1961-01-20&quot; ...
 ##  $ end  : Date[1:16], format: &quot;1961-01-20&quot; &quot;1963-11-22&quot; ...
 ##  $ party: chr [1:16] &quot;Republican&quot; &quot;Democratic&quot; &quot;Democratic&quot; &quot;Republican&quot; ...</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Presidents)  <span class="co"># not so useful?!</span></span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Presidents)  <span class="co"># not so useful?!</span></span></code></pre></div>
 <pre><code>##      name               start                 end            
 ##  Length:16          Min.   :1933-03-04   Min.   :1945-04-12  
 ##  Class :character   1st Qu.:1963-03-08   1st Qu.:1967-10-06  
 ##  Mode  :character   Median :1979-01-20   Median :1985-01-20  
-##                     Mean   :1981-08-07   Mean   :1987-06-26  
+##                     Mean   :1981-08-07   Mean   :1987-06-28  
 ##                     3rd Qu.:2003-01-20   3rd Qu.:2011-01-20  
-##                     Max.   :2021-01-20   Max.   :2023-05-03  
+##                     Max.   :2021-01-20   Max.   :2023-05-30  
 ##     party          
 ##  Length:16         
 ##  Class :character  
@@ -729,22 +966,22 @@ years?</li>
 ##                    
 ##                    
 ## </code></pre>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#View(Presidents)     # console please!</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># some wrangling </span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>Presidents_wrangled <span class="ot">&lt;-</span> </span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    Presidents <span class="sc">%&gt;%</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">duration =</span> end <span class="sc">-</span> start,                                     <span class="co"># 2</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">name =</span> <span class="fu">if_else</span>(name <span class="sc">==</span> <span class="st">&quot;Bush&quot;</span> <span class="sc">&amp;</span> start <span class="sc">&lt;</span> <span class="fu">ymd</span>(<span class="st">&quot;2000-01-01&quot;</span>),  <span class="co"># 3</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>                          <span class="at">true =</span> <span class="st">&quot;Bush (Sr)&quot;</span>, </span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>                          <span class="at">false =</span> name)) <span class="sc">%&gt;%</span></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(name, party, duration)                                      <span class="co"># 4</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="do">### some results</span></span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 3 check the bushes</span></span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(Presidents_wrangled) </span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co">#View(Presidents)     # console please!</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="co"># some wrangling </span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>Presidents_wrangled <span class="ot">&lt;-</span> </span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>    Presidents <span class="sc">%&gt;%</span></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">duration =</span> end <span class="sc">-</span> start,                                     <span class="co"># 2</span></span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">name =</span> <span class="fu">if_else</span>(name <span class="sc">==</span> <span class="st">&quot;Bush&quot;</span> <span class="sc">&amp;</span> start <span class="sc">&lt;</span> <span class="fu">ymd</span>(<span class="st">&quot;2000-01-01&quot;</span>),  <span class="co"># 3</span></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>                          <span class="at">true =</span> <span class="st">&quot;Bush (Sr)&quot;</span>, </span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>                          <span class="at">false =</span> name)) <span class="sc">%&gt;%</span></span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(name, party, duration)                                      <span class="co"># 4</span></span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a><span class="do">### some results</span></span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 3 check the bushes</span></span>
+<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(Presidents_wrangled) </span></code></pre></div>
 <pre><code>## # A tibble: 6 × 3
 ##   name      party      duration 
 ##   &lt;chr&gt;     &lt;chr&gt;      &lt;drtn&gt;   
@@ -753,24 +990,24 @@ years?</li>
 ## 3 Roosevelt Democratic 4422 days
 ## 4 Truman    Democratic 2840 days
 ## 5 Trump     Republican 1461 days
-## 6 Biden     Democratic  833 days</code></pre>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 6 shortest</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>Presidents_wrangled <span class="sc">%&gt;%</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(duration) <span class="sc">%&gt;%</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>()</span></code></pre></div>
+## 6 Biden     Democratic  860 days</code></pre>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 6 shortest</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>Presidents_wrangled <span class="sc">%&gt;%</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(duration) <span class="sc">%&gt;%</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>()</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 3
 ##   name      party      duration 
 ##   &lt;chr&gt;     &lt;chr&gt;      &lt;drtn&gt;   
-## 1 Biden     Democratic  833 days
+## 1 Biden     Democratic  860 days
 ## 2 Ford      Republican  895 days
 ## 3 Kennedy   Democratic 1036 days
 ## 4 Carter    Democratic 1461 days
 ## 5 Bush (Sr) Republican 1461 days
 ## 6 Trump     Republican 1461 days</code></pre>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 7. longest  </span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>Presidents_wrangled <span class="sc">%&gt;%</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(duration) <span class="sc">%&gt;%</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tail</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 7. longest  </span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>Presidents_wrangled <span class="sc">%&gt;%</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(duration) <span class="sc">%&gt;%</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tail</span>()</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 3
 ##   name       party      duration 
 ##   &lt;chr&gt;      &lt;chr&gt;      &lt;drtn&gt;   
@@ -780,9 +1017,9 @@ years?</li>
 ## 4 Bush       Republican 2922 days
 ## 5 Obama      Democratic 2922 days
 ## 6 Roosevelt  Democratic 4422 days</code></pre>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>Presidents_wrangled <span class="sc">%&gt;%</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(duration)) <span class="sc">%&gt;%</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>Presidents_wrangled <span class="sc">%&gt;%</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(duration)) <span class="sc">%&gt;%</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>()</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 3
 ##   name       party      duration 
 ##   &lt;chr&gt;      &lt;chr&gt;      &lt;drtn&gt;   
@@ -792,28 +1029,28 @@ years?</li>
 ## 4 Clinton    Democratic 2922 days
 ## 5 Bush       Republican 2922 days
 ## 6 Obama      Democratic 2922 days</code></pre>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 8. more than 4 years, but less than 8 years</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>Presidents_wrangled <span class="sc">%&gt;%</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(duration <span class="sc">&gt;</span> <span class="dv">1461</span>, duration <span class="sc">&lt;</span> <span class="dv">2922</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 8. more than 4 years, but less than 8 years</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>Presidents_wrangled <span class="sc">%&gt;%</span></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(duration <span class="sc">&gt;</span> <span class="dv">1461</span>, duration <span class="sc">&lt;</span> <span class="dv">2922</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 3 × 3
 ##   name    party      duration 
 ##   &lt;chr&gt;   &lt;chr&gt;      &lt;drtn&gt;   
 ## 1 Johnson Democratic 1886 days
 ## 2 Nixon   Republican 2027 days
 ## 3 Truman  Democratic 2840 days</code></pre>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 9. party balance</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>Presidents_wrangled <span class="sc">%&gt;%</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(party) <span class="sc">%&gt;%</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">total =</span> <span class="fu">n</span>(), </span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">in_power =</span> <span class="fu">sum</span>(duration))</span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 9. party balance</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>Presidents_wrangled <span class="sc">%&gt;%</span></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(party) <span class="sc">%&gt;%</span></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">total =</span> <span class="fu">n</span>(), </span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">in_power =</span> <span class="fu">sum</span>(duration))</span></code></pre></div>
 <pre><code>## # A tibble: 2 × 3
 ##   party      total in_power  
 ##   &lt;chr&gt;      &lt;int&gt; &lt;drtn&gt;    
-## 1 Democratic     8 18322 days
+## 1 Democratic     8 18349 days
 ## 2 Republican     8 16071 days</code></pre>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># repeat!</span></span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># repeat!</span></span></code></pre></div>
 </div>
 
   <!-- dynamically load mathjax for compatibility with self-contained -->
