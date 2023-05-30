@@ -84,6 +84,12 @@ There are lots of ways to load data into your environment
     - Bad form to call `View()` in the Rmd, use the console for this one.
     - `head()` is best in the Rmd
 
+```{r}
+data(diamonds)
+View(diamonds)
+
+```
+
 
 
 ## Guided practice 
