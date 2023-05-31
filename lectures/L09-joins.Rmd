@@ -117,43 +117,6 @@ dat2
 So how do we go from `dat1` and `dat2` to `Glyphform`? Joins!
 
 
-## Example: Average class size
-
-**Goal**: Figure out the average class size *seen* by each student (...think for a moment about how that's different from *average class size*)
-
-```{r}
-# read data file from local working directory 
-Grades <- read_csv("lectures/data/grades.csv") 
-
-```
-
-```{r echo=FALSE}
-set.seed(101)# this just makes my "random" sample the same each time
-Grades %>% 
-  sample_n(size = 4)
-```
-
-
-```{r}
-# read data from my local working directory
-Courses <- read_csv("lectures/data/coursesUpdated.csv")   
-```
-
-```{r echo=FALSE}
-Courses %>% sample_n(size = 3)
-```
-
-
-**Key: **
-
-- `studentID`: unique student id--e.g., 9-XXXX-XXXX at Penn State 
-- `grade`: letter grade earned in a course 
-- `lionpathCourseID`: unique identifier for each course section 
-- `dept`: academic department of course 
-- `level`: academic level of course
-- `sem`: semester of course offering
-- `enrollment`: students enrolled
-- `instructorID`: unique instructor id 
 
 ## Basic joins
 
@@ -167,46 +130,6 @@ A *join* is a data verb that combines two tables called the **left** and the **r
     - missing matches should be handled
 
 
-
-
-## Example: Average class size
-
-**Goal**: Figure out the average class size seen by each student.
-
-* `enrollment` comes from `Courses` table.
-* Student (`studentID`) comes from `Grades`.
-* `lionpathCourseID` is in both tables.
-
-```{r}
-Grades %>%
-  left_join(Courses) %>% 
-  sample_n(size = 4)
-```
-
-
-Once `Courses` and `Grades` are joined, it's straightforward to find the average enrollment seen by each student.
-
-```{r}
-AveClassEachStudent <- 
-  Grades %>% 
-  left_join(Courses) %>%
-  group_by(studentID) %>%
-  summarise(ave_enroll_seen = mean(enrollment, na.rm = TRUE))
-```
-
-
-```{r echo=FALSE}
-AveClassEachStudent %>% sample_n(6) # look at just a few
-```
-
-
-Compared with average course enrollment: 
-
-```{r}
-# average enrollment
-Courses %>%
-  summarise(avg_course_enroll = mean(enrollment))
-```
 
 
 ## Establishing a match between cases
@@ -227,13 +150,19 @@ A match between a case in the *left* table and a case in the *right* table is ma
     - This is **not reliable** in general unless you've checked 
 
 
-**Example**:
+###  Example 
 
-```{r echo=1:2}
-Grades %>% 
-  left_join(Courses, by = c("lionpathCourseID" = "lionpathCourseID")) %>%
-  head(4)
+```{r}
+head(dat1)
+dat2
+
+
+dat1 %>%
+  left_join(dat2, by = "letters") %>%
+  head()
+
 ```
+
 
 
 ## Basic join types 
@@ -326,6 +255,103 @@ Different kinds of join have different answers to these questions.
 
 
 
+
+
+
+
+
+## Other resources 
+
+![](images/sqljoins.png)
+
+
+A website I find very helpful: <https://statisticsglobe.com/r-dplyr-join-inner-left-right-full-semi-anti>. 
+![](images/dplyrjoins.png)
+
+## Example: Average class size
+
+**Goal**: Figure out the average class size *seen* by each student (...think for a moment about how that's different from *average class size*)
+
+```{r}
+# read data file from local working directory 
+Grades <- read_csv("lectures/data/grades.csv") 
+
+```
+
+```{r echo=FALSE}
+set.seed(101)# this just makes my "random" sample the same each time
+Grades %>% 
+  sample_n(size = 4)
+```
+
+
+```{r}
+# read data from my local working directory
+Courses <- read_csv("lectures/data/coursesUpdated.csv")   
+```
+
+```{r echo=FALSE}
+Courses %>% sample_n(size = 3)
+```
+
+
+**Key: **
+
+- `studentID`: unique student id--e.g., 9-XXXX-XXXX at Penn State 
+- `grade`: letter grade earned in a course 
+- `lionpathCourseID`: unique identifier for each course section 
+- `dept`: academic department of course 
+- `level`: academic level of course
+- `sem`: semester of course offering
+- `enrollment`: students enrolled
+- `instructorID`: unique instructor id 
+
+
+
+## Example: Average class size
+
+**Goal**: Figure out the average class size seen by each student.
+
+* `enrollment` comes from `Courses` table.
+* Student (`studentID`) comes from `Grades`.
+* `lionpathCourseID` is in both tables.
+
+```{r}
+Grades %>%
+  left_join(Courses) %>% 
+  sample_n(size = 4)
+```
+
+
+Once `Courses` and `Grades` are joined, it's straightforward to find the average enrollment seen by each student.
+
+```{r}
+AveClassEachStudent <- 
+  Grades %>% 
+  left_join(Courses) %>%
+  group_by(studentID) %>%
+  summarise(ave_enroll_seen = mean(enrollment, na.rm = TRUE))
+```
+
+
+```{r echo=FALSE}
+AveClassEachStudent %>% sample_n(6) # look at just a few
+```
+
+
+Compared with average course enrollment: 
+
+```{r}
+# average enrollment
+Courses %>%
+  summarise(avg_course_enroll = mean(enrollment))
+```
+
+
+
+
+
+
 ## Example: Grade-point averages
 
 Here are three data tables relating student grades in courses at their college
@@ -349,7 +375,7 @@ For each of these, say what tables you would need to join and what the correspon
 3. What's the grade-point average (GPA) for each student?
 4. Grade-point average for each department or instructor
 
-### Answers 
+## Answers 
 
 
 1. How many students in each department?
@@ -360,6 +386,8 @@ Grades %>%
   group_by(dept)%>%
   summarise(Totalstud = n_distinct(studentID))
 ```
+
+
 
 
 2. What fraction of grades are below B+ in each department?
@@ -399,16 +427,3 @@ left_join(Grades, GradePoint) %>%
   group_by(dept) %>%
   summarise(avgGPA = mean(gradepoint, na.rm = TRUE))
 ```
-
-
-
-
-
-## Other resources 
-
-![](images/sqljoins.png)
-
-
-A website I find very helpful: <https://statisticsglobe.com/r-dplyr-join-inner-left-right-full-semi-anti>. 
-![](images/dplyrjoins.png)
-

@@ -759,16 +759,16 @@ babies that are female OR born after 1990</h3>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">sample_n</span>(Baby1990F, <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>##       name sex count year
-## 1    Ionna   F    12 2002
-## 2     Kori   M    27 2009
-## 3   Travia   F     5 1984
-## 4     Akai   M    19 2006
-## 5  Hayward   M    12 2006
-## 6   Daejah   F    27 2008
-## 7    Jayne   F   107 1928
-## 8   Serena   F    24 1889
-## 9  Luisana   F    18 1990
-## 10  Quiara   F     6 2010</code></pre>
+## 1    Nadia   F    14 1928
+## 2    Kavon   M    73 1997
+## 3    Cashe   F     5 1993
+## 4    Kyana   F    15 1986
+## 5    Tonji   F    11 1968
+## 6   Laydon   M    10 2010
+## 7  Darlena   F    38 1955
+## 8  Climmie   F    10 1954
+## 9   Dalila   F    32 1972
+## 10   Deaun   F     7 1953</code></pre>
 </div>
 <div id="mutate" class="slide section level2">
 <h1><code>mutate</code></h1>
@@ -904,16 +904,16 @@ only baby names from 1980, 1990, 2000, or 2010</h3>
 <span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>BabyDecade <span class="sc">%&gt;%</span></span>
 <span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(<span class="dv">10</span>)</span></code></pre></div>
 <pre><code>##         name sex count year
-## 1       Ania   F   111 2010
-## 2    Makylie   F    16 2010
-## 3    Narciso   M    16 2000
-## 4     Jethro   M    22 2000
-## 5     Tevita   M    23 2010
-## 6     Quiton   M     5 1990
-## 7     Rufino   M    22 1980
-## 8    Yoselin   F   352 2010
-## 9  Sylvester   M    62 2010
-## 10    Deajah   F    19 2010</code></pre>
+## 1     Andras   M     7 2000
+## 2   Kushtrim   M     7 1990
+## 3      Laryn   F     8 2010
+## 4   Kishauna   F     5 2000
+## 5    Balbina   F     5 2000
+## 6     Koleen   F     6 1980
+## 7    Cinsere   M     5 2010
+## 8       Andy   M   956 1990
+## 9      Rayne   F     8 1980
+## 10 Jacquline   F    74 1990</code></pre>
 </div>
 <div id="guided-practice" class="slide section level2">
 <h1>Guided practice</h1>
@@ -958,7 +958,7 @@ years?</li>
 ##  Mode  :character   Median :1979-01-20   Median :1985-01-20  
 ##                     Mean   :1981-08-07   Mean   :1987-06-28  
 ##                     3rd Qu.:2003-01-20   3rd Qu.:2011-01-20  
-##                     Max.   :2021-01-20   Max.   :2023-05-30  
+##                     Max.   :2021-01-20   Max.   :2023-05-31  
 ##     party          
 ##  Length:16         
 ##  Class :character  
@@ -990,7 +990,7 @@ years?</li>
 ## 3 Roosevelt Democratic 4422 days
 ## 4 Truman    Democratic 2840 days
 ## 5 Trump     Republican 1461 days
-## 6 Biden     Democratic  860 days</code></pre>
+## 6 Biden     Democratic  861 days</code></pre>
 <div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 6 shortest</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>Presidents_wrangled <span class="sc">%&gt;%</span></span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(duration) <span class="sc">%&gt;%</span></span>
@@ -998,7 +998,7 @@ years?</li>
 <pre><code>## # A tibble: 6 × 3
 ##   name      party      duration 
 ##   &lt;chr&gt;     &lt;chr&gt;      &lt;drtn&gt;   
-## 1 Biden     Democratic  860 days
+## 1 Biden     Democratic  861 days
 ## 2 Ford      Republican  895 days
 ## 3 Kennedy   Democratic 1036 days
 ## 4 Carter    Democratic 1461 days
@@ -1048,7 +1048,7 @@ years?</li>
 <pre><code>## # A tibble: 2 × 3
 ##   party      total in_power  
 ##   &lt;chr&gt;      &lt;int&gt; &lt;drtn&gt;    
-## 1 Democratic     8 18349 days
+## 1 Democratic     8 18350 days
 ## 2 Republican     8 16071 days</code></pre>
 <div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># repeat!</span></span></code></pre></div>
 </div>
