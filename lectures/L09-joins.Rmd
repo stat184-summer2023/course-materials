@@ -55,6 +55,51 @@ options(width = 80)
 - Perhaps they are completely different types of data. 
 
 
+
+## Example: Average class size
+
+**Goal**: What are some ways we might want to combine this data?
+
+
+
+```{r}
+# read data file from local working directory 
+Grades <- read_csv("lectures/data/grades.csv") 
+
+```
+
+```{r echo=FALSE}
+set.seed(101)# this just makes my "random" sample the same each time
+Grades %>% 
+  sample_n(size = 4)
+```
+
+
+```{r}
+# read data from my local working directory
+Courses <- read_csv("lectures/data/coursesUpdated.csv")   
+```
+
+```{r echo=FALSE}
+Courses %>% sample_n(size = 3)
+```
+
+
+**Key: **
+
+- `studentID`: unique student id--e.g., 9-XXXX-XXXX at Penn State 
+- `grade`: letter grade earned in a course 
+- `lionpathCourseID`: unique identifier for each course section 
+- `dept`: academic department of course 
+- `level`: academic level of course
+- `sem`: semester of course offering
+- `enrollment`: students enrolled
+- `instructorID`: unique instructor id 
+
+
+
+
+<!-- This line is commented, won't show in the document 
 ## Example: Medicare data
 
 **How might you combine data from several of these tables to answer an interesting research question.**
@@ -64,7 +109,7 @@ options(width = 80)
 - `MedicareCharges`: Charges and payments for different DRGs by different providers
 - `ZipDemography`: Population and age structure in each ZIP code.
 
-
+-->
 
 ## Relational databases
 
