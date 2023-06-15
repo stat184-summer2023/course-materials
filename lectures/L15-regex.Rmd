@@ -27,6 +27,9 @@ knitr::opts_chunk$set(message = FALSE)
     * detect whether a **pattern** is contained in a string (use `filter()` & `grepl()`)
     * substitute the elements of that **pattern** with something else (use `mutate()` & `gsub()`)
     * extract a component that matches the **pattern** (use `tidyr::extract()`)
+    
+    
+  
 
 
 ## Some Exploits in the Land of RegEx 
@@ -60,16 +63,122 @@ knitr::opts_chunk$set(message = FALSE)
     * Find working code that does something similar
     * Make many iterations of small changes checking at each change that it didn't break
     * Keep going until the original code evolves into the thing you want!
+    
+Here are some common RegEx expressions 
+
+* A single . means “any character.”
+* A character, e.g., b, means just that character.
+* Characters enclosed in square brackets, e.g., [aeiou] means any one of those characters. (So, [aeiou] is a pattern describing a vowel.)
+* A vertical bar means “either.” For instance, the regex "a|e|i|o|u" will match any vowel.
+* The ^ inside square brackets means “any except these.” So, a consonant is [^aeiou]
+* ^ at the beginning of a regular expression means “the start of the string”
+* $ at the end means “the end of the string.”
+* Two simple patterns in a row, means those patterns consecutively. Example: "M[aeiou]" means a capital M followed by a single lower-case vowel.
+* A pattern followed by a + means “zero or more times.” So, "M[aeiou]+" matches “Miocene”, “Mr.”, “Ms”, “Mrs.”, “Miss”, and “Man”, among many others.
+* A simple pattern followed by a ? means “zero or one times.” So, "M[aeiou]?[^aeiou]" will not match “Miocene”. (The regex means: M followed by at most one vowel, followed by a consonant. “Miocene” has two vowels following the M.)
+* A simple pattern followed by a * means “one or more times.” "M[aeiou]*" will match “Miocene” and “Miss”, but not “Mr.”
+* A simple pattern followed by {2} means “exactly two times.” Similarly, {2,5} means between two and five times, {6,} means six times or more. For instance, [aeiou]{2} means “exactly two vowels in a row” and will not match “Miss” or “Mr” or “Madam”.
+
+  
+## Detection
+
+We can use `filter(grepl(pattern, object_to_search))` to detect if a pattern is present 
+
+Example: Find all baby names that contain "shine" 
+
+```{r}
+library(dcData)
+data(BabyNames)
+
+#first make a list of all the unique names
+UniqueNames <- 
+  BabyNames %>%
+  select(name) %>%
+  unique() %>%
+  arrange(name)
+
+head(UniqueNames, 10)
+
+UniqueNames%>% 
+  filter(grepl("shine", name, ignore.case = TRUE))
+```
+
+Example: Find the names that contain three or more vowels in a row
+
+```{r}
+UniqueNames %>% 
+  filter(grepl("[aeiou]{3,}", name, ignore.case = TRUE))  %>%
+  sample_n(10)
+
+```
+
+Example: Find the names that contain three or more consonants in a row
+
+```{r}
+UniqueNames %>% 
+  filter(grepl("[^aeiou]{3,}", name, ignore.case = TRUE)) %>%
+  sample_n(10)
+
+```
+
+
+## Substitution/ Replacement
+
+We use `mutate(new_variable = gsub(pattern, replacement, old_variable))` to find a pattern and replace it with a new one. 
+
+Say I have the following table about public debt by country: 
+
+```{r}
+Debt <- data.frame(
+  country = c("United States*", "Japan", "China", "Germany", "Italy"),
+  debt = c("$17,607 billion", "$9,872 billion", "$3,894 billion", "$2,592 billion", "$2,334 billion"), 
+  percGDP = c("73.60%", "214.30%", "31.70%", "81.70%", "126.10%")
+)
+
+Debt
+
+```
+To use these numbers for computations, they must be cleaned up.
+
+```{r}
+Debt %>% 
+  mutate(debt = gsub(pattern = "[$,]|billion", replacement = "", debt),
+         percGDP = gsub(pattern = "[%,]", replacement = "", percGDP))
+
+```
+#### Remove a currency sign
+
+```{r}
+currency <- c("$100.95", "45¢")
+gsub(pattern = "\\$|€|¥|£|¢$", replacement = "", currency)
+```
+
+#### Remove leading or trailing spaces
+
+```{r}
+string <- "   My name is Julia     "
+gsub(pattern = "^ +| +$", replacement = "", string)
+```
 
 
 
-## Pole Vault Demo
+## Extraction 
 
-- live demo to clean up Pole Vault Records progression seen in web scraping 
+Use `muatate(new_variable = str_extract(old_variable, pattern))` from to extract a component that matches the patterns.
 
-<https://www.youtube.com/watch?v=OAVNb2N7ntM>
+Example: Find baby names with 4 consecutive vowels, and tell me what those vowels are. 
 
-![](DuplantisWR.png)
+```{r}
+UniqueNames %>%
+  filter(grepl("[aeiou]{4,}", name, ignore.case = TRUE))%>%
+  mutate(match = str_extract(string = name, pattern = "([aeiouAEIOU]{4})"))%>%
+  sample_n(10)
+
+```
+
+
+## Example: Pole Vault Records Clean Up 
+
 
 
 ```{r include=FALSE}
@@ -80,8 +189,6 @@ require(rvest)
 knitr::opts_chunk$set(message = FALSE)
 ```
 
-
-## Pole Vault Records Clean Up 
 
 ```{r echo=TRUE}
 webpage <- "https://en.wikipedia.org/wiki/Men%27s_pole_vault_world_record_progression"
