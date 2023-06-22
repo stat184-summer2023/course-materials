@@ -13,6 +13,10 @@ library(tidyverse)
 
 ```
 
+
+This is a test for git hub.
+
+
 ## Reminders 
 
 - Final Project: Monday, June 26 at 11:59 p.m.
@@ -143,8 +147,8 @@ Functions like `View` and `?` don't actually run any R code, but instead open a 
 
 
 ```{r}
-?rnorm
-
+#?rnorm
+rnorm(1, 1, 1)
 ```
 
 

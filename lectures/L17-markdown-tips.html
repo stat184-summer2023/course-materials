@@ -1885,92 +1885,92 @@ don’t need to show them the entire thing. Use <code>head</code>,
 <code>tail</code>, <code>sample_n</code>, etc.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>harry.potter <span class="sc">%&gt;%</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(<span class="dv">8</span>)</span></code></pre></div>
-<pre><code>##    Id                   Name Gender                                    Job
-## 1 100 Cornelius Oswald Fudge   Male                     Minister for Magic
-## 2  29        Cormac McLaggen   Male                                Student
-## 3 110       Marlene McKinnon Female                                   &lt;NA&gt;
-## 4   8         George Weasley   Male                                Student
-## 5 106   Aberforth Dumbledore   Male Owner and Barman of the Hog&#39;s Head Inn
-## 6 128    James Sirius Potter   Male                                Student
-## 7  85 Justin Finch-Fletchley   Male                                Student
-## 8 129   Rose Granger-Weasley Female                                Student
-##        House    Wand      Patronus Species             Blood status Hair colour
-## 1       &lt;NA&gt; Unknown Non-corporeal   Human Pure-blood or Half-blood        Grey
-## 2 Gryffindor Unknown       Unknown   Human Pure-blood or half-blood       Blond
-## 3       &lt;NA&gt; Unknown       Unknown   Human                     &lt;NA&gt;         Red
-## 4 Gryffindor Unknown       Unknown   Human               Pure-blood         Red
-## 5       &lt;NA&gt; Unknown          Goat   Human               Half-blood        Grey
-## 6 Gryffindor Unknown       Unknown  Human                Half-blood        &lt;NA&gt;
-## 7 Hufflepuff Unknown Non-corporeal   Human              Muggle-born         Red
-## 8 Gryffindor Unknown       Unknown  Human                Half-blood         Red
-##    Eye colour
-## 1        &lt;NA&gt;
-## 2        &lt;NA&gt;
-## 3       Brown
-## 4       Brown
-## 5 Bright Blue
-## 6        &lt;NA&gt;
-## 7        &lt;NA&gt;
-## 8        &lt;NA&gt;
-##                                                                                 Loyalty
-## 1                                                                     Minister of Magic
-## 2                         Dumbledore&#39;s Army |Hogwarts School of Witchcraft and Wizardry
-## 3                                                         Original Order of the Phoenix
-## 4 Dumbledore&#39;s Army | Order of the Phoenix | Hogwarts School of Witchcraft and Wizardry
-## 5                                                                  Order of the Phoenix
-## 6                                                                                  &lt;NA&gt;
-## 7                                                                     Dumbledore&#39;s Army
-## 8                                                                                  &lt;NA&gt;
-##                                                                                        Skills
-## 1 Turning a blind eye to the continuing threat of Dark Magic in the name of keeping up morale
-## 2                                                                            Quidditch Keeper
-## 3                                                                                        &lt;NA&gt;
-## 4                                                                                      Beater
-## 5                                                               Bartending, caring for Ariana
-## 6                                                                                        &lt;NA&gt;
-## 7                                                                                        &lt;NA&gt;
-## 8                                                                                      Chaser
-##                               Birth      Death
-## 1                          Pre 1964       &lt;NA&gt;
-## 2  1 September 1978- 31 August 1979       &lt;NA&gt;
-## 3                              &lt;NA&gt; July, 1981
-## 4                    1 April, 1978        &lt;NA&gt;
-## 5   1 September 1883-31 August 1884       &lt;NA&gt;
-## 6   1 September 2003-31 August 2004       &lt;NA&gt;
-## 7  1 September 1979- 31 August 1980       &lt;NA&gt;
-## 8  1 September 2005-31 August 2006        &lt;NA&gt;</code></pre>
+<pre><code>##    Id                 Name Gender
+## 1  93        Corban Yaxley   Male
+## 2 123        Marge Dursley Female
+## 3  43   Marietta Edgecombe Female
+## 4  78     Helga Hufflepuff Female
+## 5 133           Irma Pince Female
+## 6  87        Hannah Abbott Female
+## 7 125 Albus Severus Potter   Male
+## 8  91    Augustus Rookwood   Male
+##                                                 Job      House    Wand
+## 1 Head of the Department of Magical Law Enforcement  Slytherin Unknown
+## 2                                       Dog breeder       &lt;NA&gt;    &lt;NA&gt;
+## 3                                           Student  Ravenclaw Unknown
+## 4                             Founder of Hufflepuff Hufflepuff Unknown
+## 5                             Librarian at Hogwarts       &lt;NA&gt; Unknown
+## 6                                           Student Hufflepuff Unknown
+## 7                                           Student  Slytherin Unknown
+## 8                                       Unspeakable  Slytherin Unknown
+##        Patronus Species             Blood status    Hair colour   Eye colour
+## 1          None   Human Pure-blood or Half-blood         Blonde         Blue
+## 2          &lt;NA&gt;  Human                    Muggle           Grey         &lt;NA&gt;
+## 3       Unknown   Human Pure-blood or half-blood Reddish-blonde         Grey
+## 4       Unknown   Human Pure-blood or half-blood          Brown         Blue
+## 5 Non-corporeal  Human                      &lt;NA&gt;           &lt;NA&gt;         &lt;NA&gt;
+## 6 Non-corporeal   Human               Half-blood         Blonde        Brown
+## 7       Unknown  Human                Half-blood      Jet-black Bright green
+## 8          None   Human Pure-blood or half-blood  Brown/greying         &lt;NA&gt;
+##                                      Loyalty
+## 1             Lord Voldemort  | Death Eaters
+## 2                                       &lt;NA&gt;
+## 3                                       &lt;NA&gt;
+## 4                                       &lt;NA&gt;
+## 5 Hogwarts School of Witchcraft and Wizardry
+## 6                          Dumbledore&#39;s Army
+## 7                                       &lt;NA&gt;
+## 8             Lord Voldemort  | Death Eaters
+##                                                                         Skills
+## 1                                              Imperius curse, undercover work
+## 2                                                            Breeding bulldogs
+## 3 Covering up the spots that blight her face after betraying Dumbledore&#39;s Army
+## 4   Food-related Charms. Many traditional Hogwarts recipes originated with her
+## 5                                                                         &lt;NA&gt;
+## 6                             Defensive spells, learned with Dumbledore&#39;s Army
+## 7                                                                         &lt;NA&gt;
+## 8                                                    Spying for Lord Voldemort
+##                                     Birth        Death
+## 1                               Pre 1970s         &lt;NA&gt;
+## 2                                Pre 1954         &lt;NA&gt;
+## 3                               1978-1979         &lt;NA&gt;
+## 4                                 Pre 976 11th century
+## 5                                Pre 1966         &lt;NA&gt;
+## 6       1 September 1979 - 31 August 1980         &lt;NA&gt;
+## 7 Between 1 September 2005-31 August 2006         &lt;NA&gt;
+## 8                                pre 1964         &lt;NA&gt;</code></pre>
 <p>This still isn’t very readable. Let’s only select a few interesting
 columns.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>harry.potter <span class="sc">%&gt;%</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(<span class="dv">8</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Name, Job, House )</span></code></pre></div>
-<pre><code>##                    Name
-## 1    Garrick Ollivander
-## 2 Ronald Bilius Weasley
-## 3      Ernest Macmillan
-## 4        Igor Karkaroff
-## 5       Antonin Dolohov
-## 6                 Dobby
-## 7         Marge Dursley
-## 8          Draco Malfoy
-##                                                                                      Job
-## 1                                                                              Wandmaker
-## 2                                                                                Student
-## 3                                                                                Student
-## 4                                                     Headmaster of Durmstrang Institute
-## 5                                                                            Death Eater
-## 6 Malfoy family&#39;s house-elf (? - 1993),\nHogwarts kitchens worker (December 1994 - 1998)
-## 7                                                                            Dog breeder
-## 8                                                                                Student
+<pre><code>##                   Name
+## 1    Anthony Goldstein
+## 2        Colin Creevey
+## 3         Draco Malfoy
+## 4     Helena Ravenclaw
+## 5    Augustus Rookwood
+## 6         James Potter
+## 7       Walden Macnair
+## 8 Kingsley Shacklebolt
+##                                                                     Job
+## 1                                                               Student
+## 2                                                               Student
+## 3                                                               Student
+## 4                                                 Ravenclaw House Ghost
+## 5                                                           Unspeakable
+## 6                                                                  &lt;NA&gt;
+## 7 Executioner for the Committee for the Disposal of Dangerous Creatures
+## 8                                           Auror  | Minister for Magic
 ##        House
 ## 1  Ravenclaw
 ## 2 Gryffindor
-## 3 Hufflepuff
-## 4       &lt;NA&gt;
+## 3  Slytherin
+## 4  Ravenclaw
 ## 5  Slytherin
-## 6       &lt;NA&gt;
-## 7       &lt;NA&gt;
-## 8  Slytherin</code></pre>
+## 6 Gryffindor
+## 7  Slytherin
+## 8       &lt;NA&gt;</code></pre>
 <p>This is a significant improvement! But we can still make it look
 nice, and not just code output using the <code>knir</code> and
 <code>kableExtra</code> pacakges. We can transform our tables into
@@ -1982,12 +1982,12 @@ nice, and not just code output using the <code>knir</code> and
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">sample_n</span>(<span class="dv">8</span>)  <span class="sc">%&gt;%</span></span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(Name, Job, House ) <span class="sc">%&gt;%</span></span>
 <span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">caption =</span> <span class="st">&quot;Some Characters in Harry Potter&quot;</span>) </span></code></pre></div>
-<table style="width:100%;">
+<table>
 <caption>Some Characters in Harry Potter</caption>
 <colgroup>
-<col width="16%" />
-<col width="73%" />
-<col width="9%" />
+<col width="18%" />
+<col width="65%" />
+<col width="15%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1998,50 +1998,46 @@ nice, and not just code output using the <code>knir</code> and
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">Barty Crouch Sr.</td>
-<td align="left">Head of the Department of International Magical
-Cooperation</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">Hestia Jones</td>
+<td align="left">Emmeline Vance</td>
 <td align="left">Advance Guard</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
-<td align="left">Quirinus Quirrell</td>
-<td align="left">Defence Against the Dark Arts(1991-1992)</td>
-<td align="left">Ravenclaw</td>
-</tr>
 <tr class="even">
-<td align="left">Edgar Bones</td>
-<td align="left">NA</td>
-<td align="left">Hufflepuff</td>
+<td align="left">Dolores Jane Umbridge</td>
+<td align="left">Professor of Defence Against the Dark Arts | Department
+of Magical Law Enforcement</td>
+<td align="left">Slytherin</td>
 </tr>
 <tr class="odd">
-<td align="left">Draco Malfoy</td>
+<td align="left">Albus Severus Potter</td>
 <td align="left">Student</td>
 <td align="left">Slytherin</td>
 </tr>
 <tr class="even">
-<td align="left">Rolanda Hooch</td>
-<td align="left">Flying Instructor at Hogwarts</td>
-<td align="left">NA</td>
+<td align="left">Viktor Krum</td>
+<td align="left">Seeker for the Bulgarian National Quidditch team</td>
+<td align="left">Durmstrang Institute</td>
 </tr>
 <tr class="odd">
-<td align="left">Dobby</td>
-<td align="left">Malfoy family’s house-elf (? - 1993),</td>
-<td align="left"></td>
+<td align="left">Wilhelmina Grubbly-Plank</td>
+<td align="left">Substitute professor of Care of Magical
+Creatures at Hogwarts</td>
+<td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">Hogwarts kitchens worker (December 1994 - 1998)</td>
-<td align="left">NA</td>
-<td align="left"></td>
+<td align="left">Scorpius Hyperion Malfoy</td>
+<td align="left">Student</td>
+<td align="left">Slytherin</td>
 </tr>
 <tr class="odd">
-<td align="left">Harry James Potter</td>
+<td align="left">Zacharias Smith</td>
 <td align="left">Student</td>
-<td align="left">Gryffindor</td>
+<td align="left">Hufflepuff</td>
+</tr>
+<tr class="even">
+<td align="left">Dorcas Meadowes</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 </tr>
 </tbody>
 </table>
@@ -2074,7 +2070,9 @@ for your reader.</li>
 </ul></li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>?rnorm</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#?rnorm</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## [1] -0.4364192</code></pre>
 </div>
 <div id="some-reminders-for-the-final-project" class="slide section level2">
 <h1>Some reminders for the Final project</h1>
