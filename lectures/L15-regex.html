@@ -676,32 +676,32 @@ row</p>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">&quot;[aeiou]{3,}&quot;</span>, name, <span class="at">ignore.case =</span> <span class="cn">TRUE</span>))  <span class="sc">%&gt;%</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(<span class="dv">10</span>)</span></code></pre></div>
 <pre><code>##          name
-## 1     Adriean
-## 2    Erieonna
-## 3    Luscious
-## 4      Keiera
-## 5  Cordarious
-## 6      Kieona
-## 7     Quierra
-## 8     Kayliee
-## 9        Youa
-## 10     Deaija</code></pre>
+## 1     Dariean
+## 2  Charlieann
+## 3     Timaeus
+## 4   Queenasia
+## 5     Deionna
+## 6       Areia
+## 7     Shouana
+## 8       Ariea
+## 9     Savoeun
+## 10 Jamiroquai</code></pre>
 <p>Example: Find the names that contain three or more consonants in a
 row</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>UniqueNames <span class="sc">%&gt;%</span> </span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">&quot;[^aeiou]{3,}&quot;</span>, name, <span class="at">ignore.case =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(<span class="dv">10</span>)</span></code></pre></div>
 <pre><code>##        name
-## 1   Johandy
-## 2   Kiersta
-## 3     Lonzy
-## 4  Jandriel
-## 5   Mandria
-## 6     Zyran
-## 7      Aksh
-## 8   Andreka
-## 9    Drevyn
-## 10    Dotsy</code></pre>
+## 1    Daphni
+## 2    Jayvyn
+## 3  Charryse
+## 4    Mykyla
+## 5  Mckenzee
+## 6  Tysheera
+## 7   Quandra
+## 8     Dustn
+## 9  Chestley
+## 10 Shahrzad</code></pre>
 </div>
 <div id="substitution-replacement" class="slide section level2">
 <h1>Substitution/ Replacement</h1>
@@ -753,17 +753,17 @@ those vowels are.</p>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">&quot;[aeiou]{4,}&quot;</span>, name, <span class="at">ignore.case =</span> <span class="cn">TRUE</span>))<span class="sc">%&gt;%</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">match =</span> <span class="fu">str_extract</span>(<span class="at">string =</span> name, <span class="at">pattern =</span> <span class="st">&quot;([aeiouAEIOU]{4})&quot;</span>))<span class="sc">%&gt;%</span></span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(<span class="dv">10</span>)</span></code></pre></div>
-<pre><code>##         name match
-## 1    Tequoia  uoia
-## 2    Seqouia  ouia
-## 3    Taquoia  uoia
-## 4     Loueen  ouee
-## 5  Breeaunna  eeau
-## 6      Louie  ouie
-## 7     Naieem  aiee
-## 8    Sequioa  uioa
-## 9      Louia  ouia
-## 10     Zoeii  oeii</code></pre>
+<pre><code>##           name match
+## 1       Reaiah  eaia
+## 2        Zoeie  oeie
+## 3      Seqouia  ouia
+## 4      Leeaira  eeai
+## 5       Jauier  auie
+## 6     Breeauna  eeau
+## 7        Gioia  ioia
+## 8      Laquoia  uoia
+## 9       Kiaeem  iaee
+## 10 Joshuaaaron  uaaa</code></pre>
 </div>
 <div id="example-pole-vault-records-clean-up" class="slide section level2">
 <h1>Example: Pole Vault Records Clean Up</h1>

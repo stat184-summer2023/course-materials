@@ -15,7 +15,7 @@ library(tidyverse)
 
 ## Reminders 
 
-- Final Project: Monday, DATE at 11:59 p.m.
+- Final Project: Monday, June 26 at 11:59 p.m.
   - Final Report
   - Final Checklist
   - Remember to push to GitHub! 
@@ -58,7 +58,7 @@ If I want to load in the Harry Potter Characters list (located in the week-15 fo
 1. Reference the exact location on my computer 
 
 ```{r, eval = F}
-path.absolute <- "/Users/oliviabeck/Dropbox/Olivia/Conflict/school/STAT184/course-materials/lectures/data/Characters.csv"
+path.absolute <- "/Users/oliviabeck/Dropbox/Olivia/Conflict/school/STAT184-summer23/course-materials/lectures/data/Characters.csv"
 harry.potter <- read_delim(path.absolute, 
     delim = ";", escape_double = FALSE, trim_ws = TRUE)
 ```
@@ -114,14 +114,14 @@ harry.potter %>%
 This is a significant improvement! But we can still make it look nice, and not just code output using the `knir` and `kableExtra` pacakges. We can transform our tables into `kables`.
 
 ```{r}
+
 library(knitr)
-library(kableExtra)
+# library(kableExtra)
 #?kable
 harry.potter %>%
-  dplyr::sample_n(8) %>%
+  dplyr::sample_n(8)  %>%
   dplyr::select(Name, Job, House ) %>%
-  knitr::kable(caption = "Some Characters in Harry Potter") %>%
-  kableExtra::kable_styling()
+  knitr::kable(caption = "Some Characters in Harry Potter") 
 ```
 
 
@@ -131,7 +131,7 @@ Much nicer! We can use function in the package `kableExtra` to make fancy tables
 
 ## Using interactive funtions 
 
-Functions like `View` and `?` don't actually run anything, but instead open a new window in RStudio. 
+Functions like `View` and `?` don't actually run any R code, but instead open a new window in RStudio. 
 
 
 - The point of an RMarkdown document is to make a report that someone can read without looking at your code in RStudio. 
@@ -143,7 +143,7 @@ Functions like `View` and `?` don't actually run anything, but instead open a ne
 
 
 ```{r}
-#?rnorm
+?rnorm
 
 ```
 
@@ -164,5 +164,5 @@ Functions like `View` and `?` don't actually run anything, but instead open a ne
   - We do EDA to generate lots of graphs to understand the structure of our data 
   - Not everything from the EDA makes it to the final report. 
   - In your final report, only include the few graphs that help you answer your research question
-- Look at your HTML doucment before you turn it in!
+- Look at your HTML document before you turn it in!
 - Remember to push to GitHub! 

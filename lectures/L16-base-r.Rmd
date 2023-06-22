@@ -12,8 +12,8 @@ output:
 # Reminders 
 
 - Final Project Due Dates 
-  - DATE @ 11:59pm: Final Project Report + Checklist Due
-  - DATE 2022 @ 11:59pm: Peer Evaluation of Project Contributions
+  - June 21 @ 11:59pm: Initial EDA due
+  - June 26 @ 11:59pm: Final Project Report + Checklist Due
 
 - All late work due June 23 @ 11:59 pm. 
 - We will not be meeting over finals week 
@@ -345,7 +345,7 @@ numbers %% 5 == 0
 numbers[ numbers %% 5 == 0 ]
 ```
 
-Verify our two answers match - sum all answers that don't match. If our two answers match this will be 0. 
+Verify our two answers match - sum all answers that don't match. If our two answers match, this will be 0. 
 
 ```{r}
 for.loop <- DivisableBy5
@@ -405,7 +405,7 @@ while(1<2){
 }
 ```
 
-- if you do get stuck, put your cursor in your Console and press ESC or press the "Stop Sign" at the top right corner or the Console.
+- if you do get stuck, put your cursor in your Console and press ESC or click the "Stop Sign" at the top right corner or the Console.
 
 
 #### Here's a `while` loop that prints the index `i` while it is less than 5:
